@@ -40,13 +40,24 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-// handle chat "hello"
+const listMsgReplyForBot = ["Ping cai con di me may", "Ping con cac", "Ping lam deo gi", "Ping gi ku"]
+const replyBot = (list) => {
+    // const index = 3
+    const index = Math.floor(Math.random() * listMsgReplyForBot.length)
+    return listMsgReplyForBot[index]
+}
+
 client.on('messageCreate', message => {
     if (message.author.bot) return; // bo qua chat cua bot
 
-    if (message.content.toLowerCase() === 'hello') {
-        message.reply('Lo con cac tao');
-        message.react('😀');
+    // if (message.content.toLowerCase() === 'hello') {
+    //     message.reply('Lo con cac tao');
+    //     message.react('😀');
+    // }
+
+    // mention bot
+    if (message.mentions.has(client.user)) {
+        message.reply(replyBot(listMsgReplyForBot))
     }
 });
 
