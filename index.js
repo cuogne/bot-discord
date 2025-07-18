@@ -1,0 +1,53 @@
+import { Client, GatewayIntentBits, Routes } from 'discord.js';
+import { REST } from '@discordjs/rest';
+import 'dotenv/config';
+
+import { commands, commandHandlers } from './commands/config/config-command.js';
+
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+});
+
+const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
+
+// notice
+client.once('ready', async () => {
+    console.log(`Tên bot: ${client.user.tag}!`);
+
+    await rest.put(Routes.applicationCommands(client.user.id), {
+        body: commands
+    });
+    console.log('Đăng ký thành công slash commands');
+});
+
+// handle slash command
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isChatInputCommand()) return;
+
+    const handler = commandHandlers[interaction.commandName];
+
+    if (handler) {
+        await handler(interaction);
+    } else {
+        await interaction.reply({
+            content: 'Lệnh không tồn tại!',
+            flags: 64
+        });
+    }
+});
+
+// handle chat "hello"
+client.on('messageCreate', message => {
+    if (message.author.bot) return; // bo qua chat cua bot
+
+    if (message.content.toLowerCase() === 'hello') {
+        message.reply('Lo con cac tao');
+        message.react('😀');
+    }
+});
+
+client.login(process.env.BOT_TOKEN);
