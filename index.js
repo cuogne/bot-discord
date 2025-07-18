@@ -43,7 +43,7 @@ client.on('interactionCreate', async interaction => {
 const listMsgReplyForBot = ["Ping cai con di me may", "Ping con cac", "Ping lam deo gi", "Ping gi ku"]
 const replyBot = (list) => {
     // const index = 3
-    const index = Math.floor(Math.random() * listMsgReplyForBot.length)
+    const index = Math.floor(Math.random() * list.length)
     return listMsgReplyForBot[index]
 }
 
