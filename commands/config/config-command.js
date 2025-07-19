@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { dateCommand } from '../date/date.js';
 import { getAvatarCommand } from '../getAvt/getAvt.js';
+import { lookUpSBDCommand } from '../diemthptqg2025/crawlScore.js'
 // import command do vo day
 
 // add command
@@ -11,12 +12,22 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('avatar')
-        .setDescription('get avatar')
+        .setDescription('Lấy avatar')
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('Chọn user để lấy avatar')
                 .setRequired(false)
         ),
+
+    // /sbd {text}
+    new SlashCommandBuilder()
+        .setName('sbd')
+        .setDescription('Tra cứu điểm thi THPTQG 2025 thông qua số báo danh')
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Nhập SBD (Phải có 8 chữ số)')
+                .setRequired(true)
+        )
 
     // new SlashCommandBuilder()
     //     .setName('gemini')
@@ -36,5 +47,6 @@ export const commands = [
 export const commandHandlers = {
     date: dateCommand,
     avatar: getAvatarCommand,
+    sbd: lookUpSBDCommand,
     //
 };

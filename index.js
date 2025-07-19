@@ -44,7 +44,7 @@ const listMsgReplyForBot = ["Ping cai con di me may", "Ping con cac", "Ping lam 
 const replyBot = (list) => {
     // const index = 3
     const index = Math.floor(Math.random() * list.length)
-    return listMsgReplyForBot[index]
+    return list[index]
 }
 
 client.on('messageCreate', message => {
