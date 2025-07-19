@@ -38,12 +38,21 @@ export async function lookUpSBDCommand(interaction) {
         }
 
         // console.log(`${sbd}: ${diem}`)
+        const matches = [...diem.matchAll(/([A-Za-zÀ-ỹ\s]+)\s(\d+(?:\.\d+)?)/g)];
+        const result = matches.map(match => {
+            let subject = match[1].replace(/[\u0300-\u036f]/g, "").trim()
+            let score = match[2];
+            return `**${subject}**: ${score}`;
+        }).join('\n');
+
+        // console.log(result);
 
         await interaction.editReply({
             embeds: [{
                 color: 0x4285f4,
-                title: 'Điểm thi THPTQG 2025',
-                description: `**SBD:** ${sbd}\n**Điểm:** ${diem}`
+                title: 'Điểm thi THPTQG 2025 - Chương trình 2018',
+                description: `**SBD:** ${sbd}\n**Điểm thi:**
+                ${result}`
             }]
         })
 
