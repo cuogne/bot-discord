@@ -50,9 +50,19 @@ export async function lookUpSBDCommand(interaction) {
         await interaction.editReply({
             embeds: [{
                 color: 0x4285f4,
-                title: 'Điểm thi THPTQG 2025 - Chương trình 2018',
-                description: `**SBD:** ${sbd}\n**Điểm thi:**
-                ${result}`
+                title: '🎓 Điểm thi THPTQG 2025',
+                description: `📋 **Số báo danh:** \`${sbd}\``,
+                fields: [
+                    {
+                        name: '📊 Kết quả thi',
+                        value: result || 'Không có dữ liệu',
+                        inline: false
+                    }
+                ],
+                footer: {
+                    text: 'Chương trình 2018'
+                },
+                timestamp: new Date().toISOString()
             }]
         })
 
