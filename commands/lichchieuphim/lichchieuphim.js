@@ -72,7 +72,7 @@ export async function lichchieuphimCommand(interaction) {
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('🎬 Danh sách các phim')
+            .setTitle('🎬 Danh sách các phim đang chiếu tại Cinestar Sinh Viên')
             .setDescription('Chọn phim bạn muốn xem lịch chiếu:')
             .setColor('#0099ff')
             .setTimestamp();
@@ -99,5 +99,3 @@ export async function lichchieuphimCommand(interaction) {
         await interaction.editReply('Có lỗi xảy ra khi xử lý lệnh.');
     }
 }
-
-

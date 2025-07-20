@@ -31,7 +31,7 @@ export const commands = [
         ),
 
     new SlashCommandBuilder()
-        .setName('lichchieuphim')
+        .setName('lịch-chiếu-phim')
         .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
 
     // new SlashCommandBuilder()
@@ -53,6 +53,6 @@ export const commandHandlers = {
     date: dateCommand,
     avatar: getAvatarCommand,
     sbd: lookUpSBDCommand,
-    lichchieuphim: lichchieuphimCommand,
+    'lịch-chiếu-phim': lichchieuphimCommand,
     //
 };
