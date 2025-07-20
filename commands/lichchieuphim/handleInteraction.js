@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { location_cinema } from './func/crawlCinestar.js';
 import { setFilename } from './func/setFilename.js';
-import { time } from 'console';
 
 // handle interaction khi user chọn phim từ dropdown
 export async function handleMovieSelection(interaction) {
@@ -45,17 +44,8 @@ export async function handleMovieSelection(interaction) {
         // get link image and add to embed
         const movieWithImage = selectedMovieDetails.find(movie => movie["Link ảnh"]);
         if (movieWithImage && movieWithImage["Link ảnh"]) {
-            embed.setThumbnail(movieWithImage["Link ảnh"]);
+            embed.setImage(movieWithImage["Link ảnh"]);
         }
-
-        // const groupedByRoom = {};
-        // selectedMovieDetails.forEach(movie => {
-        //     const roomType = movie["Loại phòng"];
-        //     if (!groupedByRoom[roomType]) {
-        //         groupedByRoom[roomType] = [];
-        //     }
-        //     groupedByRoom[roomType].push(movie["Giờ chiếu"]);
-        // });
 
         embed.addFields(
             { name: '📅 Ngày chiếu', value: selectedMovieDetails[0]["Ngày"], inline: true },
@@ -72,11 +62,46 @@ export async function handleMovieSelection(interaction) {
         // }
 
         let scheduleText = '';
-        const allTimes = selectedMovieDetails.map(movie => movie["Giờ chiếu"]).filter(time => time);
-        scheduleText = allTimes.join(', ');
 
-        if (scheduleText) {
+        // lay thoi gian hien tai
+        const now = new Date();
+        const currentTime = now.toLocaleTimeString('vi-VN', {
+            timeZone: 'Asia/Ho_Chi_Minh',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+
+        // lay gio chieu phim
+        const allTimes = selectedMovieDetails
+            .map(movie => movie["Giờ chiếu"])
+            .filter(time => time)
+            .join(', ')
+            .split(',')
+            .map(time => time.trim())
+            .filter(time => time);
+
+        // loc ra nhung gio hop le
+        const upcomingTimes = allTimes.filter(showTime => {
+            return showTime > currentTime;
+        });
+
+        const uniqueTimes = [...new Set(upcomingTimes)].sort(); // loc duplicate va sort
+
+        if (uniqueTimes.length > 0) {
+            if (uniqueTimes.length > 6) {
+                const mid = Math.ceil(uniqueTimes.length / 2);
+                const col1 = uniqueTimes.slice(0, mid);
+                const col2 = uniqueTimes.slice(mid);
+
+                scheduleText = `**Cột 1:**\n\`${col1.join('`  `')}\`\n\n**Cột 2:**\n\`${col2.join('`  `')}\``;
+            } else {
+                scheduleText = `\`${uniqueTimes.join('`  `')}\``;
+            }
+
             embed.addFields({ name: '🕐 Lịch chiếu', value: scheduleText });
+        } else {
+            embed.addFields({ name: '🕐 Lịch chiếu', value: 'Không còn suất chiếu nào trong hôm nay' });
         }
 
         await interaction.reply({ embeds: [embed] });
