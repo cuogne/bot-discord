@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { dateCommand } from '../date/date.js';
 import { getAvatarCommand } from '../getAvt/getAvt.js';
 import { lookUpSBDCommand } from '../diemthptqg2025/crawlScore.js'
+import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
 // import command do vo day
 
 // add command
@@ -27,7 +28,11 @@ export const commands = [
             option.setName('text')
                 .setDescription('Nhập SBD (Phải có 8 chữ số)')
                 .setRequired(true)
-        )
+        ),
+
+    new SlashCommandBuilder()
+        .setName('lichchieuphim')
+        .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
 
     // new SlashCommandBuilder()
     //     .setName('gemini')
@@ -48,5 +53,6 @@ export const commandHandlers = {
     date: dateCommand,
     avatar: getAvatarCommand,
     sbd: lookUpSBDCommand,
+    lichchieuphim: lichchieuphimCommand,
     //
 };

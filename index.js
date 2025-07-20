@@ -40,6 +40,16 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+// handle string select menu (dropdown) for /lichchieuphim
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isStringSelectMenu()) return;
+
+    if (interaction.customId === 'select_movie') {
+        const { handleMovieSelection } = await import('./commands/lichchieuphim/handleInteraction.js');
+        await handleMovieSelection(interaction);
+    }
+});
+
 const listMsgReplyForBot = ["Ping cai con di me may", "Ping con cac", "Ping lam deo gi", "Ping gi ku"]
 const replyBot = (list) => {
     // const index = 3
