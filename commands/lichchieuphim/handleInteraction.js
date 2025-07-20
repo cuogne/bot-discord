@@ -1,7 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { location_cinema } from './func/crawlCinestar.js';
+import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
 import { setFilename } from './func/setFilename.js';
 
 // handle interaction khi user chọn phim từ dropdown
@@ -19,8 +19,8 @@ export async function handleMovieSelection(interaction) {
         const dayFileName = setFilename(dateStr);
 
         const currentDir = path.dirname(import.meta.url.replace('file://', ''));
-        const dataDir = path.join(currentDir, 'data');
-        const detailFile = path.join(dataDir, `${dayFileName}-detail-film.json`);
+        const dataDir = path.join(currentDir, FILE_CONFIG.dataDir);
+        const detailFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.detailSuffix}`);
 
         if (!fs.existsSync(detailFile)) {
             await interaction.reply({ content: 'Không tìm thấy dữ liệu chi tiết phim.' });
@@ -50,7 +50,7 @@ export async function handleMovieSelection(interaction) {
         embed.addFields(
             { name: '📅 Ngày chiếu', value: selectedMovieDetails[0]["Ngày"], inline: true },
             { name: '⏱️ Thời lượng', value: selectedMovieDetails[0].minute + ' phút' || 'N/A', inline: true },
-            { name: '📽️ Rạp', value: location_cinema, inline: true },
+            { name: '📽️ Rạp', value: CINEMA_CONFIG.location, inline: true },
             { name: '🎭 Thể loại', value: selectedMovieDetails[0].genre || 'N/A', inline: true },
             { name: '🎬 Định dạng', value: selectedMovieDetails[0].format_language || 'N/A', inline: true }
         );

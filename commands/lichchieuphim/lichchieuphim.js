@@ -3,9 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { crawlCinestar } from './func/crawlCinestar.js';
 import { setFilename } from './func/setFilename.js';
-
-// format file name: 'dd-mm-yyyy-detail-film.json', 'dd-mm-yyyy-name-film.json'
-const DIRECTORY = 'data'; // folder contains json data
+import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
 
 export async function lichchieuphimCommand(interaction) {
     await interaction.deferReply();
@@ -20,11 +18,11 @@ export async function lichchieuphimCommand(interaction) {
 
         // get path of data
         const currentDir = path.dirname(import.meta.url.replace('file://', ''));
-        const dataDir = path.join(currentDir, DIRECTORY);
+        const dataDir = path.join(currentDir, FILE_CONFIG.dataDir);
 
         // check file exist
-        const detailFile = path.join(dataDir, `${dayFileName}-detail-film.json`);
-        const nameFile = path.join(dataDir, `${dayFileName}-name-film.json`);
+        const detailFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.detailSuffix}`);
+        const nameFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.nameSuffix}`);
 
         let needCrawl = false;
         if (!fs.existsSync(detailFile) || !fs.existsSync(nameFile)) {

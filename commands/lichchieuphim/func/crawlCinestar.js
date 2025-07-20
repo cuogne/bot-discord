@@ -2,14 +2,13 @@ import puppeteer from 'puppeteer';
 import * as cheerioModule from 'cheerio';
 import * as fs from 'fs';
 import * as path from 'path';
-
-const URL = 'https://cinestar.com.vn/book-tickets/cf13e1ce-2c1f-4c73-8ce5-7ef65472db3c/';
-export const location_cinema = 'Cinestar Sinh Viên - TPHCM';
+import { setFilename } from './setFilename.js';
+import { CINEMA_CONFIG, FILE_CONFIG } from '../constants.js';
 
 export async function crawlCinestar() {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.goto(URL, { waitUntil: 'networkidle2' });
+    await page.goto(CINEMA_CONFIG.baseURL, { waitUntil: 'networkidle2' });
 
     const $ = cheerioModule.load(await page.content());
     const today = new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -23,7 +22,7 @@ export async function crawlCinestar() {
 
         // Kiểm tra và tạo full URL nếu cần
         if (imageUrl && !imageUrl.startsWith('http')) {
-            imageUrl = 'https://api-website.cinestar.com.vn' + imageUrl;
+            imageUrl = CINEMA_CONFIG.apiImageURL + imageUrl;
         }
 
         // thong tin phim trong the h3.movies-name
@@ -61,27 +60,22 @@ export async function crawlCinestar() {
     const nowDate = new Date();
     const dateStr = nowDate.toLocaleString('vi-VN', {
         timeZone: 'Asia/Ho_Chi_Minh'
-    }).split(" ");
+    }).split(" ")[1];
 
-    const solarDate = dateStr[1];
-
-    function safeDateFilename(dateString) {
-        const [day, month, year] = dateString.split('/');
-        if (!day || !month || !year) return dateString.replace(/\//g, '-');
-        return `${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`;
-    }
-    const safeFilename = safeDateFilename(solarDate);
+    // const solarDate = dateStr[1];
+    const safeFilename = setFilename(dateStr);
 
     const currentDir = path.dirname(import.meta.url.replace('file://', ''));
-    const dataDir = path.join(currentDir, '..', 'data');
+    const dataDir = path.join(currentDir, '..', FILE_CONFIG.dataDir);
     if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
     }
 
     const uniqueMovieNames = [...new Set(todaySchedule.map(movie => movie["Tên phim"]))];
 
-    fs.writeFileSync(path.join(dataDir, `${safeFilename}-detail-film.json`), JSON.stringify(todaySchedule, null, 2));
-    fs.writeFileSync(path.join(dataDir, `${safeFilename}-name-film.json`), JSON.stringify(uniqueMovieNames, null, 2));
+    fs.writeFileSync(path.join(dataDir, `${safeFilename}${FILE_CONFIG.detailSuffix}`), JSON.stringify(todaySchedule, null, 2));
+    fs.writeFileSync(path.join(dataDir, `${safeFilename}${FILE_CONFIG.nameSuffix}`), JSON.stringify(uniqueMovieNames, null, 2));
+    fs.writeFileSync(path.join(dataDir, '.gitkeep'), '');
 
     await browser.close();
 } 
