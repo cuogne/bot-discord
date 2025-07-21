@@ -1,4 +1,4 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
@@ -100,7 +100,19 @@ export async function handleMovieSelection(interaction) {
             embed.addFields({ name: '🕐 Lịch chiếu', value: 'Không còn suất chiếu nào trong hôm nay' });
         }
 
-        await interaction.reply({ embeds: [embed] });
+        // create button booking film
+        const bookingLink = selectedMovieDetails[0]["Link đặt vé"] || 'https://cinestar.com.vn';
+        const button = new ButtonBuilder()
+            .setLabel('🎟️ Đặt vé ngay')
+            .setStyle(ButtonStyle.Link)
+            .setURL(bookingLink)
+        const actionRow = new ActionRowBuilder().addComponents(button);
+        const components = [actionRow];
+
+        await interaction.reply({
+            embeds: [embed],
+            components: components
+        });
 
     } catch (error) {
         console.error('Lỗi khi xử lý chọn phim:', error);

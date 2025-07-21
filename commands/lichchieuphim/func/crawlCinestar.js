@@ -25,6 +25,13 @@ export async function crawlCinestar() {
             imageUrl = CINEMA_CONFIG.apiImageURL + imageUrl;
         }
 
+        // lay link dat phim
+        const attrBookFilm = $('.movies-img').find('.inner').first().attr('href')
+        // console.log(attrBookFilm.attr('href'))
+        // console.log(attrBookFilm)
+
+        let bookFilmUrl = 'https://cinestar.com.vn' + attrBookFilm
+
         // thong tin phim trong the h3.movies-name
         const movieName = $(movie).find('h3.movies-name').text().trim();
         const attrs = $(movie).find('ul li').map((i, li) => $(li).text()).get();
@@ -45,6 +52,7 @@ export async function crawlCinestar() {
                         "Loại phòng": roomName,
                         "Giờ chiếu": times.join(','),
                         "Link ảnh": imageUrl,
+                        "Link đặt vé": bookFilmUrl,
                         genre: attrs[0] || "",
                         minute: attrs[1] || "",
                         country: attrs[2] || "",
