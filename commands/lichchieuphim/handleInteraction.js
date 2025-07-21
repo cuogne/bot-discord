@@ -4,6 +4,7 @@ import * as path from 'path';
 import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
 import { setFilename } from './func/setFilename.js';
 import { getCurrentDate } from './func/getCurrentDate.js';
+import { fileURLToPath } from 'url';
 
 // handle interaction khi user chọn phim từ dropdown
 export async function handleMovieSelection(interaction) {
@@ -14,8 +15,8 @@ export async function handleMovieSelection(interaction) {
 
         const dayFileName = setFilename(getCurrentDate());
 
-        const currentDir = path.dirname(import.meta.url.replace('file://', ''));
-        const dataDir = path.join(currentDir, FILE_CONFIG.dataDir);
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);
         const detailFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.detailSuffix}`);
 
         if (!fs.existsSync(detailFile)) {

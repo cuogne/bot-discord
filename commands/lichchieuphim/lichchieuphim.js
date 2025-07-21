@@ -5,6 +5,8 @@ import { crawlCinestar } from './func/crawlCinestar.js';
 import { setFilename } from './func/setFilename.js';
 import { getCurrentDate } from './func/getCurrentDate.js';
 import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
+import { fileURLToPath } from 'url';
+
 
 export async function lichchieuphimCommand(interaction) {
     await interaction.deferReply();
@@ -13,8 +15,8 @@ export async function lichchieuphimCommand(interaction) {
         const dayFileName = setFilename(getCurrentDate());
 
         // get path of data
-        const currentDir = path.dirname(import.meta.url.replace('file://', ''));
-        const dataDir = path.join(currentDir, FILE_CONFIG.dataDir);
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);
 
         // check file exist
         const detailFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.detailSuffix}`);
