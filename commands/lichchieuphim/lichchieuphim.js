@@ -3,18 +3,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { crawlCinestar } from './func/crawlCinestar.js';
 import { setFilename } from './func/setFilename.js';
+import { getCurrentDate } from './func/getCurrentDate.js';
 import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
 
 export async function lichchieuphimCommand(interaction) {
     await interaction.deferReply();
 
     try {
-        const today = new Date(); // lay ngay hien tai
-        const dateStr = today.toLocaleString('vi-VN', {
-            timeZone: 'Asia/Ho_Chi_Minh'
-        }).split(" ")[1]; // lay ngay (dd/mm/yyyy)
-
-        const dayFileName = setFilename(dateStr);
+        const dayFileName = setFilename(getCurrentDate());
 
         // get path of data
         const currentDir = path.dirname(import.meta.url.replace('file://', ''));
@@ -70,8 +66,10 @@ export async function lichchieuphimCommand(interaction) {
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('🎬 Danh sách các phim đang chiếu tại Cinestar Sinh Viên')
-            .setDescription('Chọn phim bạn muốn xem lịch chiếu:')
+            .setTitle('🎬 Danh sách các phim đang chiếu tại Cinestar')
+            .setDescription(`Rạp: ${CINEMA_CONFIG.location} 
+                \nNgày: ${dayFileName}
+                \nChọn phim bạn muốn xem lịch chiếu hôm nay:`)
             .setColor('#0099ff')
             .setTimestamp();
 

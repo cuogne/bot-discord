@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
 import { setFilename } from './func/setFilename.js';
+import { getCurrentDate } from './func/getCurrentDate.js';
 
 // handle interaction khi user chọn phim từ dropdown
 export async function handleMovieSelection(interaction) {
@@ -11,12 +12,7 @@ export async function handleMovieSelection(interaction) {
     try {
         const selectedMovie = interaction.values[0];
 
-        const today = new Date();
-        const dateStr = today.toLocaleString('vi-VN', {
-            timeZone: 'Asia/Ho_Chi_Minh'
-        }).split(" ")[1];
-
-        const dayFileName = setFilename(dateStr);
+        const dayFileName = setFilename(getCurrentDate());
 
         const currentDir = path.dirname(import.meta.url.replace('file://', ''));
         const dataDir = path.join(currentDir, FILE_CONFIG.dataDir);
@@ -94,7 +90,7 @@ export async function handleMovieSelection(interaction) {
                 const col1 = uniqueTimes.slice(0, mid);
                 const col2 = uniqueTimes.slice(mid);
 
-                scheduleText = `**Cột 1:**\n\`${col1.join('`  `')}\`\n\n**Cột 2:**\n\`${col2.join('`  `')}\``;
+                scheduleText = `\`${col1.join('\`  \`')}\`\n\n\`${col2.join('\`  \`')}\``;
             } else {
                 scheduleText = `\`${uniqueTimes.join('`  `')}\``;
             }
