@@ -26,7 +26,7 @@ export async function crawlCinestar() {
         }
 
         // lay link dat phim
-        const attrBookFilm = $('.movies-img').find('.inner').first().attr('href')
+        const attrBookFilm = $(movie).prev('.movies-img').find('.inner').first().attr('href')
         // console.log(attrBookFilm.attr('href'))
         // console.log(attrBookFilm)
 
