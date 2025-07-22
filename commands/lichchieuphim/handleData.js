@@ -30,7 +30,7 @@ export async function fetchAndProcessMovieData() {
 
     for (const id_movie of idMovies) {
         // create url of each movie
-        const url = `https://cinestar.com.vn/api/showTime/?id_Movie=${id_movie}&id_Area=${CINEMA_CONFIG.id_area}&id_Server=4&date=${day}&id_MovieTheater=${CINEMA_CONFIG.uuid}`;
+        const url = `https://cinestar.com.vn/api/showTime/?id_Movie=${id_movie}&id_Area=${CINEMA_CONFIG.id_area}&id_Server=${CINEMA_CONFIG.id_server}&date=${day}&id_MovieTheater=${CINEMA_CONFIG.uuid}`;
         const reponse = await fetch(url);
         const dataMovie = await reponse.json(); // chuyen ve dang json
         if (dataMovie.data[0].id != null) {
