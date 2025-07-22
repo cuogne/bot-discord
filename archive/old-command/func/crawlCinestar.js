@@ -3,7 +3,7 @@ import * as cheerioModule from 'cheerio';
 import * as fs from 'fs';
 import * as path from 'path';
 import { setFilename } from './setFilename.js';
-import { CINEMA_CONFIG, FILE_CONFIG } from '../constants.js';
+import { CINEMA_CONFIG, FILE_CONFIG } from '../../constants.js';
 
 export async function crawlCinestar() {
     const browser = await puppeteer.launch({ headless: true });
