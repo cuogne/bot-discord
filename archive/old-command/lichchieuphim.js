@@ -1,51 +1,66 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { CINEMA_CONFIG, FILE_CONFIG } from './config.js';
-import { checkFileExists } from './utils/checkFileExists.js'
-import { fetchAndProcessMovieData } from './handleData.js'
-import { getCurrentDate } from './utils/getCurrentDate.js';
+import { crawlCinestar } from './func/crawlCinestar.js';
+import { setFilename } from './func/setFilename.js';
+import { getCurrentDate } from './func/getCurrentDate.js';
+import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
+import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);          // duong dan thu muc data (test/data)
 
 export async function lichchieuphimCommand(interaction) {
     await interaction.deferReply();
 
     try {
-        let checkExists = checkFileExists();
+        const dayFileName = setFilename(getCurrentDate());
 
-        // neu file kh ton tai thi moi chay lenh nay
-        if (!checkExists) {
+        // get path of data
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);
+
+        // check file exist
+        const detailFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.detailSuffix}`);
+        const nameFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.nameSuffix}`);
+
+        let needCrawl = false;
+        if (!fs.existsSync(detailFile) || !fs.existsSync(nameFile)) {
+            needCrawl = true;
+        } else {
+            // check file startsWith is today
+            const files = fs.readdirSync(dataDir);
+            const todayFiles = files.filter(file => file.startsWith(dayFileName));
+
+            if (todayFiles.length === 0) {
+                needCrawl = true;
+            }
+        }
+
+        if (needCrawl) {
+            // delete all file in /data folder
             if (fs.existsSync(dataDir)) {
                 const files = fs.readdirSync(dataDir);
                 files.forEach(file => {
                     fs.unlinkSync(path.join(dataDir, file));
                 });
             }
+
             await interaction.editReply('🔄 Đang cập nhật lịch chiếu phim...');
 
             try {
-                await fetchAndProcessMovieData();
-            }
-            catch (error) {
+                await crawlCinestar();
+            } catch (error) {
                 console.error('Lỗi khi chạy script crawl:', error);
                 await interaction.editReply('Có lỗi xảy ra khi cập nhật lịch chiếu phim.');
                 return;
             }
         }
 
-        const movieJson = path.join(dataDir, FILE_CONFIG.fileName)
-
-        if (!fs.existsSync(movieJson)) {
+        if (!fs.existsSync(nameFile)) {
             await interaction.editReply('Không tìm thấy dữ liệu lịch chiếu phim.');
             return;
         }
 
-        const dayFileName = getCurrentDate();
-        const movieNames = JSON.parse(fs.readFileSync(movieJson, 'utf8'))
-            .map(movie => movie["Tên phim"])
-            .filter(name => name);
+        const movieNames = JSON.parse(fs.readFileSync(nameFile, 'utf8'));
 
         if (movieNames.length === 0) {
             await interaction.editReply('Không có lịch chiếu phim cho hôm nay.');
@@ -54,7 +69,7 @@ export async function lichchieuphimCommand(interaction) {
 
         const embed = new EmbedBuilder()
             .setTitle('🎬 Danh sách các phim đang chiếu tại Cinestar')
-            .setDescription(`Rạp:  ${CINEMA_CONFIG.name} 
+            .setDescription(`Rạp: ${CINEMA_CONFIG.location} 
                 \nNgày: ${dayFileName}
                 \nChọn phim bạn muốn xem lịch chiếu hôm nay:`)
             .setColor('#0099ff')

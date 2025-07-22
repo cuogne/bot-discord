@@ -1,10 +1,10 @@
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { CINEMA_CONFIG, FILE_CONFIG } from './config.js';
-
-const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);          // duong dan thu muc data (test/data)
+import { CINEMA_CONFIG, FILE_CONFIG } from './constants.js';
+import { setFilename } from './func/setFilename.js';
+import { getCurrentDate } from './func/getCurrentDate.js';
+import { fileURLToPath } from 'url';
 
 // handle interaction khi user chọn phim từ dropdown
 export async function handleMovieSelection(interaction) {
@@ -12,7 +12,12 @@ export async function handleMovieSelection(interaction) {
 
     try {
         const selectedMovie = interaction.values[0];
-        const detailFile = path.join(dataDir, FILE_CONFIG.fileName);
+
+        const dayFileName = setFilename(getCurrentDate());
+
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);
+        const detailFile = path.join(dataDir, `${dayFileName}${FILE_CONFIG.detailSuffix}`);
 
         if (!fs.existsSync(detailFile)) {
             await interaction.reply({ content: 'Không tìm thấy dữ liệu chi tiết phim.' });
@@ -42,7 +47,7 @@ export async function handleMovieSelection(interaction) {
         embed.addFields(
             { name: '📅 Ngày chiếu', value: selectedMovieDetails[0]["Ngày"], inline: true },
             { name: '⏱️ Thời lượng', value: selectedMovieDetails[0].minute + ' phút' || 'N/A', inline: true },
-            { name: '📽️ Rạp', value: CINEMA_CONFIG.name, inline: true },
+            { name: '📽️ Rạp', value: CINEMA_CONFIG.location, inline: true },
             { name: '🎭 Thể loại', value: selectedMovieDetails[0].genre || 'N/A', inline: true },
             { name: '🎬 Định dạng', value: selectedMovieDetails[0].format_language || 'N/A', inline: true }
         );
