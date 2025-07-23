@@ -31,17 +31,8 @@ export const commands = [
         ),
 
     new SlashCommandBuilder()
-        .setName('lịch-chiếu-phim')
+        .setName('cinestar')
         .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
-
-    // new SlashCommandBuilder()
-    //     .setName('gemini')
-    //     .setDescription('Chat with gemini')
-    //     .addStringOption(option =>
-    //         option.setName('text')
-    //             .setDescription("Noi dung can hoi gemini")
-    //             .setRequired(true)
-    //     )
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -53,6 +44,6 @@ export const commandHandlers = {
     date: dateCommand,
     avatar: getAvatarCommand,
     sbd: lookUpSBDCommand,
-    'lịch-chiếu-phim': lichchieuphimCommand,
+    cinestar: lichchieuphimCommand,
     //
 };
