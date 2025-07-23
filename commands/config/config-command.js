@@ -3,6 +3,7 @@ import { dateCommand } from '../date/date.js';
 import { getAvatarCommand } from '../getAvt/getAvt.js';
 import { lookUpSBDCommand } from '../diemthptqg2025/crawlScore.js'
 import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
+import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 // import command do vo day
 
 // add command
@@ -47,3 +48,8 @@ export const commandHandlers = {
     cinestar: lichchieuphimCommand,
     //
 };
+
+// export handle selection from user
+export const handleSelection = {
+    select_movie: handleMovieSelection
+}
