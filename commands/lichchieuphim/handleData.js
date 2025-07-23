@@ -70,7 +70,7 @@ export async function fetchAndProcessMovieData() {
                         "Ngày": currentDate,
                         "Giờ chiếu": timesStr,
                         "Link ảnh": movie.image,
-                        "Link đặt vé": `https://cinestar.com.vn/movie/${movie.id}/?id=${CINEMA_CONFIG.id_area}&id_sv=4&show_time=${showtimeId}&date=${currentDate}`,
+                        "Link đặt vé": `https://cinestar.com.vn/movie/${movie.id}/?id=${CINEMA_CONFIG.id_area}&id_sv=${CINEMA_CONFIG.id_server}&show_time=${showtimeId}&date=${currentDate}`,
                         "genre": movie.type_name_vn,
                         "minute": movie.time_m,
                         "country": movie.country_name_vn,

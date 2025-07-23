@@ -52,9 +52,10 @@ Sau đó mở Discord, vào server đã mời bot và thử các lệnh.
 - `/date` - Hiển thị ngày giờ hiện tại
 - `/avatar [user]` - Lấy avatar người dùng
 - `/sbd <text>` - Tra cứu điểm thi THPTQG 2025
-- `/lịch-chiếu-phim` - Xem lịch chiếu phim hôm nay tại Cinestar 
+- `/cinestar` - Xem lịch chiếu phim hôm nay tại Cinestar 
 
 > Thêm command mới? : rảnh thì làm...
 
 ## Cloud Host ?
-> Đang tìm
+
+- Hiện tại: https://ap-southeast-1.run.claw.cloud/ với 1 tháng được free 5$
