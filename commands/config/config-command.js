@@ -3,11 +3,16 @@ import { dateCommand } from '../date/date.js';
 import { getAvatarCommand } from '../getAvt/getAvt.js';
 import { lookUpSBDCommand } from '../diemthptqg2025/crawlScore.js'
 import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
+import { gayCommand } from "../gay/gay.js";
+import { translateCommand } from "../translate/translate.js";
+import { randomCommand } from "../random/random.js";
+
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 // import command do vo day
 
 // add command
 export const commands = [
+    // /date
     new SlashCommandBuilder()
         .setName('date')
         .setDescription('Hiển thị ngày giờ hiện tại'),
@@ -29,11 +34,57 @@ export const commands = [
             option.setName('text')
                 .setDescription('Nhập SBD (Phải có 8 chữ số)')
                 .setRequired(true)
+                .setMaxLength(8)
+                .setMinLength(8)
+        ),
+
+    // /cinestar
+    new SlashCommandBuilder()
+        .setName('cinestar')
+        .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar'),
+
+    // /gay
+    new SlashCommandBuilder()
+        .setName('gay')
+        .setDescription('Long toi tan nat khi nhan ra...')
+        .addStringOption(option =>
+            option.setName('user')
+                .setDescription('Điền tên vào !?')
+                .setRequired(true)
+        ),
+
+    // /translate
+    new SlashCommandBuilder()
+        .setName('translate')
+        .setDescription('Dịch từ vựng và các câu nhỏ')
+        .addStringOption(option =>
+            option.setName('to')
+                .setDescription('Chọn ngôn ngữ đích muốn dịch sang')
+                .setRequired(true)
+                .addChoices(
+                    { name: '🇻🇳 Tiếng Việt', value: 'vi' },
+                    { name: '🇺🇸 Tiếng Anh', value: 'en' },
+                    { name: '🇯🇵 Tiếng Nhật', value: 'ja' },
+                    { name: '🇰🇷 Tiếng Hàn', value: 'ko' },
+                    { name: '🇨🇳 Tiếng Trung', value: 'zh' },
+                    { name: '🇫🇷 Tiếng Pháp', value: 'fr' },
+                    { name: '🇩🇪 Tiếng Đức', value: 'de' },
+                )
+        )
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Nhập từ hoặc câu cần dịch')
+                .setRequired(true)
         ),
 
     new SlashCommandBuilder()
-        .setName('cinestar')
-        .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
+        .setName('random')
+        .setDescription('Chọn ngẫu nhiên một mục từ danh sách bạn nhập')
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Nhập các lựa chọn, cách nhau bằng dấu phẩy')
+                .setRequired(true)
+        ),
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -46,6 +97,9 @@ export const commandHandlers = {
     avatar: getAvatarCommand,
     sbd: lookUpSBDCommand,
     cinestar: lichchieuphimCommand,
+    gay: gayCommand,
+    translate: translateCommand,
+    random: randomCommand,
     //
 };
 

@@ -53,6 +53,9 @@ Sau đó mở Discord, vào server đã mời bot và thử các lệnh.
 - `/avatar [user]` - Lấy avatar người dùng
 - `/sbd <text>` - Tra cứu điểm thi THPTQG 2025
 - `/cinestar` - Xem lịch chiếu phim hôm nay tại Cinestar 
+- `/translate <to> <text>` - Dịch văn bản sang tiếng được chọn.
+- `/gay` - Lòng tôi tan nát khi nhận ra tôi là ... (troll)
+- `/random` - Trả về các từ ngẫu nhiên từ user nhập vào được phân cách bởi dấu phẩy.
 
 > Thêm command mới? : rảnh thì làm...
 
