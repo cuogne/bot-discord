@@ -1,13 +1,13 @@
-import { CINEMA_CONFIG, FILE_CONFIG, linkAPIAllMovies } from './config.js';
+import { linkAPIAllMovies } from './config.js';
 import { getCurrentDate } from './utils/getCurrentDate.js';
 import * as fs from 'fs';
 import * as path from 'path'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);          // duong dan thu muc data (test/data)
+const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
 const currentDate = getCurrentDate()
 
-export async function fetchAndProcessMovieData() {
+export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
     // fetch api lay data ve json
     const response = await fetch(linkAPIAllMovies);
     const data = await response.json();
@@ -17,11 +17,11 @@ export async function fetchAndProcessMovieData() {
         fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    // ghi data vao file
-    const filePath = path.join(dataDir, 'rawData.json');
-    if (!fs.existsSync(filePath)) {
-        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    }
+    // // ghi data vao file
+    // const filePath = path.join(dataDir, 'rawData.json');
+    // if (!fs.existsSync(filePath)) {
+    //     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    // }
 
     const idMovies = data.pageProps?.res?.listMovie.map(movie => movie.id) || [];
 

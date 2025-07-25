@@ -1,32 +1,49 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { CINEMA_CONFIG, FILE_CONFIG } from './config.js';
+import { getFileConfig, getCinemaConfig } from './config.js';
 import { checkFileExists } from './utils/checkFileExists.js'
 import { fetchAndProcessMovieData } from './handleData.js'
 import { getCurrentDate } from './utils/getCurrentDate.js';
+import { setFileName } from './utils/setFileName.js';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);          // duong dan thu muc data (test/data)
+const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
 
 export async function lichchieuphimCommand(interaction) {
     await interaction.deferReply();
 
+    // get option of user
+    const option = interaction.options.getString('cinema')
+
+    const CINEMA_CONFIG = getCinemaConfig(option) // CINEMA.id_MovieTheater[option]
+    const FILE_CONFIG = getFileConfig(option)
+
     try {
-        let checkExists = checkFileExists();
+        let checkExists = checkFileExists(FILE_CONFIG.fileName);
 
         // neu file kh ton tai thi moi chay lenh nay
         if (!checkExists) {
             if (fs.existsSync(dataDir)) {
                 const files = fs.readdirSync(dataDir);
-                files.forEach(file => {
-                    fs.unlinkSync(path.join(dataDir, file));
-                });
+
+                const listNow = files.filter(file =>
+                    !file.startsWith(setFileName(getCurrentDate())) && file !== '.gitkeep'
+                );
+
+                // if true => listNow is empty => listNow.length = 0
+                // => all files in files startsWith current date
+                if (listNow.length > 0) {
+                    files.forEach(file => {
+                        fs.unlinkSync(path.join(dataDir, file));
+                    });
+                }
+
             }
             await interaction.editReply('🔄 Đang cập nhật lịch chiếu phim...');
 
             try {
-                await fetchAndProcessMovieData();
+                await fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG);
             }
             catch (error) {
                 console.error('Lỗi khi chạy script crawl:', error);
@@ -64,7 +81,7 @@ export async function lichchieuphimCommand(interaction) {
         const row = new ActionRowBuilder()
             .addComponents(
                 new StringSelectMenuBuilder()
-                    .setCustomId('select_movie')
+                    .setCustomId(`select_movie|${CINEMA_CONFIG.name}`) // gui interaction cinema kem voi customId
                     .setPlaceholder('Chọn phim...')
                     .addOptions(
                         movieNames.map((movieName, index) => ({
