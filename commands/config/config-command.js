@@ -41,7 +41,23 @@ export const commands = [
     // /cinestar
     new SlashCommandBuilder()
         .setName('cinestar')
-        .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar'),
+        .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
+        .addStringOption(option =>
+            option.setName('cinema')
+                .setDescription('Chọn rạp chiếu phim')
+                .setRequired(true)
+                .addChoices(
+                    { name: '🎬 Cinestar Sinh Viên - TP.HCM', value: 'Cinestar Sinh Viên - TP.HCM' },
+                    { name: '🎬 Cinestar Quốc Thanh - TP.HCM', value: 'Cinestar Quốc Thanh - TP.HCM' },
+                    { name: '🎬 Cinestar Hai Bà Trưng - TP.HCM', value: 'Cinestar Hai Bà Trưng - TP.HCM' },
+                    { name: '🎬 Cinestar Satra - TP.HCM', value: 'Cinestar Satra - TP.HCM' },
+                    { name: '🎬 Cinestar Đà Lạt - Lâm Đồng', value: 'Cinestar Đà Lạt - Lâm Đồng' },
+                    { name: '🎬 Cinestar Lâm Đồng - Lâm Đồng', value: 'Cinestar Lâm Đồng - Lâm Đồng' },
+                    { name: '🎬 Cinestar Huế - TP.Huế', value: 'Cinestar Huế - TP.Huế' },
+                    { name: '🎬 Cinestar Mỹ Tho - Đồng Tháp', value: 'Cinestar Mỹ Tho - Đồng Tháp' },
+                    { name: '🎬 Cinestar Kiên Giang - An Giang', value: 'Cinestar Kiên Giang - An Giang' },
+                )
+        ),
 
     // /gay
     new SlashCommandBuilder()

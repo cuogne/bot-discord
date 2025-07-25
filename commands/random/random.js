@@ -9,5 +9,5 @@ export async function randomCommand(interaction) {
 
     const idx = Math.floor(Math.random() * listRandom.length)
 
-    await interaction.reply(listRandom[idx])
+    await interaction.reply(`**Tôi chọn: ** ${listRandom[idx]}`)
 }

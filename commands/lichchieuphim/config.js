@@ -3,10 +3,15 @@ import { setFileName } from "./utils/setFileName.js"
 import { getCurrentDate } from "./utils/getCurrentDate.js"
 
 export const linkAPIAllMovies = 'https://cinestar.com.vn/_next/data/jZniZUx-s1ODigQHrqyik/index.json'
-export const CINEMA_CONFIG = CINEMA.id_MovieTheater['Cinestar Sinh Viên - TP.HCM']
 
-// ten file: dd-mm-yyyy-idArea-all-movies.json
-export const FILE_CONFIG = {
-    'dataDir': 'data',
-    'fileName': setFileName(getCurrentDate()) + '-' + CINEMA_CONFIG.id_file + '-all-movies.json'
+export function getCinemaConfig(cinema) {
+    return CINEMA.id_MovieTheater[cinema]
+}
+
+export function getFileConfig(cinema) {
+    const CINEMA_CONFIG = getCinemaConfig(cinema);
+    return {
+        dataDir: 'data',
+        fileName: setFileName(getCurrentDate()) + '-' + CINEMA_CONFIG.id_file + '-all-movies.json'
+    }
 }

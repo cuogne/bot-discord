@@ -43,9 +43,11 @@ client.on('interactionCreate', async interaction => {
 
     // handle string select menu (dropdown)
     if (interaction.isStringSelectMenu()) {
-        const handler = handleSelection[interaction.customId];
+        // maybe fix if have more selectMenu from dropdown
+        const [id, nameCinema] = interaction.customId.split('|')
+        const handler = handleSelection[id];
         if (handler) {
-            await handler(interaction);
+            await handler(interaction, nameCinema);
         }
         else {
             await interaction.reply({

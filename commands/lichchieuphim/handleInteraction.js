@@ -1,16 +1,19 @@
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { CINEMA_CONFIG, FILE_CONFIG } from './config.js';
+import { getCinemaConfig, getFileConfig } from './config.js';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, FILE_CONFIG.dataDir);          // duong dan thu muc data (test/data)
+const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
 
 // handle interaction khi user chọn phim từ dropdown
-export async function handleMovieSelection(interaction) {
+export async function handleMovieSelection(interaction, nameCinema) {
     if (!interaction.isStringSelectMenu()) return;
 
     try {
+        const CINEMA_CONFIG = getCinemaConfig(nameCinema)
+        const FILE_CONFIG = getFileConfig(nameCinema)
+
         const selectedMovie = interaction.values[0];
         const detailFile = path.join(dataDir, FILE_CONFIG.fileName);
 
