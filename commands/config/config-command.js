@@ -6,6 +6,7 @@ import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
 import { gayCommand } from "../gay/gay.js";
 import { translateCommand } from "../translate/translate.js";
 import { randomCommand } from "../random/random.js";
+import { footballCommand } from "../premier_league/football.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 // import command do vo day
@@ -102,6 +103,10 @@ export const commands = [
                 .setRequired(true)
         ),
 
+    new SlashCommandBuilder()
+        .setName('football')
+        .setDescription('Hiển thị lịch thi đấu ngoại hạng anh hôm nay')
+
     // new SlashCommandBuilder()
     //     .setName(...)
     //     .setDescription(...)
@@ -116,6 +121,7 @@ export const commandHandlers = {
     gay: gayCommand,
     translate: translateCommand,
     random: randomCommand,
+    football: footballCommand,
     //
 };
 
