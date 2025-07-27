@@ -6,7 +6,8 @@ import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
 import { gayCommand } from "../gay/gay.js";
 import { translateCommand } from "../translate/translate.js";
 import { randomCommand } from "../random/random.js";
-import { footballCommand } from "../premier_league/football.js";
+import { footballTournamentCommand } from "../football_tournament/football_tournament.js";
+import { footballClubCommand } from "../football_club/football_club.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 // import command do vo day
@@ -104,8 +105,24 @@ export const commands = [
         ),
 
     new SlashCommandBuilder()
-        .setName('football')
-        .setDescription('Hiển thị lịch thi đấu ngoại hạng anh hôm nay')
+        .setName('football_tournament')
+        .setDescription('⚽ Xem lịch thi đấu bóng đá Châu Âu hôm nay và các ngày lân cận ⚽')
+        .addStringOption(option =>
+            option.setName('tournament')
+                .setDescription('Chọn giải đấu (Chưa hỗ trợ cho cúp C1, C2, Euro, World Cup, ...)')
+                .setRequired(true)
+                .addChoices(
+                    { name: '🇬🇧 Primere League', value: 'eng.1' },
+                    { name: '🇪🇸 La Liga', value: 'esp.1' },
+                    { name: '🇩🇪 Bundesliga', value: 'ger.1' },
+                    { name: '🇮🇹 Serie A', value: 'ita.1' },
+                    { name: '🇫🇷 Ligue 1', value: 'fra.1' }
+                )
+        ),
+
+    new SlashCommandBuilder()
+        .setName('football_club')
+        .setDescription('Xem lịch thi đấu bóng đá của 1 câu lạc bộ')
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -121,7 +138,8 @@ export const commandHandlers = {
     gay: gayCommand,
     translate: translateCommand,
     random: randomCommand,
-    football: footballCommand,
+    football_tournament: footballTournamentCommand,
+    football_club: footballClubCommand,
     //
 };
 
