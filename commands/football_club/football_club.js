@@ -1,26 +1,68 @@
-// https://site.web.api.espn.com/apis/site/v2/sports/soccer/all/teams/360/schedule?fixture=true
+import { club } from "./constant.js";
 
-/*id CLB:
-Manchester United	360
-Manchester City	382
-Chelsea	363
-Liverpool	364
-Arsenal	359
-Real Madrid	86
-Barcelona	83
-Atletico Madrid	1068
-Bayern Munich	132
-Borussia Dortmund	124
-Bayer Leverkusen	131
-Paris Saint Germain (PSG)	160
-Inter Milan	108
-AC Milan	103
-AS Roma	104
-Napoli	114
-Juventus	111
-*/
+function separateDate(date) {
+    const [year, month, day] = date.split('-')
+    return `${day}-${month}-${year}`
+}
 
 export async function footballClubCommand(interaction) {
-    // ...
-    await interaction.reply('Command này đang triển khai, đợi chờ là hạnh phúc ♥️')
+    await interaction.deferReply();
+
+    const id_club = interaction.options.getString('club');
+    const club_info = club[id_club];
+    const link = `https://site.web.api.espn.com/apis/site/v2/sports/soccer/all/teams/${id_club}/schedule?fixture=true`
+
+    try {
+        const response = await fetch(link);
+        const data = await response.json();
+
+        const fields = []
+
+        for (const event of data.events) {
+            // console.log(event.date)
+            // const date = separateDate((event.date).split('T')[0]);
+            // const hour = (event.date).split('T')[1].split('Z')[0];
+
+            const matchDateUTC = new Date(event.date);
+            const dayVN = matchDateUTC.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+            const hourVN = matchDateUTC.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Ho_Chi_Minh'
+            });
+
+            const tournament = event.seasonType.name;
+
+            const homeTeam = (event.competitions[0].competitors).find(c => c.homeAway === 'home').team.displayName;
+            const awayTeam = (event.competitions[0].competitors).find(c => c.homeAway === 'away').team.displayName;
+
+            fields.push({
+                name: `📆 **Ngày: ${separateDate(dayVN)} ** \n**${hourVN}** | ${homeTeam} vs ${awayTeam}`,
+                value: `🏆 ${tournament}`,
+                inline: false
+            })
+
+            if (fields.length === 5) {
+                break;
+            }
+        };
+
+        await interaction.editReply({
+            embeds: [
+                {
+                    title: `⚽ Lịch thi đấu của ${club_info.name} ⚽`,
+                    color: 0x0099ff,
+                    fields,
+                    thumbnail: {
+                        url: club_info.linkImg,
+                    },
+                }
+            ]
+        });
+    }
+    catch (error) {
+        console.error('Lỗi khi lấy lịch đá banh:', error);
+        await interaction.editReply('Có lỗi xảy ra khi lấy lịch đá banh.');
+    }
 }

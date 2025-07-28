@@ -123,6 +123,30 @@ export const commands = [
     new SlashCommandBuilder()
         .setName('football_club')
         .setDescription('Xem lịch thi đấu bóng đá của 1 câu lạc bộ')
+        .addStringOption(option =>
+            option.setName('club')
+                .setDescription('Chọn câu lạc bộ')
+                .setRequired(true)
+                .addChoices(
+                    { name: 'Manchester United', value: '360' },
+                    { name: 'Manchester City', value: '382' },
+                    { name: 'Chelsea', value: '363' },
+                    { name: 'Liverpool', value: '364' },
+                    { name: 'Arsenal', value: '359' },
+                    { name: 'Real Madrid', value: '86' },
+                    { name: 'Barcelona', value: '83' },
+                    { name: 'Atletico Madrid', value: '1068' },
+                    { name: 'Bayern Munich', value: '132' },
+                    { name: 'Borussia Dortmund', value: '124' },
+                    { name: 'Bayer Leverkusen', value: '131' },
+                    { name: 'Paris Saint Germain (PSG)', value: '160' },
+                    { name: 'Inter Milan', value: '110' },
+                    { name: 'AC Milan', value: '103' },
+                    { name: 'AS Roma', value: '104' },
+                    { name: 'Napoli', value: '114' },
+                    { name: 'Juventus', value: '111' }
+                )
+        ),
 
     // new SlashCommandBuilder()
     //     .setName(...)
