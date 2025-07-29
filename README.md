@@ -49,17 +49,19 @@ Sau đó mở Discord, vào server đã mời bot và thử các lệnh.
 
 ## Commands
 
-- `/date` - Hiển thị ngày giờ hiện tại
-- `/avatar [user]` - Lấy avatar người dùng
-- `/sbd <text>` - Tra cứu điểm thi THPTQG 2025
-- `/cinestar <cinema>` - Xem lịch chiếu phim hôm nay tại Cinestar 
-- `/translate <to> <text>` - Dịch văn bản sang tiếng được chọn.
-- `/gay` - Lòng tôi tan nát khi nhận ra tôi là ... (troll)
-- `/random` - Trả về các từ ngẫu nhiên từ user nhập vào được phân cách bởi dấu phẩy.
-- `/football_tournament <tournament>` - Xem lịch thi đấu bóng đá của các giải đấu lớn (EPL, La Liga, ...)
-- `/football_club <club>` - Xem lịch thi đấu cụ thể của các câu lạc bộ bóng đá.
+| Command | Parameter | Description | Usage |
+|------|---------|-------|-----------|
+| `/date` | *(không có)* | Hiển thị ngày giờ hiện tại (âm và dương lịch) | `/date` |
+| `/avatar` | `[user]` (không bắt buộc) | Lấy avatar của user | `/avatar @cừn` |
+| `/sbd` | `<text>` | Tra cứu điểm thi THPTQG 2025 | `/sbd 123456` |
+| `/cinestar` | `<cinema>` | Xem lịch chiếu phim hôm nay tại Cinestar | `/cinestar Cinestar Sinh Viên - TP.HCM` |
+| `/translate` | `<to> <text>` | Dịch văn bản sang tiếng được chọn | `/translate English Xin chào` |
+| `/gay` | `<user>` | _"Lòng tôi tan nát khi nhận ra tôi là ..."_ | `/gay @someone` |
+| `/random` | `<ele1, ele2, ele3, ...>` | Trả về các từ ngẫu nhiên do user nhập vào được phân cách bởi dấu phẩy | `/random táo,cam,chuối` |
+| `/football_tournament` | `<tournament>` | Xem lịch thi đấu bóng đá của các giải đấu lớn (EPL, La Liga, ...) | `/football_tournament Premier League` |
+| `/football_club` | `<club>` | Xem lịch thi đấu cụ thể của các câu lạc bộ bóng đá | `/football_club Manchester United` |
 
-> Thêm command mới? : rảnh thì làm...
+> ...
 
 ## Cloud Host ?
 
