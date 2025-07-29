@@ -57,6 +57,9 @@ export async function footballClubCommand(interaction) {
                     thumbnail: {
                         url: club_info.linkImg,
                     },
+                    footer: {
+                        text: 'Giờ hiển thị theo giờ Việt Nam'
+                    }
                 }
             ]
         });
