@@ -44,7 +44,7 @@ client.on('interactionCreate', async interaction => {
     // handle string select menu (dropdown)
     if (interaction.isStringSelectMenu()) {
         // fix for more selection from dropdown
-        if (interaction.customId.includes('|')) {
+        if (interaction.customId.startsWith('select_movie')) { // select_movie|${CINEMA_CONFIG.name}
             const [id, nameCinema] = interaction.customId.split('|')
             const handler = handleSelection[id];
             if (handler) {
