@@ -8,8 +8,10 @@ import { translateCommand } from "../translate/translate.js";
 import { randomCommand } from "../random/random.js";
 import { footballTournamentCommand } from "../football_tournament/football_tournament.js";
 import { footballClubCommand } from "../football_club/football_club.js";
+import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
+import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
 // import command do vo day
 
 // add command
@@ -148,6 +150,9 @@ export const commands = [
                 )
         ),
 
+    new SlashCommandBuilder()
+        .setName('upcoming_movies')
+        .setDescription('Hiển thị các phim sắp chiếu tại Cinestar')
     // new SlashCommandBuilder()
     //     .setName(...)
     //     .setDescription(...)
@@ -164,10 +169,12 @@ export const commandHandlers = {
     random: randomCommand,
     football_tournament: footballTournamentCommand,
     football_club: footballClubCommand,
+    upcoming_movies: upcomingMoviesCommand,
     //
 };
 
 // export handle selection from user
 export const handleSelection = {
-    select_movie: handleMovieSelection
+    select_movie: handleMovieSelection,
+    select_upcoming_movie: handleUpcomingMovieSelection
 }

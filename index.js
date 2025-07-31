@@ -43,17 +43,31 @@ client.on('interactionCreate', async interaction => {
 
     // handle string select menu (dropdown)
     if (interaction.isStringSelectMenu()) {
-        // maybe fix if have more selectMenu from dropdown
-        const [id, nameCinema] = interaction.customId.split('|')
-        const handler = handleSelection[id];
-        if (handler) {
-            await handler(interaction, nameCinema);
+        // fix for more selection from dropdown
+        if (interaction.customId.includes('|')) {
+            const [id, nameCinema] = interaction.customId.split('|')
+            const handler = handleSelection[id];
+            if (handler) {
+                await handler(interaction, nameCinema);
+            }
+            else {
+                await interaction.reply({
+                    content: 'Invalid selection!',
+                    flags: 64
+                });
+            }
         }
         else {
-            await interaction.reply({
-                content: 'Invalid selection!',
-                flags: 64
-            });
+            const handler = handleSelection[interaction.customId];
+            if (handler) {
+                await handler(interaction);
+            }
+            else {
+                await interaction.reply({
+                    content: 'Invalid selection!',
+                    flags: 64
+                });
+            }
         }
     }
 });
