@@ -55,6 +55,7 @@ Sau đó mở Discord, vào server đã mời bot và thử các lệnh.
 | `/avatar` | `[user]` (không bắt buộc) | Lấy avatar của user | `/avatar @cừn` |
 | `/sbd` | `<text>` | Tra cứu điểm thi THPTQG 2025 | `/sbd 123456` |
 | `/cinestar` | `<cinema>` | Xem lịch chiếu phim hôm nay tại Cinestar | `/cinestar Cinestar Sinh Viên - TP.HCM` |
+| `/upcoming_movies` | *(không có)* | Xem danh sách phim sắp tới được chiếu tại Cinestar | `/upcoming_movies` |
 | `/translate` | `<to> <text>` | Dịch văn bản sang tiếng được chọn | `/translate English Xin chào` |
 | `/gay` | `<user>` | _"Lòng tôi tan nát khi nhận ra tôi là ..."_ | `/gay @someone` |
 | `/random` | `<ele1, ele2, ele3, ...>` | Trả về các từ ngẫu nhiên do user nhập vào được phân cách bởi dấu phẩy | `/random táo,cam,chuối` |
