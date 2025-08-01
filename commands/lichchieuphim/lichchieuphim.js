@@ -34,7 +34,7 @@ export async function lichchieuphimCommand(interaction) {
                 // if true => listNow is empty => listNow.length = 0
                 // => all files in files startsWith current date
                 if (listNow.length > 0) {
-                    files.forEach(file => {
+                    listNow.forEach(file => {
                         fs.unlinkSync(path.join(dataDir, file));
                     });
                 }
@@ -63,6 +63,13 @@ export async function lichchieuphimCommand(interaction) {
         const movieNames = JSON.parse(fs.readFileSync(movieJson, 'utf8'))
             .map(movie => movie["Tên phim"])
             .filter(name => name);
+
+        // ------------------- LOG ----------------------------
+        console.log(`[Current Date - lcp]: ${dayFileName}`)
+        console.log(`[File Name - lcp]: ${FILE_CONFIG.fileName}`)
+        console.log(`File path - lcp]: ${movieJson}`)
+        console.log(`[MovieNames - lcp]: ${movieNames}`)
+        // ----------------------------------------------------
 
         if (movieNames.length === 0) {
             await interaction.editReply('Không có lịch chiếu phim cho hôm nay.');

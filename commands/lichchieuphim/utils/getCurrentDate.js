@@ -1,11 +1,9 @@
 export function getCurrentDate() {
     const today = new Date(); // lay ngay hien tai
-    const dateStr = today.toLocaleString('vi-VN', {
-        timeZone: 'Asia/Ho_Chi_Minh'
-    }).split(" ")[1]; // lay ngay (dd/mm/yyyy)
+    const VNTime = new Date(today.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
+    const day = String(VNTime.getDate()).padStart(2, '0');
+    const month = String(VNTime.getMonth() + 1).padStart(2, '0');
+    const year = VNTime.getFullYear();
 
-    const [day, month, year] = dateStr.split('/');
-    const formattedDate = `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
-
-    return formattedDate;
+    return `${day}/${month}/${year}`;
 }

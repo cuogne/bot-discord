@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path'
 import { fileURLToPath } from 'url';
+import { getCurrentDate } from './getCurrentDate.js';
 
 export function checkFileExists(fileName) {
     // get path of file
@@ -12,6 +13,23 @@ export function checkFileExists(fileName) {
 
     if (!listFileName.includes(fileName)) {
         checkExists = false;
+    }
+    else {
+        try {
+            // check content
+            const filePath = path.join(dataDir, fileName);
+            const fileContent = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+            const dateInFile = fileContent.map(movie => movie['Ngày'])
+
+            if (!dateInFile.every(date => date === getCurrentDate())) {
+                checkExists = false;
+            }
+        }
+        catch (error) {
+            console.error(`Lỗi khi truy cập file: ${fileName}`)
+            checkExists = false;
+        }
     }
 
     return checkExists;
