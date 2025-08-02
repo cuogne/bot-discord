@@ -1,9 +1,5 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } from 'discord.js';
-
-function formatDayVN(date) {
-    const [month, day, year] = date.split('/')
-    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`
-}
+import { formatDayVN } from './formatDayVN.js';
 
 export async function upcomingMoviesCommand(interaction) {
     await interaction.deferReply();
