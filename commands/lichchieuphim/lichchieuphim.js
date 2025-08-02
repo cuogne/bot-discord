@@ -7,11 +7,11 @@ import { fetchAndProcessMovieData } from './handleData.js'
 import { getCurrentDate } from './utils/getCurrentDate.js';
 import { setFileName } from './utils/setFileName.js';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
-
 export async function lichchieuphimCommand(interaction) {
     await interaction.deferReply();
+
+    const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
+    const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
 
     // get option of user
     const option = interaction.options.getString('cinema')
@@ -63,15 +63,9 @@ export async function lichchieuphimCommand(interaction) {
         const movieData = JSON.parse(fs.readFileSync(movieJson, 'utf8'));
         if (!Array.isArray(movieData)) {
             console.error('Dữ liệu sai định dạng')
+            await interaction.editReply('Dữ liệu phim sai định dạng')
         }
         const movieNames = movieData.map(movie => movie["Tên phim"]).filter(name => name && name.trim() != '');
-
-        // ------------------- LOG ----------------------------
-        console.log(`[Current Date - lcp]: ${dayFileName}`)
-        console.log(`[File Name - lcp]: ${FILE_CONFIG.fileName}`)
-        console.log(`File path - lcp]: ${movieJson}`)
-        console.log(`[MovieNames - lcp]: ${movieNames}`)
-        // ----------------------------------------------------
 
         if (movieNames.length === 0) {
             await interaction.editReply('Không có lịch chiếu phim cho hôm nay.');

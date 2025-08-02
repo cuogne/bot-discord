@@ -3,11 +3,11 @@ import { getCurrentDate } from './utils/getCurrentDate.js';
 import * as fs from 'fs';
 import * as path from 'path'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
-const currentDate = getCurrentDate()
-
 export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
+    const currentDate = getCurrentDate() // change from global variable -> scope variable (fixed bug)
+    const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
+    const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
+
     // fetch api lay data ve json
     const response = await fetch(linkAPIAllMovies);
     const data = await response.json();
@@ -33,8 +33,6 @@ export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
         const url = `https://cinestar.com.vn/api/showTime/?id_Movie=${id_movie}&id_Area=${CINEMA_CONFIG.id_area}&id_Server=${CINEMA_CONFIG.id_server}&date=${day}&id_MovieTheater=${CINEMA_CONFIG.uuid}`;
         const reponse = await fetch(url);
         const dataMovie = await reponse.json(); // chuyen ve dang json
-
-        console.log(url) // add log
 
         // update condition
         if (dataMovie.data &&
@@ -86,7 +84,6 @@ export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
             }
         }
     }
-    console.log(result) // add log
 
     const outputFilePath = path.join(dataDir, FILE_CONFIG.fileName);
     fs.writeFileSync(outputFilePath, JSON.stringify(result, null, 2), 'utf8');
