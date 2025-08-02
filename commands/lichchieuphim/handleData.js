@@ -33,7 +33,13 @@ export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
         const url = `https://cinestar.com.vn/api/showTime/?id_Movie=${id_movie}&id_Area=${CINEMA_CONFIG.id_area}&id_Server=${CINEMA_CONFIG.id_server}&date=${day}&id_MovieTheater=${CINEMA_CONFIG.uuid}`;
         const reponse = await fetch(url);
         const dataMovie = await reponse.json(); // chuyen ve dang json
-        if (dataMovie.data[0].id != null) {
+
+        console.log(url) // add log
+
+        // update condition
+        if (dataMovie.data &&
+            dataMovie.data.length > 0 &&
+            dataMovie.data[0].id != null) {
             listDataMovies.push(dataMovie)
         }
     }
@@ -80,6 +86,7 @@ export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
             }
         }
     }
+    console.log(result) // add log
 
     const outputFilePath = path.join(dataDir, FILE_CONFIG.fileName);
     fs.writeFileSync(outputFilePath, JSON.stringify(result, null, 2), 'utf8');

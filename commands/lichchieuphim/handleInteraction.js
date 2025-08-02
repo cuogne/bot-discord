@@ -47,14 +47,8 @@ export async function handleMovieSelection(interaction, nameCinema) {
             { name: '⏱️ Thời lượng', value: selectedMovieDetails[0].minute + ' phút' || 'N/A', inline: true },
             { name: '📽️ Rạp', value: CINEMA_CONFIG.name, inline: true },
             { name: '🎭 Thể loại', value: selectedMovieDetails[0].genre || 'N/A', inline: true },
-            { name: '🎬 Định dạng', value: selectedMovieDetails[0].format_language || 'N/A', inline: true }
+            { name: '📝 Ngôn ngữ', value: selectedMovieDetails[0].format_language || 'N/A', inline: true }
         );
-
-        // let scheduleText = '';
-        // for (const [roomType, times] of Object.entries(groupedByRoom)) {
-        //     scheduleText += `**${roomType}:**\n`;
-        //     scheduleText += times.join(', ') + '\n\n';
-        // }
 
         let scheduleText = '';
 

@@ -60,9 +60,11 @@ export async function lichchieuphimCommand(interaction) {
         }
 
         const dayFileName = getCurrentDate();
-        const movieNames = JSON.parse(fs.readFileSync(movieJson, 'utf8'))
-            .map(movie => movie["Tên phim"])
-            .filter(name => name);
+        const movieData = JSON.parse(fs.readFileSync(movieJson, 'utf8'));
+        if (!Array.isArray(movieData)) {
+            console.error('Dữ liệu sai định dạng')
+        }
+        const movieNames = movieData.map(movie => movie["Tên phim"]).filter(name => name && name.trim() != '');
 
         // ------------------- LOG ----------------------------
         console.log(`[Current Date - lcp]: ${dayFileName}`)

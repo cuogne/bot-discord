@@ -20,9 +20,13 @@ export function checkFileExists(fileName) {
             const filePath = path.join(dataDir, fileName);
             const fileContent = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-            const dateInFile = fileContent.map(movie => movie['Ngày'])
+            // const dateInFile = fileContent.map(movie => movie['Ngày'])
+            // if (!dateInFile.every(date => date === getCurrentDate())) {
+            //     checkExists = false;
+            // }
 
-            if (!dateInFile.every(date => date === getCurrentDate())) {
+            const movieNameInFile = fileContent.map(movie => movie['Tên phim']);
+            if (movieNameInFile.some(name => name === undefined || name === '')) { // (name => !name)
                 checkExists = false;
             }
         }
