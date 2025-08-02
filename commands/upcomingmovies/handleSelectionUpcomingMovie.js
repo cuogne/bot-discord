@@ -37,6 +37,7 @@ export async function handleUpcomingMovieSelection(interaction) {
                 description: `
 **📅 Ngày khởi chiếu:** ${formatDayVN(selectedMovie.release_date.split(' ')[0])}
 **⏳ Thời lượng:** ${selectedMovie.time} phút
+**🎭 Thể loại:** ${selectedMovie.type_name_vn}
 
 **📒 Giới thiệu phim:**
 ${selectedMovie.brief_vn.split('. ').join('.\n')}`,
