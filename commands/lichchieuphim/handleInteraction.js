@@ -39,7 +39,7 @@ export async function handleMovieSelection(interaction, nameCinema) {
         // get link image and add to embed
         const movieWithImage = selectedMovieDetails.find(movie => movie["Link ảnh"]);
         if (movieWithImage && movieWithImage["Link ảnh"]) {
-            embed.setImage(movieWithImage["Link ảnh"]);
+            embed.setThumbnail(movieWithImage["Link ảnh"]);
         }
 
         embed.addFields(
@@ -47,7 +47,8 @@ export async function handleMovieSelection(interaction, nameCinema) {
             { name: '⏱️ Thời lượng', value: selectedMovieDetails[0].minute + ' phút' || 'N/A', inline: true },
             { name: '📽️ Rạp', value: CINEMA_CONFIG.name, inline: true },
             { name: '🎭 Thể loại', value: selectedMovieDetails[0].genre || 'N/A', inline: true },
-            { name: '📝 Ngôn ngữ', value: selectedMovieDetails[0].format_language || 'N/A', inline: true }
+            { name: '📝 Ngôn ngữ', value: selectedMovieDetails[0].format_language || 'N/A', inline: true },
+            { name: '📑 Nội dung phim', value: selectedMovieDetails[0].brief || 'N/A' }
         );
 
         let scheduleText = '';
@@ -95,12 +96,26 @@ export async function handleMovieSelection(interaction, nameCinema) {
 
         // create button booking film
         const bookingLink = selectedMovieDetails[0]["Link đặt vé"] || 'https://cinestar.com.vn';
-        const button = new ButtonBuilder()
+        const trailerLink = selectedMovieDetails[0]["trailer"] || '';
+
+        const bookingButton = new ButtonBuilder()
             .setLabel('🎟️ Đặt vé ngay')
             .setStyle(ButtonStyle.Link)
-            .setURL(bookingLink)
-        const actionRow = new ActionRowBuilder().addComponents(button);
-        const components = [actionRow];
+            .setURL(bookingLink);
+
+        let components = [];
+        if (trailerLink) {
+            const trailerButton = new ButtonBuilder() // có link thì mới hiển thị button
+                .setLabel('🎬 Xem trailer')
+                .setStyle(ButtonStyle.Link)
+                .setURL(trailerLink);
+            const actionRow = new ActionRowBuilder().addComponents(bookingButton, trailerButton);
+            components = [actionRow];
+        }
+        else {
+            const actionRow = new ActionRowBuilder().addComponents(bookingButton);
+            components = [actionRow];
+        }
 
         await interaction.reply({
             embeds: [embed],

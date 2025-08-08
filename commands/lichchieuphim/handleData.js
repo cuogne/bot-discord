@@ -17,35 +17,28 @@ export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
         fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    // // ghi data vao file
-    // const filePath = path.join(dataDir, 'rawData.json');
-    // if (!fs.existsSync(filePath)) {
-    //     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    // }
-
     const idMovies = data.pageProps?.res?.listMovie.map(movie => movie.id) || [];
 
     const day = getCurrentDate().split('/')[0] // lay ngay (day)
-    let listDataMovies = []
+    // let listDataMovies = []
 
-    for (const id_movie of idMovies) {
-        // create url of each movie
+    // using promise to fetch data in parallel
+    const movieDataPromises = idMovies.map(async (id_movie) => {
         const url = `https://cinestar.com.vn/api/showTime/?id_Movie=${id_movie}&id_Area=${CINEMA_CONFIG.id_area}&id_Server=${CINEMA_CONFIG.id_server}&date=${day}&id_MovieTheater=${CINEMA_CONFIG.uuid}`;
-        const reponse = await fetch(url);
-        const dataMovie = await reponse.json(); // chuyen ve dang json
+        const response = await fetch(url);
+        const dataMovie = await response.json();
 
         // update condition
         if (dataMovie.data &&
             dataMovie.data.length > 0 &&
             dataMovie.data[0].id != null) {
-            listDataMovies.push(dataMovie)
+            return dataMovie;
         }
-    }
+        return null;
+    });
 
-    // filePath = path.join(dataDir, 'cleanData.json');
-    // if (!fs.existsSync(filePath)) {
-    //     fs.writeFileSync(filePath, JSON.stringify(listDataMovies, null, 2));
-    // }
+    const movieDataResults = await Promise.all(movieDataPromises);
+    const listDataMovies = movieDataResults.filter(dataMovie => dataMovie !== null);
 
     const result = []
 
@@ -79,6 +72,8 @@ export async function fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG) {
                         "minute": movie.time_m,
                         "country": movie.country_name_vn,
                         "format_language": movie.language_vn,
+                        "brief": movie.brief_vn,
+                        "trailer": movie.trailer ? `https://youtu.be/${movie.trailer}` : null
                     });
                 }
             }
