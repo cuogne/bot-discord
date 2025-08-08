@@ -10,6 +10,7 @@ import { footballTournamentCommand } from "../football_tournament/football_tourn
 import { footballClubCommand } from "../football_club/football_club.js";
 import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
 import { dictionaryCommand } from "../dictionary/dictionary.js";
+import { helpCommand } from "../help/helpCommand.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -165,6 +166,10 @@ export const commands = [
                 .setRequired(true)
         ),
 
+    new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('Hiển thị các command hiện có của bot'),
+
     // new SlashCommandBuilder()
     //     .setName(...)
     //     .setDescription(...)
@@ -183,6 +188,7 @@ export const commandHandlers = {
     football_club: footballClubCommand,
     upcoming_movies: upcomingMoviesCommand,
     dictionary: dictionaryCommand,
+    help: helpCommand,
     //
 };
 
