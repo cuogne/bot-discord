@@ -53,7 +53,7 @@ export async function upcomingMoviesCommand(interaction) {
                     .setCustomId(`select_upcoming_movie`)
                     .setPlaceholder('Chọn một bộ phim để xem thông tin chi tiết...')
                     .addOptions(
-                        listMovie.map((movie, index) => ({
+                        listMovie.slice(0, 25).map((movie, index) => ({
                             label: movie.name.length > 100 ? movie.name.substring(0, 97) + '...' : movie.name,
                             value: String(index),
                             description: `Ngày chiếu: ${movie.releaseDate}`
@@ -67,7 +67,7 @@ export async function upcomingMoviesCommand(interaction) {
         });
     }
     catch (error) {
-        console.log("Đã có lỗi khi lấy lịch phim sắp chiếu")
+        console.log("Đã có lỗi khi lấy lịch phim sắp chiếu", error)
         await interaction.editReply('Có lỗi khi lấy lịch phim sắp chiếu tại Cinestar')
     }
 }
