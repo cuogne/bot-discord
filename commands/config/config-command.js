@@ -9,6 +9,7 @@ import { randomCommand } from "../random/random.js";
 import { footballTournamentCommand } from "../football_tournament/football_tournament.js";
 import { footballClubCommand } from "../football_club/football_club.js";
 import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
+import { dictionaryCommand } from "../dictionary/dictionary.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -152,7 +153,18 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('upcoming_movies')
-        .setDescription('Hiển thị các phim sắp chiếu tại Cinestar')
+        .setDescription('Hiển thị các phim sắp chiếu tại Cinestar'),
+
+    // /dictionary {text}
+    new SlashCommandBuilder()
+        .setName('dictionary')
+        .setDescription('Tra từ điển tiếng Anh (định nghĩa, phiên âm, từ đồng nghĩa/trái nghĩa, ví dụ, ...)')
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Nhập từ tiếng Anh cần tra')
+                .setRequired(true)
+        ),
+
     // new SlashCommandBuilder()
     //     .setName(...)
     //     .setDescription(...)
@@ -170,6 +182,7 @@ export const commandHandlers = {
     football_tournament: footballTournamentCommand,
     football_club: footballClubCommand,
     upcoming_movies: upcomingMoviesCommand,
+    dictionary: dictionaryCommand,
     //
 };
 
