@@ -73,13 +73,15 @@ export async function dictionaryCommand(interaction) {
 
         const embed = new EmbedBuilder()
             .setColor(0x5865F2)
-            .setTitle(word)
-            .setDescription(firstPhonetic ? `**Phiên âm:** ${firstPhonetic}` : null)
+            .setTitle(`📚 ${word}`)
+            .setDescription(firstPhonetic ? `** 🎧 Phonetic:** ${firstPhonetic}` : null)
             .setTimestamp();
 
         const MAX_FIELD_VALUE = 1024;
+        const partOfSpeechEntries = Array.from(partOfSpeechToInfo.entries());
 
-        for (const [pos, info] of partOfSpeechToInfo.entries()) {
+        for (let i = 0; i < partOfSpeechEntries.length; i++) {
+            const [pos, info] = partOfSpeechEntries[i];
             const definitions = info.definitions.slice(0, 10);
             const synonyms = Array.from(info.synonyms).slice(0, 20);
             const antonyms = Array.from(info.antonyms).slice(0, 20);
@@ -88,30 +90,52 @@ export async function dictionaryCommand(interaction) {
 
             if (definitions.length > 0) {
                 const defsText = definitions.map((d, i) => `${i + 1}. ${d}`).join('\n');
-                chunks.push(`\n${defsText}`);
+                chunks.push(defsText);
             }
 
+            const relatedWords = [];
             if (synonyms.length > 0) {
-                chunks.push(`**Đồng nghĩa:** ${synonyms.join(', ')}`);
+                relatedWords.push(`• **Synonym:** ${synonyms.join(', ')}`);
+            }
+            if (antonyms.length > 0) {
+                relatedWords.push(`• **Antonyms:** ${antonyms.join(', ')}`);
             }
 
-            if (antonyms.length > 0) {
-                chunks.push(`**Trái nghĩa:** ${antonyms.join(', ')}`);
+            if (relatedWords.length > 0) {
+                chunks.push(relatedWords.join('\n'));
             }
 
             if (chunks.length === 0) continue;
 
-            let value = chunks.join('\n\n');
+            const posDisplayNames = {
+                'noun': '**Noun (n.)**',
+                'verb': '**Verb (v.)**',
+                'adjective': '**Adjective (adj.)**',
+                'adverb': '**Adverb (adv.)**',
+                'pronoun': '**Pronoun (pron.)**',
+                'preposition': '**Preposition (prep.)**',
+                'conjunction': '**Conjunction (conj.)**',
+                'interjection': '**Interjection (interj.)**',
+                'other': '**Other**'
+            };
+
+            const displayName = posDisplayNames[pos] || `**${pos.charAt(0).toUpperCase() + pos.slice(1)}**`;
+
+            let value = chunks.join('\n');
+
+            if (i < partOfSpeechEntries.length - 1) {
+                value += '\n\u200b'; // tạo khoảng cách
+            }
+
             if (value.length > MAX_FIELD_VALUE) {
                 value = value.slice(0, MAX_FIELD_VALUE - 3) + '...';
             }
 
-            embed.addFields(
-                {
-                    name: pos, value,
-                    inline: false
-                }
-            );
+            embed.addFields({
+                name: displayName,
+                value: value,
+                inline: false
+            });
         }
 
         // Nếu không có fields nào (không có định nghĩa hợp lệ)
