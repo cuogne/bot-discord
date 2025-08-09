@@ -11,6 +11,7 @@ import { footballClubCommand } from "../football_club/football_club.js";
 import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
 import { dictionaryCommand } from "../dictionary/dictionary.js";
 import { helpCommand } from "../help/helpCommand.js";
+import { cgvCommand } from "../cgv/cgv.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -159,7 +160,7 @@ export const commands = [
     // /dictionary {text}
     new SlashCommandBuilder()
         .setName('dictionary')
-        .setDescription('Tra từ điển tiếng Anh (định nghĩa, phiên âm, từ đồng nghĩa/trái nghĩa, ví dụ, ...)')
+        .setDescription('Tra từ điển tiếng Anh (định nghĩa, phiên âm, từ đồng nghĩa/trái nghĩa, ...)')
         .addStringOption(option =>
             option.setName('text')
                 .setDescription('Nhập từ tiếng Anh cần tra')
@@ -169,6 +170,22 @@ export const commands = [
     new SlashCommandBuilder()
         .setName('help')
         .setDescription('Hiển thị các command hiện có của bot'),
+
+    new SlashCommandBuilder()
+        .setName('cgv')
+        .setDescription('Hiển thị lịch chiếu phim tại CGV')
+        .addStringOption(option =>
+            option.setName('province')
+                .setDescription('Chọn tỉnh/thành phố (chỉ hỗ trợ một số tỉnh/thành phố và dữ liệu hiện tại là trước khi sáp nhập)')
+                .setRequired(true)
+                .setAutocomplete(true)
+        )
+        .addStringOption(option =>
+            option.setName('cinema')
+                .setDescription('Chọn rạp chiếu phim')
+                .setRequired(true)
+                .setAutocomplete(true)
+        ),
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -189,6 +206,7 @@ export const commandHandlers = {
     upcoming_movies: upcomingMoviesCommand,
     dictionary: dictionaryCommand,
     help: helpCommand,
+    cgv: cgvCommand,
     //
 };
 

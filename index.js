@@ -3,6 +3,7 @@ import { REST } from '@discordjs/rest';
 import 'dotenv/config';
 
 import { commands, commandHandlers, handleSelection } from './commands/config/config-command.js';
+import { CGVTheater } from './commands/cgv/CGVTheater.js';
 import { replyBot } from './utils/msgReply.js';
 
 const client = new Client({
@@ -69,6 +70,53 @@ client.on('interactionCreate', async interaction => {
                 });
             }
         }
+    }
+
+    // handle autocomplete (dependent options for /cgv)
+    if (interaction.isAutocomplete()) {
+        try {
+            if (interaction.commandName !== 'cgv') return;
+
+            const focusedOption = interaction.options.getFocused(true);
+            const query = (focusedOption?.value || '').toLowerCase();
+
+            // get province
+            if (focusedOption.name === 'province') {
+                const provinces = Object.keys(CGVTheater);
+                const choices = provinces
+                    .filter(provinceName => provinceName.toLowerCase().includes(query))
+                    .slice(0, 25)
+                    .map(provinceName => ({ name: provinceName, value: provinceName }));
+                await interaction.respond(choices);
+                return;
+            }
+
+            // get cinema (filtered by selected province)
+            if (focusedOption.name === 'cinema') {
+                const selectedProvince = interaction.options.getString('province');
+                let cinemaNames = [];
+
+                if (selectedProvince && CGVTheater[selectedProvince]) {
+                    cinemaNames = Object.keys(CGVTheater[selectedProvince]);
+                } else {
+                    cinemaNames = Object.values(CGVTheater).flatMap(
+                        provinceGroup => Object.keys(provinceGroup)
+                    );
+                }
+
+                const choices = cinemaNames
+                    .map(name => name.trim())
+                    .filter(name => name.toLowerCase().includes(query))
+                    .slice(0, 25)
+                    .map(name => ({ name, value: name }));
+
+                await interaction.respond(choices);
+                return;
+            }
+        } catch (error) {
+            console.error('Autocomplete error:', error);
+        }
+        return;
     }
 });
 
