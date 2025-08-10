@@ -11,11 +11,11 @@ import { footballClubCommand } from "../football_club/football_club.js";
 import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
 import { dictionaryCommand } from "../dictionary/dictionary.js";
 import { helpCommand } from "../help/helpCommand.js";
-import { cgvCommand } from "../cgv/cgv.js";
+// import { cgvCommand } from "../cgv/cgv.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
-import { handleSelectionMovieCGV } from "../cgv/handleSelectionMovieCGV.js";
+// import { handleSelectionMovieCGV } from "../cgv/handleSelectionMovieCGV.js";
 // import command do vo day
 
 // add command
@@ -172,21 +172,21 @@ export const commands = [
         .setName('help')
         .setDescription('Hiển thị các command hiện có của bot'),
 
-    new SlashCommandBuilder()
-        .setName('cgv')
-        .setDescription('Hiển thị lịch chiếu phim tại CGV')
-        .addStringOption(option =>
-            option.setName('province')
-                .setDescription('Chọn tỉnh/thành phố (chỉ hỗ trợ một số tỉnh/thành phố và dữ liệu hiện tại là trước khi sáp nhập)')
-                .setRequired(true)
-                .setAutocomplete(true)
-        )
-        .addStringOption(option =>
-            option.setName('cinema')
-                .setDescription('Chọn rạp chiếu phim')
-                .setRequired(true)
-                .setAutocomplete(true)
-        ),
+    // new SlashCommandBuilder()
+    //     .setName('cgv')
+    //     .setDescription('Hiển thị lịch chiếu phim tại CGV')
+    //     .addStringOption(option =>
+    //         option.setName('province')
+    //             .setDescription('Chọn tỉnh/thành phố (chỉ hỗ trợ một số tỉnh/thành phố và dữ liệu hiện tại là trước khi sáp nhập)')
+    //             .setRequired(true)
+    //             .setAutocomplete(true)
+    //     )
+    //     .addStringOption(option =>
+    //         option.setName('cinema')
+    //             .setDescription('Chọn rạp chiếu phim')
+    //             .setRequired(true)
+    //             .setAutocomplete(true)
+    //     ),
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -207,7 +207,7 @@ export const commandHandlers = {
     upcoming_movies: upcomingMoviesCommand,
     dictionary: dictionaryCommand,
     help: helpCommand,
-    cgv: cgvCommand,
+    // cgv: cgvCommand,
     //
 };
 
@@ -215,5 +215,5 @@ export const commandHandlers = {
 export const handleSelection = {
     select_movie: handleMovieSelection,
     select_upcoming_movie: handleUpcomingMovieSelection,
-    select_movie_cgv: handleSelectionMovieCGV
+    // select_movie_cgv: handleSelectionMovieCGV
 }
