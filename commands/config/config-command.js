@@ -15,6 +15,7 @@ import { cgvCommand } from "../cgv/cgv.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
+import { handleSelectionMovieCGV } from "../cgv/handleSelectionMovieCGV.js";
 // import command do vo day
 
 // add command
@@ -213,5 +214,6 @@ export const commandHandlers = {
 // export handle selection from user
 export const handleSelection = {
     select_movie: handleMovieSelection,
-    select_upcoming_movie: handleUpcomingMovieSelection
+    select_upcoming_movie: handleUpcomingMovieSelection,
+    select_movie_cgv: handleSelectionMovieCGV
 }

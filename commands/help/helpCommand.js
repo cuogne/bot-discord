@@ -3,6 +3,7 @@ import { EmbedBuilder } from 'discord.js';
 export async function helpCommand(interaction) {
     const listCommand = {
         '/avatar `[user]`': 'Lấy avatar của người được chọn',
+        '/cgv `[province]` `[cinema]`': 'Xem lịch chiếu phim hôm nay tại CGV',
         '/cinestar `[cinema]`': 'Xem lịch chiếu phim trong ngày tại các rạp Cinestar trên toàn quốc',
         '/date': 'Xem ngày giờ hiện tại (dương lịch và âm lịch)',
         '/dictionary `[text]`': 'Tra cứu từ vựng tiếng Anh',

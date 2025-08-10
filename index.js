@@ -58,6 +58,18 @@ client.on('interactionCreate', async interaction => {
                 });
             }
         }
+        else if (interaction.customId.startsWith('select_movie_cgv')) { // select_movie_cgv|${province}|${cinemaName}
+            const handler = handleSelection['select_movie_cgv'];
+            if (handler) {
+                await handler(interaction);
+            }
+            else {
+                await interaction.reply({
+                    content: 'Invalid selection!',
+                    flags: 64
+                });
+            }
+        }
         else {
             const handler = handleSelection[interaction.customId];
             if (handler) {
