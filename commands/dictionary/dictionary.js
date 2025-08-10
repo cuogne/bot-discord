@@ -95,7 +95,7 @@ export async function dictionaryCommand(interaction) {
 
             const relatedWords = [];
             if (synonyms.length > 0) {
-                relatedWords.push(`• **Synonym:** ${synonyms.join(', ')}`);
+                relatedWords.push(`• **Synonyms:** ${synonyms.join(', ')}`);
             }
             if (antonyms.length > 0) {
                 relatedWords.push(`• **Antonyms:** ${antonyms.join(', ')}`);
