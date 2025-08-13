@@ -10,6 +10,12 @@ import * as path from 'path'
 export async function cgvCommand(interaction) {
     await interaction.deferReply();
 
+    // comment this reply to run command on local 
+    await interaction.editReply({
+        content: 'Command /cgv này không còn hoạt động. Để xem các phim đang chiếu tại CGV, hãy vào link website chính thức của CGV: https://cgv.vn/',
+    });
+    return;
+
     const province = interaction.options.getString('province')          // get province from user
     const cinemaName = interaction.options.getString('cinema')          // get cinema from user
     const dataCinema = CGVTheater[province][cinemaName]                 // get data cinema from CGVTheater
