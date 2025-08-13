@@ -48,7 +48,12 @@ export async function handleMovieSelection(interaction, nameCinema) {
             { name: '📽️ Rạp', value: CINEMA_CONFIG.name, inline: true },
             { name: '🎭 Thể loại', value: selectedMovieDetails[0].genre || 'N/A', inline: true },
             { name: '📝 Ngôn ngữ', value: selectedMovieDetails[0].format_language || 'N/A', inline: true },
-            { name: '📑 Nội dung phim', value: selectedMovieDetails[0].brief || 'N/A' }
+            {
+                name: '📑 Nội dung phim',
+                value: selectedMovieDetails[0].brief.length > 1024 ?
+                    selectedMovieDetails[0].brief.substring(0, 1021) + '...' :
+                    selectedMovieDetails[0].brief || 'N/A'
+            }
         );
 
         let scheduleText = '';
