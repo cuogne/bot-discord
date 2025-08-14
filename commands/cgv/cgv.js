@@ -12,9 +12,10 @@ export async function cgvCommand(interaction) {
 
     // comment this reply to run command on local 
     await interaction.editReply({
-        content: 'Command /cgv này không còn hoạt động. Để xem các phim đang chiếu tại CGV, hãy vào link website chính thức của CGV: https://cgv.vn/',
+        content: 'Command /cgv này không còn hoạt động. Để xem các phim đang chiếu tại CGV, hãy vào link website chính thức của CGV: https://www.cgv.vn/',
     });
     return;
+    // comment
 
     const province = interaction.options.getString('province')          // get province from user
     const cinemaName = interaction.options.getString('cinema')          // get cinema from user

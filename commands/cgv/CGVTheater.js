@@ -1,6 +1,6 @@
 // https://www.cgv.vn/default/api/cinema/list
 export const CGVTheater = {
-    "Hồ Chí Minh": {
+    "Thành phố Hồ Chí Minh": {
         "CGV Menas Mall (CGV CT Plaza)": {
             name: "CGV Menas Mall (CGV CT Plaza)",
             id: "006",
