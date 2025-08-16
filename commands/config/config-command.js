@@ -10,8 +10,9 @@ import { footballTournamentCommand } from "../football_tournament/football_tourn
 import { footballClubCommand } from "../football_club/football_club.js";
 import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
 import { dictionaryCommand } from "../dictionary/dictionary.js";
-import { helpCommand } from "../help/helpCommand.js";
+import { helpCommand } from "./helpCommand.js";
 import { cgvCommand } from "../cgv/cgv.js";
+import { footballScoreCommand } from "../football_score/football_score.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -188,6 +189,10 @@ export const commands = [
                 .setAutocomplete(true)
         ),
 
+    new SlashCommandBuilder()
+        .setName('football_score')
+        .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay')
+
     // new SlashCommandBuilder()
     //     .setName(...)
     //     .setDescription(...)
@@ -208,6 +213,7 @@ export const commandHandlers = {
     dictionary: dictionaryCommand,
     help: helpCommand,
     cgv: cgvCommand,
+    football_score: footballScoreCommand
     //
 };
 

@@ -9,6 +9,7 @@ export async function helpCommand(interaction) {
         '/dictionary `[text]`': 'Tra cứu từ vựng tiếng Anh',
         '/football_club `[club]`': 'Xem lịch thi đấu bóng đá của một số câu lạc bộ châu Âu',
         '/football_tournament `[tournament]`': 'Xem lịch thi đấu bóng đá của các giải đấu châu Âu',
+        '/football_score': 'Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay',
         '/gay `[user]`': 'Lòng tôi tan nát khi nhận ra tôi là ...',
         '/help': 'Hiển thị các thông tin cơ bản về bot cũng như command',
         '/random `[one, two, three, ...]`': 'Trả về một kết quả ngẫu nhiên từ danh sách được nhập vào ngăn cách nhau bởi dấu phẩy',
