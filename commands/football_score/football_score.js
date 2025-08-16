@@ -8,6 +8,21 @@ const TOURNAMENTS = {
     'fra.1': { name: 'Ligue 1', flag: '🇫🇷' },
 };
 
+function formatDate(date) {
+    const newDate = new Date(date);
+    const dayObj = newDate.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }).split('/');
+    const day = `${dayObj[0].padStart(2, '0')}/${dayObj[1].padStart(2, '0')}/${dayObj[2]}`;
+
+    const hour = newDate.toLocaleTimeString('vi-VN', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Ho_Chi_Minh'
+    }); // hh:mm
+
+    return { day, hour };
+}
+
 export async function footballScoreCommand(interaction) {
     await interaction.deferReply();
 
@@ -39,29 +54,17 @@ export async function footballScoreCommand(interaction) {
             }
 
             for (const event of data.events) {
-                const matchDateUTC = new Date(event.date);
-                const dayMatchVN = matchDateUTC.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }); // dd/mm/yyyy
-                const hourMatchVN = matchDateUTC.toLocaleTimeString('vi-VN', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                    timeZone: 'Asia/Ho_Chi_Minh'
-                }); // hh:mm
+                // Thời gian của trận đấu theo giờ VN
+                const { day: dayMatchVN, hour: hourMatchVN } = formatDate(event.date);
 
-                const currentDate = new Date().toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-                const currentHour = new Date().toLocaleTimeString('vi-VN', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                    timeZone: 'Asia/Ho_Chi_Minh'
-                });
+                // thời gian kết thúc của trận đấu (giờ đá + 2h)
+                const endMatchDate = new Date(event.date);
+                endMatchDate.setHours(endMatchDate.getHours() + 2);
 
-                if (currentDate < dayMatchVN || (currentDate === dayMatchVN && currentHour < hourMatchVN)) {
-                    /*
-                    Trận cùng ngày chưa diễn ra hoặc trận đấu của ngày hôm sau 
-                    (02h00 16/8 và 22h00 16/8 => trận 22h chưa đá nếu hiện tại là 15h00)
-                    Do giờ đá trong lịch theo giờ nước anh nên khi chuyển đổi sang giờ VN sẽ có vài trận bị lệch ngày
-                    */
+                // thời gian hiện tại
+                const now = new Date();
+
+                if (now < endMatchDate) {
                     continue;
                 }
 
