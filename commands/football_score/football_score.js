@@ -23,6 +23,30 @@ function formatDate(date) {
     return { day, hour };
 }
 
+function formatMatchScore(homeTeam, scoreHome, scoreAway, awayTeam) {
+    const teamMaxLength = 22; // độ dài tối đa tên đội
+    const scoreLength = 7;
+
+    const homeShort = homeTeam.length > teamMaxLength
+        ? homeTeam.substring(0, teamMaxLength - 2) + '..'
+        : homeTeam;
+
+    const awayShort = awayTeam.length > teamMaxLength
+        ? awayTeam.substring(0, teamMaxLength - 2) + '..'
+        : awayTeam;
+
+    const homePadded = homeShort.padEnd(teamMaxLength);
+
+    const rawScore = `${scoreHome} - ${scoreAway}`;
+    const score = rawScore
+        .padStart(Math.floor((scoreLength + rawScore.length) / 2))
+        .padEnd(scoreLength);
+
+    const awayPadded = awayShort.padEnd(teamMaxLength);
+
+    return `\`${homePadded} ${score} ${awayPadded}\``;
+}
+
 export async function footballScoreCommand(interaction) {
     await interaction.deferReply();
 
@@ -96,7 +120,7 @@ export async function footballScoreCommand(interaction) {
 
             // Format: {Manchester United 1000 - 0 Manchester City}
             matchesByTournament[tournamentCode].push(
-                `**${match.homeTeam}** ${match.scoreHome} - ${match.scoreAway} **${match.awayTeam}**`
+                formatMatchScore(match.homeTeam, match.scoreHome, match.scoreAway, match.awayTeam)
             );
         }
 
@@ -112,7 +136,7 @@ export async function footballScoreCommand(interaction) {
         await interaction.editReply({
             embeds: [
                 {
-                    title: '⚽ Tỉ số ⚽',
+                    title: `⚽ Tỉ số các trận đấu đêm qua và rạng sáng nay ⚽`,
                     color: 0x0099ff,
                     fields,
                     footer: {
