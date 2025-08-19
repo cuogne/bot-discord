@@ -124,6 +124,11 @@ export async function footballScoreCommand(interaction) {
             );
         }
 
+        if (Object.keys(matchesByTournament).length === 0) {
+            await interaction.editReply('Không có trận đấu nào trong tối qua hoặc rạng sáng nay.');
+            return;
+        }
+
         const fields = [];
         for (const tournamentCode in matchesByTournament) {
             fields.push({
