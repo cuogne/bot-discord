@@ -1,4 +1,7 @@
 import { latestSubCommand } from './subcommand/latestSubCommand.js'
+import { setupChannelSubCommand } from './subcommand/setupChannelSubCommand.js'
+import { statusChannelSubCommand } from "./subcommand/statusChannelSubCommand.js";
+import { removeChannelSubCommand } from "./subcommand/removeChannelSubCommand.js";
 
 export async function fitNewsCommand(interaction) {
     const subcommand = interaction.options.getSubcommand();
@@ -8,17 +11,17 @@ export async function fitNewsCommand(interaction) {
             await latestSubCommand(interaction);
             break;
 
-        // case 'setup':
-        //     await handleSetupChannel(interaction);
-        //     break;
+        case 'setup':
+            await setupChannelSubCommand(interaction);
+            break;
 
-        // case 'remove':
-        //     await handleRemoveChannel(interaction);
-        //     break;
+        case 'remove':
+            await removeChannelSubCommand(interaction);
+            break;
 
-        // case 'status':
-        //     await handleStatusChannel(interaction);
-        //     break;
+        case 'status':
+            await statusChannelSubCommand(interaction);
+            break;
 
         default:
             await interaction.reply({
