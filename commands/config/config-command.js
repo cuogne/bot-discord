@@ -13,6 +13,7 @@ import { dictionaryCommand } from "../dictionary/dictionary.js";
 import { helpCommand } from "./helpCommand.js";
 import { cgvCommand } from "../cgv/cgv.js";
 import { footballScoreCommand } from "../football_score/football_score.js";
+import { getLatestNews } from '../fit-hcmus-news/fitNewsCommand.js';
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -191,7 +192,11 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('football_score')
-        .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay')
+        .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay'),
+
+    new SlashCommandBuilder()
+        .setName('fit-hcmus-news')
+        .setDescription('Xem tin tức mới nhất từ FIT HCMUS'),
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -213,7 +218,8 @@ export const commandHandlers = {
     dictionary: dictionaryCommand,
     help: helpCommand,
     cgv: cgvCommand,
-    football_score: footballScoreCommand
+    football_score: footballScoreCommand,
+    'fit-hcmus-news': getLatestNews
     //
 };
 
