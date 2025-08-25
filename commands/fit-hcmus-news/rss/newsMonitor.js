@@ -35,5 +35,5 @@ export function NewsMonitor(client) {
         } catch (error) {
             console.error('Lỗi khi lấy tin mới nhất:', error);
         }
-    }, 1000 * 60 * 30);
+    }, 1000 * 60 * 10);
 }
