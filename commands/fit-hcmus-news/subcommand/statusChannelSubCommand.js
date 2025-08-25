@@ -1,4 +1,4 @@
-import { loadConfig } from "./utils/loadConfig.js"; // Fix: ../ thay vì ./
+import { loadConfig } from "./utils/loadConfig.js";
 
 export async function statusChannelSubCommand(interaction) {
     await interaction.deferReply();
@@ -35,7 +35,7 @@ export async function statusChannelSubCommand(interaction) {
                 color: 0x00ff00,
                 fields: [
                     {
-                        name: "📍 Kênh được chọn",
+                        name: "📍 Kênh được chọn nhận thông báo",
                         value: channel ? `${channel} (#${channel.name})` : `#${serverConfig.channelName} *(có thể đã bị xóa)*`,
                         inline: false
                     },
