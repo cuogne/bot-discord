@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const CONFIG_FILE = './commands/fit-hcmus-news/data/news-config.json';
+const CONFIG_FILE = './commands/fit-hcmus-news/config-channel/news-config.json';
 
 export function loadConfig() {
     try {
