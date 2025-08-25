@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, ChannelType } from "discord.js";
 import { dateCommand } from '../date/date.js';
 import { getAvatarCommand } from '../getAvt/getAvt.js';
 import { lookUpSBDCommand } from '../diemthptqg2025/crawlScore.js'
@@ -13,6 +13,7 @@ import { dictionaryCommand } from "../dictionary/dictionary.js";
 import { helpCommand } from "./helpCommand.js";
 import { cgvCommand } from "../cgv/cgv.js";
 import { footballScoreCommand } from "../football_score/football_score.js";
+import { fitNewsCommand } from '../fit-hcmus-news/fitNewsCommand.js';
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -191,7 +192,37 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('football_score')
-        .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay')
+        .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay'),
+
+    new SlashCommandBuilder()
+        .setName('fit-hcmus-news')
+        .setDescription('Xem tin tức mới nhất từ FIT HCMUS')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('latest')
+                .setDescription('Lấy tin gần nhất')
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('setup')
+                .setDescription('Cấu hình channel để lấy tin tức')
+                .addChannelOption(option =>
+                    option.setName('channel')
+                        .setDescription('Chọn channel để gửi tin mới nhất')
+                        .setRequired(true)
+                        .addChannelTypes(ChannelType.GuildText)
+                )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('status')
+                .setDescription('Hiển thị channel đã chọn để gửi tin tức')
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('remove')
+                .setDescription('Xóa channel đã cấu hình')
+        ),
 
     // new SlashCommandBuilder()
     //     .setName(...)
@@ -213,7 +244,8 @@ export const commandHandlers = {
     dictionary: dictionaryCommand,
     help: helpCommand,
     cgv: cgvCommand,
-    football_score: footballScoreCommand
+    football_score: footballScoreCommand,
+    'fit-hcmus-news': fitNewsCommand,
     //
 };
 
