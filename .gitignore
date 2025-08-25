@@ -4,4 +4,4 @@ config.json
 .DS_Store
 commands/lichchieuphim/data/*.json
 commands/cgv/data/*.json
-commands/fit-hcmus-news/data/*.json
+commands/fit-hcmus-news/config-channel/*.json
