@@ -3,7 +3,7 @@ import { saveConfig } from "./utils/saveConfig.js";
 import { PermissionsBitField } from 'discord.js';
 
 export async function removeChannelSubCommand(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
         // Kiểm tra quyền user
@@ -28,7 +28,8 @@ export async function removeChannelSubCommand(interaction) {
                     title: "⚠️ Chưa có setup",
                     description: "Chưa setup mà remove gì ;-;",
                     color: 0xffaa00,
-                }]
+                }],
+                ephemeral: true
             });
             return;
         }
@@ -45,7 +46,8 @@ export async function removeChannelSubCommand(interaction) {
                     title: "❌ Lỗi hệ thống",
                     description: "Không thể xóa cấu hình. Vui lòng thử lại sau.",
                     color: 0xff0000
-                }]
+                }],
+                ephemeral: true
             });
             return;
         }
@@ -56,14 +58,15 @@ export async function removeChannelSubCommand(interaction) {
                 description: `Kênh ${channelDisplay} đã được xóa khỏi danh sách nhận tin tức tự động.`,
                 color: 0xff9900,
                 timestamp: new Date().toISOString()
-            }]
+            }],
+            ephemeral: true
         });
 
         if (channel) {
             try {
                 await channel.send({
                     embeds: [{
-                        title: "👋 Tạm biệt!",
+                        title: "👋 Thông báo!",
                         description: "Kênh này đã được xóa khỏi danh sách nhận tin tức tự động từ **FIT-HCMUS**.",
                         color: 0xff9900,
                         fields: [

@@ -1,7 +1,7 @@
 import { loadConfig } from "./utils/loadConfig.js";
 
 export async function statusChannelSubCommand(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     try {
         const config = loadConfig();
@@ -21,7 +21,8 @@ export async function statusChannelSubCommand(interaction) {
                             inline: false
                         }
                     ]
-                }]
+                }],
+                ephemeral: true
             });
             return;
         }
@@ -50,7 +51,8 @@ export async function statusChannelSubCommand(interaction) {
                         inline: false
                     }
                 ]
-            }]
+            }],
+            ephemeral: true
         });
 
     } catch (error) {

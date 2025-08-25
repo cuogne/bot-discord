@@ -3,7 +3,7 @@ import { saveConfig } from './utils/saveConfig.js';
 import { ChannelType, PermissionsBitField } from 'discord.js';
 
 export async function setupChannelSubCommand(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const selectedChannel = interaction.options.getChannel('channel');  // lay kenh tu option
     const targetChannel = selectedChannel || interaction.channel;       // lay kenh hien tai
 
@@ -14,7 +14,8 @@ export async function setupChannelSubCommand(interaction) {
                 title: "❌ Không có quyền",
                 description: "Bạn cần quyền **Manage Channels** để thiết lập kênh tin tức.",
                 color: 0xff0000
-            }]
+            }],
+            ephemeral: true
         });
         return;
     }
@@ -26,7 +27,8 @@ export async function setupChannelSubCommand(interaction) {
                 title: "❌ Loại kênh không hợp lệ",
                 description: "Chỉ có thể thiết lập tin tức cho **text channel**.",
                 color: 0xff0000
-            }]
+            }],
+            ephemeral: true
         });
         return;
     }
@@ -43,37 +45,38 @@ export async function setupChannelSubCommand(interaction) {
                 title: "❌ Bot không có quyền",
                 description: `Bot cần quyền **Send Messages** và **Embed Links** trong kênh ${targetChannel}.`,
                 color: 0xff0000
-            }]
+            }],
+            ephemeral: true
         });
         return;
     }
 
-    // Load config hiện tại
     const config = loadConfig();
 
-    // Kiểm tra xem server này đã có kênh setup chưa
+    // check coi server nay da co channel setup chua
     const guildId = interaction.guildId;
     const existingChannel = config.servers[guildId];
 
     if (existingChannel && existingChannel.channelId === targetChannel.id) {
         await interaction.editReply({
             embeds: [{
-                title: "⚠️ Kênh đã được thiết lập",
-                description: `Kênh ${targetChannel} đã được thiết lập để nhận tin tức từ trước.`,
+                title: "⚠️ Kênh đã được Setup",
+                description: `Kênh ${targetChannel} đã được setup để nhận tin tức từ trước.`,
                 color: 0xffaa00,
                 fields: [
                     {
-                        name: "📅 Thiết lập lúc",
+                        name: "📅 Setup lúc",
                         value: `<t:${Math.floor(new Date(existingChannel.setupAt).getTime() / 1000)}:R>`,
                         inline: true
                     },
                     {
-                        name: "👤 Thiết lập bởi",
+                        name: "👤 Setup bởi",
                         value: `<@${existingChannel.setupBy}>`,
                         inline: true
                     }
                 ]
-            }]
+            }],
+            ephemeral: true
         });
         return;
     }
@@ -124,7 +127,8 @@ export async function setupChannelSubCommand(interaction) {
                     inline: true
                 }
             ]
-        }]
+        }],
+        ephemeral: true
     });
 
     try {

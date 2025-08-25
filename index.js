@@ -3,6 +3,7 @@ import { REST } from '@discordjs/rest';
 import 'dotenv/config';
 
 import { commands, commandHandlers, handleSelection } from './commands/config/config-command.js';
+import { NewsMonitor } from './commands/fit-hcmus-news/rss/newsMonitor.js';
 import { CGVTheater } from './commands/cgv/CGVTheater.js';
 import { replyBot } from './utils/msgReply.js';
 
@@ -24,6 +25,8 @@ client.once('ready', async () => {
         body: commands
     });
     console.log('Slash commands are ready!');
+
+    NewsMonitor(client);
 });
 
 // handle interactions
