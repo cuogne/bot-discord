@@ -1,9 +1,12 @@
 import { parseStringPromise } from 'xml2js';
 
 export async function getLatestNews() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000); // timeout 15s
+
     try {
         const link = 'https://www.fit.hcmus.edu.vn/vn/feed.aspx';
-        const response = await fetch(link);
+        const response = await fetch(link, { signal: controller.signal });
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -25,5 +28,7 @@ export async function getLatestNews() {
     } catch (error) {
         console.error('Error fetching latest news:', error);
         throw error;
+    } finally {
+        clearTimeout(timeout);
     }
 }

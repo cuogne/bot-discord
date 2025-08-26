@@ -26,7 +26,7 @@ client.once('ready', async () => {
     });
     console.log('Slash commands are ready!');
 
-    // NewsMonitor(client);
+    NewsMonitor(client);
 });
 
 // handle interactions
