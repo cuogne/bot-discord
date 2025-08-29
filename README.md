@@ -20,6 +20,8 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/football_club` | `<club>` | Xem lịch thi đấu cụ thể của các câu lạc bộ bóng đá | `/football_club Manchester United` |
 | `/dictionary` | `<word>` | Tra cứu từ vụng tiếng Anh trong từ điển | `/dictionary care` |
 | `/help` | *(không có)* | Hiển thị danh sách các lệnh có sẵn và còn hoạt động | `/help` |
+| `/football_score` | *(không có)* | Xem tỷ số bóng đá của các trận đấu đêm qua và rạng sáng nay | `/football_score` |
+| `/fit-hcmus-news` | `setup\|latest\|status\|remove` | Nhận thông báo tin tức FIT-HCMUS | [Hướng dẫn chi tiết tại đây](commands/fit-hcmus-news/INSTRUCTION.md) |
 | ~~`/cgv`~~ | ~~`<province>` `<cinema>`~~ | ~~Xem lịch chiếu phim tại CGV~~ | ~~`/cgv TP.HCM CGV Vincom Đồng Khởi`~~|
 
 > `/cgv` không còn hoạt động vì không chạy được trên cloud host
@@ -35,6 +37,7 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 4. Click vào "OAuth2" và chọn các quyền cần thiết:
     - `Send Messages`
     - `Read Message History`
+    - ...
 5. Tạo URL mời bot vào server của bạn với các quyền đã chọn
 
 ### Setup Code
