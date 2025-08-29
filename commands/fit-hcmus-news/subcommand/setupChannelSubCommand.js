@@ -7,7 +7,6 @@ export async function setupChannelSubCommand(interaction) {
     const selectedChannel = interaction.options.getChannel('channel');  // lay kenh tu option
     const targetChannel = selectedChannel || interaction.channel;       // lay kenh hien tai
 
-    // Kiểm tra quyền của user gọi lệnh
     if (!interaction.memberPermissions.has(PermissionsBitField.Flags.ManageChannels)) {
         await interaction.editReply({
             embeds: [{
@@ -51,13 +50,10 @@ export async function setupChannelSubCommand(interaction) {
         return;
     }
 
-    const config = loadConfig();
-
-    // check coi server nay da co channel setup chua
     const guildId = interaction.guildId;
-    const existingChannel = config.servers[guildId];
+    const existing = await loadConfig(guildId);
 
-    if (existingChannel && existingChannel.channelId === targetChannel.id) {
+    if (existing && existing.channelId === targetChannel.id) {
         await interaction.editReply({
             embeds: [{
                 title: "⚠️ Kênh đã được Setup",
@@ -66,12 +62,12 @@ export async function setupChannelSubCommand(interaction) {
                 fields: [
                     {
                         name: "📅 Setup lúc",
-                        value: `<t:${Math.floor(new Date(existingChannel.setupAt).getTime() / 1000)}:R>`,
+                        value: `<t:${Math.floor(new Date(existing.setupAt).getTime() / 1000)}:R>`,
                         inline: true
                     },
                     {
                         name: "👤 Setup bởi",
-                        value: `<@${existingChannel.setupBy}>`,
+                        value: `<@${existing.setupBy}>`,
                         inline: true
                     }
                 ]
@@ -81,8 +77,7 @@ export async function setupChannelSubCommand(interaction) {
         return;
     }
 
-    // Lưu config mới
-    config.servers[guildId] = {
+    const data = {
         channelId: targetChannel.id,
         channelName: targetChannel.name,
         guildName: interaction.guild.name,
@@ -91,8 +86,7 @@ export async function setupChannelSubCommand(interaction) {
         isActive: true
     };
 
-    const saved = saveConfig(config);
-
+    const saved = await saveConfig(guildId, data);
     if (!saved) {
         await interaction.editReply({
             embeds: [{

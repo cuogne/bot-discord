@@ -1,5 +1,5 @@
 import { loadConfig } from "./utils/loadConfig.js";
-import { saveConfig } from "./utils/saveConfig.js";
+import { removeConfig } from "./utils/removeConfig.js";
 import { PermissionsBitField } from 'discord.js';
 
 export async function removeChannelSubCommand(interaction) {
@@ -9,18 +9,13 @@ export async function removeChannelSubCommand(interaction) {
         // Kiểm tra quyền user
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
             await interaction.editReply({
-                embeds: [{
-                    title: "❌ Không có quyền",
-                    description: "Bạn cần quyền **Manage Channels** để xóa setup kênh tin tức.",
-                    color: 0xff0000,
-                }]
+                embeds: [{ title: "❌ Không có quyền", description: "Bạn cần quyền **Manage Channels** để xóa setup kênh tin tức.", color: 0xff0000 }]
             });
             return;
         }
 
-        const config = loadConfig();
         const guildId = interaction.guildId;
-        const serverConfig = config.servers[guildId];
+        const serverConfig = await loadConfig(guildId);
 
         if (!serverConfig) {
             await interaction.editReply({
@@ -37,10 +32,8 @@ export async function removeChannelSubCommand(interaction) {
         const channel = interaction.guild.channels.cache.get(serverConfig.channelId);
         const channelDisplay = channel ? `${channel} (#${channel.name})` : `#${serverConfig.channelName}`;
 
-        delete config.servers[guildId]; // xóa khỏi config
-        const saved = saveConfig(config);
-
-        if (!saved) {
+        const ok = await removeConfig(guildId);
+        if (!ok) {
             await interaction.editReply({
                 embeds: [{
                     title: "❌ Lỗi hệ thống",

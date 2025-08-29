@@ -3,9 +3,12 @@ import { REST } from '@discordjs/rest';
 import 'dotenv/config';
 
 import { commands, commandHandlers, handleSelection } from './commands/config/config-command.js';
-import { NewsMonitor } from './commands/fit-hcmus-news/rss/newsMonitor.js';
 import { CGVTheater } from './commands/cgv/CGVTheater.js';
 import { replyBot } from './utils/msgReply.js';
+
+// for fit-hcmus-news
+import { connectMongoDB } from "./commands/fit-hcmus-news/db/connect.js";
+import { NewsMonitor } from './commands/fit-hcmus-news/rss/newsMonitor.js';
 
 const client = new Client({
     intents: [
@@ -26,6 +29,8 @@ client.once('ready', async () => {
     });
     console.log('Slash commands are ready!');
 
+    // for fit-hcmus-news
+    await connectMongoDB();
     NewsMonitor(client);
 });
 
@@ -137,11 +142,6 @@ client.on('interactionCreate', async interaction => {
 
 client.on('messageCreate', message => {
     if (message.author.bot) return; // bo qua chat cua bot
-
-    // if (message.content.toLowerCase() === 'hello') {
-    //     message.reply('Lo con cac tao');
-    //     message.react('😀');
-    // }
 
     // mention bot
     if (message.mentions.has(client.user)) {

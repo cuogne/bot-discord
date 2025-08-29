@@ -1,6 +1,6 @@
 import { getLatestNews } from './getLatestNews.js';
-import { loadConfig } from '../subcommand/utils/loadConfig.js';
 import { ChannelType } from 'discord.js';
+import schema from '../db/schema.js';
 
 let lastSentTitle = null;
 
@@ -12,13 +12,13 @@ export function NewsMonitor(client) {
 
             lastSentTitle = news.title;
 
-            const config = loadConfig();
-            if (!config.servers) return;
+            const configs = await schema.find({ isActive: true }).lean();
 
-            for (const guildId in config.servers) {
-                const serverConfig = config.servers[guildId];
-                const channelId = serverConfig.channelId;
-                if (!channelId) continue;
+            for (const cfg of configs) {
+                const guildId = cfg.guildId;
+                const channelId = cfg.channelId;
+
+                if (!guildId || !channelId) continue;
 
                 const guild = client.guilds.cache.get(guildId);
                 if (!guild) continue;

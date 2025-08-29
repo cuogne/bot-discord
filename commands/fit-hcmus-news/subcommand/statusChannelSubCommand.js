@@ -4,9 +4,8 @@ export async function statusChannelSubCommand(interaction) {
     await interaction.deferReply({ ephemeral: true });
 
     try {
-        const config = loadConfig();
         const guildId = interaction.guildId;
-        const serverConfig = config.servers[guildId];
+        const serverConfig = await loadConfig(guildId);
 
         if (!serverConfig) {
             await interaction.editReply({
