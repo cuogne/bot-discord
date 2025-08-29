@@ -7,6 +7,7 @@ export async function helpCommand(interaction) {
         '/cinestar `[cinema]`': 'Xem lịch chiếu phim trong ngày tại các rạp Cinestar trên toàn quốc',
         '/date': 'Xem ngày giờ hiện tại (dương lịch và âm lịch)',
         '/dictionary `[text]`': 'Tra cứu từ vựng tiếng Anh',
+        '/fit-hcmus-news `[setup | latest | status | remove]`': 'Nhận thông báo tin tức mới nhất từ FIT-HCMUS',
         '/football_club `[club]`': 'Xem lịch thi đấu bóng đá của một số câu lạc bộ châu Âu',
         '/football_tournament `[tournament]`': 'Xem lịch thi đấu bóng đá của các giải đấu châu Âu',
         '/football_score': 'Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay',
