@@ -6,6 +6,8 @@ const TOURNAMENTS = {
     'ger.1': { name: 'Bundesliga', flag: '🇩🇪' },
     'ita.1': { name: 'Serie A', flag: '🇮🇹' },
     'fra.1': { name: 'Ligue 1', flag: '🇫🇷' },
+    'uefa.champions': { name: 'UEFA Champions League', flag: '🏆' },
+    'uefa.europa': { name: 'UEFA Europa League', flag: '🏆' }
 };
 
 function formatDate(date) {
