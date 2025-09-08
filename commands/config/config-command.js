@@ -14,6 +14,7 @@ import { helpCommand } from "./helpCommand.js";
 import { cgvCommand } from "../cgv/cgv.js";
 import { footballScoreCommand } from "../football_score/football_score.js";
 import { fitNewsCommand } from '../fit-hcmus-news/fitNewsCommand.js';
+import { getImageCommand } from "../getImage/getImageCommand.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -223,6 +224,20 @@ export const commands = [
                 .setName('remove')
                 .setDescription('Xóa channel đã cấu hình')
         ),
+
+    new SlashCommandBuilder()
+        .setName('image')
+        .setDescription("Trả về ảnh ngẫu nhiên")
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('cat')
+                .setDescription('Xem ảnh mèo ngẫu nhiên')
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('dog')
+                .setDescription('Xem ảnh chó ngẫu nhiên')
+        ),
 ];
 
 // export command
@@ -242,6 +257,7 @@ export const commandHandlers = {
     cgv: cgvCommand,
     football_score: footballScoreCommand,
     'fit-hcmus-news': fitNewsCommand,
+    image: getImageCommand,
 };
 
 // export handle selection from user
