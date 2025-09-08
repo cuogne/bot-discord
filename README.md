@@ -22,6 +22,7 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/help` | *(không có)* | Hiển thị danh sách các lệnh có sẵn và còn hoạt động | `/help` |
 | `/football_score` | *(không có)* | Xem tỷ số bóng đá của các trận đấu đêm qua và rạng sáng nay | `/football_score` |
 | `/fit-hcmus-news` | `setup\|latest\|status\|remove` | Nhận thông báo tin tức FIT-HCMUS | [Hướng dẫn chi tiết tại đây](commands/fit-hcmus-news/INSTRUCTION.md) |
+| `/image` | `<dog \| cat>` | Gửi hình ảnh ngẫu nhiên về chó hoặc mèo | `/image dog` |
 | ~~`/cgv`~~ | ~~`<province>` `<cinema>`~~ | ~~Xem lịch chiếu phim tại CGV~~ | ~~`/cgv TP.HCM CGV Vincom Đồng Khởi`~~|
 
 > `/cgv` không còn hoạt động vì không chạy được trên cloud host
