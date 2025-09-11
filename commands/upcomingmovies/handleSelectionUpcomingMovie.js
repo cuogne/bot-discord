@@ -1,12 +1,14 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { formatDayVN } from './formatDayVN.js';
+import { getApiCinestar } from '../../utils/getApiCinestar.js';
 
 export async function handleUpcomingMovieSelection(interaction) {
     await interaction.deferReply();
     const idx = interaction.values[0] // index of upcoming movie
 
     try {
-        const response = await fetch('https://cinestar.com.vn/_next/data/jZniZUx-s1ODigQHrqyik/index.json');
+        const api = await getApiCinestar();
+        const response = await fetch(api);
         const data = await response.json();
         const selectedMovie = data.pageProps.res.listComingMovie[idx];
 

@@ -1,10 +1,11 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } from 'discord.js';
 import { formatDayVN } from './formatDayVN.js';
+import { getApiCinestar } from '../../utils/getApiCinestar.js';
 
 export async function upcomingMoviesCommand(interaction) {
     await interaction.deferReply();
 
-    const api = 'https://cinestar.com.vn/_next/data/jZniZUx-s1ODigQHrqyik/index.json'
+    const api = await getApiCinestar();
 
     try {
         const response = await fetch(api);
