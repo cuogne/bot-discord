@@ -1,8 +1,9 @@
 import { CINEMA } from "./constants.js"
 import { setFileName } from "./utils/setFileName.js"
 import { getCurrentDate } from "./utils/getCurrentDate.js"
+import { getApiCinestar } from "../../utils/getApiCinestar.js"
 
-export const linkAPIAllMovies = 'https://cinestar.com.vn/_next/data/zjibbkSvABB36IGGCTn3A/index.json'
+export const linkAPIAllMovies = await getApiCinestar()
 
 export function getCinemaConfig(cinema) {
     return CINEMA.id_MovieTheater[cinema]
