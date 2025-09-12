@@ -13,6 +13,8 @@ const schema = new mongoose.Schema({
     setupBy: String, // người setup
     setupAt: String, // thời gian setup
     isActive: Boolean, // trạng thái
+    lastSentTitle: { type: String, default: null },
+    lastSentAt: { type: Date, default: null }
 });
 
 export default mongoose.model("ServerConfig", schema);
