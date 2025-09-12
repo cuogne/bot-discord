@@ -15,6 +15,7 @@ import { cgvCommand } from "../cgv/cgv.js";
 import { footballScoreCommand } from "../football_score/football_score.js";
 import { fitNewsCommand } from '../fit-hcmus-news/fitNewsCommand.js';
 import { getImageCommand } from "../getImage/getImageCommand.js";
+import { groqCommand } from "../groqAI/groqCommand.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -238,6 +239,15 @@ export const commands = [
                 .setName('dog')
                 .setDescription('Xem ảnh chó ngẫu nhiên')
         ),
+    
+    new SlashCommandBuilder()
+        .setName('ai')
+        .setDescription('Chat với AI (Groq)')
+        .addStringOption(option =>
+            option.setName('prompt')
+                .setDescription('Nhập câu hỏi hoặc yêu cầu của bạn')
+                .setRequired(true)
+        ),
 ];
 
 // export command
@@ -258,6 +268,7 @@ export const commandHandlers = {
     football_score: footballScoreCommand,
     'fit-hcmus-news': fitNewsCommand,
     image: getImageCommand,
+    ai: groqCommand,
 };
 
 // export handle selection from user
