@@ -1,4 +1,6 @@
-import { getTodayAndYesterday } from "./getTodayAndYesterday.js";
+import { getTodayAndYesterday } from "../utils/getTodayAndYesterday.js";
+import { getDayAndHour } from "../utils/getDayAndHour.js";
+import { formatMatchScore } from "../utils/formatMatchScore.js";
 
 const TOURNAMENTS = {
     'eng.1': { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
@@ -9,45 +11,6 @@ const TOURNAMENTS = {
     'uefa.champions': { name: 'UEFA Champions League', flag: '🏆' },
     'uefa.europa': { name: 'UEFA Europa League', flag: '🏆' }
 };
-
-function formatDate(date) {
-    const newDate = new Date(date);
-    const dayObj = newDate.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }).split('/');
-    const day = `${dayObj[0].padStart(2, '0')}/${dayObj[1].padStart(2, '0')}/${dayObj[2]}`;
-
-    const hour = newDate.toLocaleTimeString('vi-VN', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'Asia/Ho_Chi_Minh'
-    }); // hh:mm
-
-    return { day, hour };
-}
-
-function formatMatchScore(homeTeam, scoreHome, scoreAway, awayTeam) {
-    const teamMaxLength = 22; // độ dài tối đa tên đội
-    const scoreLength = 7;
-
-    const homeShort = homeTeam.length > teamMaxLength
-        ? homeTeam.substring(0, teamMaxLength - 2) + '..'
-        : homeTeam;
-
-    const awayShort = awayTeam.length > teamMaxLength
-        ? awayTeam.substring(0, teamMaxLength - 2) + '..'
-        : awayTeam;
-
-    const homePadded = homeShort.padEnd(teamMaxLength);
-
-    const rawScore = `${scoreHome} - ${scoreAway}`;
-    const score = rawScore
-        .padStart(Math.floor((scoreLength + rawScore.length) / 2))
-        .padEnd(scoreLength);
-
-    const awayPadded = awayShort.padEnd(teamMaxLength);
-
-    return `\`${homePadded} ${score} ${awayPadded}\``;
-}
 
 export async function footballScoreCommand(interaction) {
     await interaction.deferReply();
@@ -81,7 +44,7 @@ export async function footballScoreCommand(interaction) {
 
             for (const event of data.events) {
                 // Thời gian của trận đấu theo giờ VN
-                const { day: dayMatchVN, hour: hourMatchVN } = formatDate(event.date);
+                const { day: dayMatchVN, hour: hourMatchVN } = getDayAndHour(event.date);
 
                 // thời gian kết thúc của trận đấu (giờ đá + 2h)
                 const endMatchDate = new Date(event.date);

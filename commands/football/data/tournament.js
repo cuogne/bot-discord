@@ -1,4 +1,4 @@
-export const football = {
+export const tournaments = {
     'eng.1': {
         name: 'Premier League',
         img: 'https://images.seeklogo.com/logo-png/28/1/premier-league-new-logo-png_seeklogo-286461.png'

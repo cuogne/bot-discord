@@ -1,13 +1,13 @@
-import { football } from "./constant.js";
-import { separateDate } from "./utils/separateDate.js";
-import { formatDayWithoutSeperator } from "./utils/formatDayWithoutSeperate.js";
-import { getCalendarFromAPI } from "./utils/getCalendarFromAPI.js";
+import { tournaments } from "../data/tournament.js";
+import { separateDate } from "../utils/separateDate.js";
+import { formatDayWithoutSeperator } from "../utils/formatDayWithoutSeperate.js";
+import { getCalendarFromAPI } from "../utils/getCalendarFromAPI.js";
 
 export async function footballTournamentCommand(interaction) {
     await interaction.deferReply();
 
     const tournament = interaction.options.getString('tournament'); // get option from user
-    const linkImg = football[tournament].img; // get link image
+    const linkImg = tournaments[tournament].img; // get link image
     const link = `http://site.api.espn.com/apis/site/v2/sports/soccer/${tournament}/scoreboard`;
 
     try {
@@ -108,7 +108,7 @@ export async function footballTournamentCommand(interaction) {
         await interaction.editReply({
             embeds: [
                 {
-                    title: `⚽ Lịch thi đấu ${football[tournament].name} ⚽`,
+                    title: `⚽ Lịch thi đấu ${tournaments[tournament].name} ⚽`,
                     color: 0x0099ff,
                     fields,
                     thumbnail: {

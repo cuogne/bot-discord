@@ -1,9 +1,5 @@
-import { club } from "./constant.js";
-
-function separateDate(date) {
-    const [year, month, day] = date.split('-')
-    return `${day}-${month}-${year}`
-}
+import { club } from "../data/club.js";
+import { separateDate } from "../utils/separateDate.js";
 
 export async function footballClubCommand(interaction) {
     await interaction.deferReply();
