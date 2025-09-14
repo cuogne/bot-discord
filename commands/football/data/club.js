@@ -19,6 +19,10 @@ export const club = {
         name: 'Arsenal',
         linkImg: 'https://images.seeklogo.com/logo-png/18/1/arsenal-fc-logo-png_seeklogo-182664.png'
     },
+    '367': {
+        name: 'Tottenham Hotspur',
+        linkImg: 'https://images.seeklogo.com/logo-png/14/1/tottenham-hotspur-logo-png_seeklogo-141268.png'
+    },
     '86': {
         name: 'Real Madrid',
         linkImg: 'https://images.seeklogo.com/logo-png/19/1/real-madrid-club-crest-new-logo-png_seeklogo-198142.png'

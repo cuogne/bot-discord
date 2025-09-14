@@ -1,4 +1,4 @@
-export const football = {
+export const tournaments = {
     'eng.1': {
         name: 'Premier League',
         img: 'https://images.seeklogo.com/logo-png/28/1/premier-league-new-logo-png_seeklogo-286461.png'
@@ -18,8 +18,15 @@ export const football = {
     'fra.1': {
         name: 'Ligue 1',
         img: 'https://images.seeklogo.com/logo-png/53/1/ligue-1-logo-png_seeklogo-535794.png'
-    }
-
+    },
+    'uefa.champions': {
+        name: 'UEFA Champions League',
+        img: 'https://images.seeklogo.com/logo-png/14/1/uefa-champions-league-logo-png_seeklogo-144159.png'
+    },
+    'uefa.europa': {
+        name: 'UEFA Europa League',
+        img: 'https://images.seeklogo.com/logo-png/40/1/uefa-europa-league-2021-logo-png_seeklogo-404784.png'
+    },
     // fifa.world (World Cup)
     // uefa.european.championship (Euro)
     // uefa.champions (c1)

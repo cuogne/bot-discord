@@ -6,16 +6,14 @@ import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
 import { gayCommand } from "../gay/gay.js";
 import { translateCommand } from "../translate/translate.js";
 import { randomCommand } from "../random/random.js";
-import { footballTournamentCommand } from "../football_tournament/football_tournament.js";
-import { footballClubCommand } from "../football_club/football_club.js";
 import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
 import { dictionaryCommand } from "../dictionary/dictionary.js";
 import { helpCommand } from "./helpCommand.js";
 import { cgvCommand } from "../cgv/cgv.js";
-import { footballScoreCommand } from "../football_score/football_score.js";
 import { fitNewsCommand } from '../fit-hcmus-news/fitNewsCommand.js';
 import { getImageCommand } from "../getImage/getImageCommand.js";
 import { groqCommand } from "../groqAI/groqCommand.js";
+import { footballCommand } from "../football/footballCommand.js";
 
 import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
 import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
@@ -115,47 +113,61 @@ export const commands = [
         ),
 
     new SlashCommandBuilder()
-        .setName('football_tournament')
-        .setDescription('⚽ Xem lịch thi đấu bóng đá Châu Âu hôm nay và các ngày lân cận ⚽')
-        .addStringOption(option =>
-            option.setName('tournament')
-                .setDescription('Chọn giải đấu (Chưa hỗ trợ cho cúp C1, C2, Euro, World Cup, ...)')
-                .setRequired(true)
-                .addChoices(
-                    { name: '🇬🇧 Primere League', value: 'eng.1' },
-                    { name: '🇪🇸 La Liga', value: 'esp.1' },
-                    { name: '🇩🇪 Bundesliga', value: 'ger.1' },
-                    { name: '🇮🇹 Serie A', value: 'ita.1' },
-                    { name: '🇫🇷 Ligue 1', value: 'fra.1' }
+        .setName('football')
+        .setDescription('Xem thông tin bóng đá (lịch thi đấu, tỉ số, ...)')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('tournament')
+                .setDescription('Xem lịch thi đấu bóng đá Châu Âu hôm nay và các ngày lân cận')
+                .addStringOption(option =>
+                    option.setName('tournament')
+                        .setDescription('Chọn giải đấu bóng đá bạn muốn xem lịch thi đấu')
+                        .setRequired(true)
+                        .addChoices(
+                            { name: '🇬🇧 Primere League', value: 'eng.1' },
+                            { name: '🇪🇸 La Liga', value: 'esp.1' },
+                            { name: '🇩🇪 Bundesliga', value: 'ger.1' },
+                            { name: '🇮🇹 Serie A', value: 'ita.1' },
+                            { name: '🇫🇷 Ligue 1', value: 'fra.1' },
+                            { name: '🇪🇺 UEFA Champions League', value: 'uefa.champions' },
+                            { name: '🇪🇺 UEFA Europa League', value: 'uefa.europa' },
+                        )
                 )
-        ),
-
-    new SlashCommandBuilder()
-        .setName('football_club')
-        .setDescription('Xem lịch thi đấu bóng đá của 1 câu lạc bộ')
-        .addStringOption(option =>
-            option.setName('club')
-                .setDescription('Chọn câu lạc bộ')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'Manchester United', value: '360' },
-                    { name: 'Manchester City', value: '382' },
-                    { name: 'Chelsea', value: '363' },
-                    { name: 'Liverpool', value: '364' },
-                    { name: 'Arsenal', value: '359' },
-                    { name: 'Real Madrid', value: '86' },
-                    { name: 'Barcelona', value: '83' },
-                    { name: 'Atletico Madrid', value: '1068' },
-                    { name: 'Bayern Munich', value: '132' },
-                    { name: 'Borussia Dortmund', value: '124' },
-                    { name: 'Bayer Leverkusen', value: '131' },
-                    { name: 'Paris Saint Germain (PSG)', value: '160' },
-                    { name: 'Inter Milan', value: '110' },
-                    { name: 'AC Milan', value: '103' },
-                    { name: 'AS Roma', value: '104' },
-                    { name: 'Napoli', value: '114' },
-                    { name: 'Juventus', value: '111' }
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('club')
+                .setDescription('Xem lịch thi đấu bóng đá của 1 câu lạc bộ')
+                .addStringOption(option =>
+                    option.setName('club')
+                        .setDescription('Chọn câu lạc bộ')
+                        .setRequired(true)
+                        .addChoices(
+                            { name: 'Manchester United', value: '360' },
+                            { name: 'Manchester City', value: '382' },
+                            { name: 'Chelsea', value: '363' },
+                            { name: 'Liverpool', value: '364' },
+                            { name: 'Arsenal', value: '359' },
+                            { name: 'Tottenham Hotspur', value: '367' },
+                            { name: 'Real Madrid', value: '86' },
+                            { name: 'Barcelona', value: '83' },
+                            { name: 'Atletico Madrid', value: '1068' },
+                            { name: 'Bayern Munich', value: '132' },
+                            { name: 'Borussia Dortmund', value: '124' },
+                            { name: 'Bayer Leverkusen', value: '131' },
+                            { name: 'Paris Saint Germain (PSG)', value: '160' },
+                            { name: 'Inter Milan', value: '110' },
+                            { name: 'AC Milan', value: '103' },
+                            { name: 'AS Roma', value: '104' },
+                            { name: 'Napoli', value: '114' },
+                            { name: 'Juventus', value: '111' }
                 )
+            )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('score')
+                .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay')
         ),
 
     new SlashCommandBuilder()
@@ -191,10 +203,6 @@ export const commands = [
                 .setRequired(true)
                 .setAutocomplete(true)
         ),
-
-    new SlashCommandBuilder()
-        .setName('football_score')
-        .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay'),
 
     new SlashCommandBuilder()
         .setName('fit-hcmus-news')
@@ -239,7 +247,7 @@ export const commands = [
                 .setName('dog')
                 .setDescription('Xem ảnh chó ngẫu nhiên')
         ),
-    
+
     new SlashCommandBuilder()
         .setName('ai')
         .setDescription('Chat với AI (Groq)')
@@ -259,16 +267,14 @@ export const commandHandlers = {
     gay: gayCommand,
     translate: translateCommand,
     random: randomCommand,
-    football_tournament: footballTournamentCommand,
-    football_club: footballClubCommand,
     upcoming_movies: upcomingMoviesCommand,
     dictionary: dictionaryCommand,
     help: helpCommand,
     cgv: cgvCommand,
-    football_score: footballScoreCommand,
     'fit-hcmus-news': fitNewsCommand,
     image: getImageCommand,
     ai: groqCommand,
+    football: footballCommand,
 };
 
 // export handle selection from user
