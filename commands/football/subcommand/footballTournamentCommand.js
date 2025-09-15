@@ -21,11 +21,11 @@ export async function footballTournamentCommand(interaction) {
         };
 
         const data = await fetchMatchesForDate();
-        const matchDataArray = [{ date: null, data }];
+        const matchDataArray = [ data];
 
         const listMatch = [];
 
-        matchDataArray.forEach(({ date, data }) => {
+        matchDataArray.forEach(data => {
             if (!data || !data.events || data.events.length === 0) {
                 // listMatch.push({ date, match: "Không có trận đấu." });
                 return;
