@@ -1,62 +1,27 @@
 import { tournaments } from "../data/tournament.js";
 import { separateDate } from "../utils/separateDate.js";
-import { formatDayWithoutSeperator } from "../utils/formatDayWithoutSeperate.js";
-import { getCalendarFromAPI } from "../utils/getCalendarFromAPI.js";
-import { getDayOfTwoWeek } from "../utils/getDayOfTwoWeek.js";
+import { getTodayAndTwoWeeksLater } from "../utils/getTodayAndTwoWeeksLater.js";
 
 export async function footballTournamentCommand(interaction) {
     await interaction.deferReply();
 
     const tournament = interaction.options.getString('tournament'); // get option from user
     const linkImg = tournaments[tournament].img; // get link image
-    const link = `http://site.api.espn.com/apis/site/v2/sports/soccer/${tournament}/scoreboard`;
 
     try {
-        let listMatchDay = [];
-
-        if (tournament != 'uefa.champions' && tournament != 'uefa.europa'){
-            const calendar = await getCalendarFromAPI(link); // get calendar
-
-            if (calendar === null) {
-                await interaction.editReply('Lỗi lấy lịch đá');
-                return;
-            }
-
-            const currentDate = formatDayWithoutSeperator();
-
-            // hien thi toi da 3 ngay thoi (20250815 > 20250727)
-            listMatchDay = calendar.filter(day => day >= currentDate).slice(0, 3); // field max 25
-
-            if (listMatchDay.length === 0) {
-                await interaction.editReply('Không có ngày thi đấu sắp tới nào để hiển thị.');
-                return;
-            }
-        }
-        else {
-            listMatchDay = getDayOfTwoWeek(); // get day in two week
-        }
+        let listMatchDay = getTodayAndTwoWeeksLater();
         
-        // fetch du lieu cua 3 ngay tren
-        const fetchMatchesForDate = async (date) => {
-            const api = `http://site.api.espn.com/apis/site/v2/sports/soccer/${tournament}/scoreboard?dates=${date}`;
+        const fetchMatchesForDate = async () => {
+            const api = `http://site.api.espn.com/apis/site/v2/sports/soccer/${tournament}/scoreboard?dates=${listMatchDay[0]}-${listMatchDay[1]}`;
             const res = await fetch(api);
             if (!res.ok) {
-                throw new Error(`API lỗi ngày ${date} với status ${res.status}`);
+                throw new Error(`API lỗi với status ${res.status}`);
             }
             return res.json();
         };
 
-        const matchDataArray = await Promise.all(
-            listMatchDay.map(async date => {
-                try {
-                    const data = await fetchMatchesForDate(date);
-                    return { date, data };
-                } catch (err) {
-                    console.warn(`Lỗi lấy dữ liệu ngày ${date}:`, err);
-                    return { date, data: null };
-                }
-            })
-        );
+        const data = await fetchMatchesForDate();
+        const matchDataArray = [{ date: null, data }];
 
         const listMatch = [];
 
