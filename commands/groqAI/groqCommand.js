@@ -4,6 +4,11 @@ import { EmbedBuilder } from "discord.js";
 export async function groqCommand(interaction) {
     await interaction.deferReply();
 
+    if (!process.env.GROQ_API_KEY) {
+        await interaction.editReply("Vui lòng cung cấp API_KEY của Groq trong .env để sử dụng lệnh này");
+        return;
+    }
+
     const client = new OpenAI({
         apiKey: process.env.GROQ_API_KEY,
         baseURL: "https://api.groq.com/openai/v1"
