@@ -89,7 +89,7 @@ export const commands = [
                 .setRequired(true)
                 .addChoices(
                     { name: '🇻🇳 Tiếng Việt', value: 'vi' },
-                    { name: '🇺🇸 Tiếng Anh', value: 'en' },
+                    { name: '🇬🇧 Tiếng Anh', value: 'en' },
                     { name: '🇯🇵 Tiếng Nhật', value: 'ja' },
                     { name: '🇰🇷 Tiếng Hàn', value: 'ko' },
                     { name: '🇨🇳 Tiếng Trung', value: 'zh' },
@@ -99,7 +99,7 @@ export const commands = [
         )
         .addStringOption(option =>
             option.setName('text')
-                .setDescription('Nhập từ hoặc câu cần dịch')
+                .setDescription('Nhập từ hoặc câu cần dịch (giới hạn 1000 ký tự)')
                 .setRequired(true)
         ),
 
