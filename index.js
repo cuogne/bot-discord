@@ -30,7 +30,7 @@ client.once('ready', async () => {
     console.log('Slash commands are ready!');
 
     // for fit-hcmus-news
-    if (process.env.MONGODB_URI) {
+    if (process.env.MONGO_URI) {
         await connectMongoDB();
         NewsMonitor(client);
     }
