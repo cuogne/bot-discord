@@ -66,15 +66,24 @@ export async function footballTournamentCommand(interaction) {
             matchesByDate[date].push(match);
         }
 
+        let fields = [];
         // tao thanh cac fields de bot reply
-        const fields = [];
-        for (const date in matchesByDate) {
-            if (matchesByDate.hasOwnProperty(date)) {
-                fields.push({
-                    name: `**📅 Ngày: ${date}**`,
-                    value: matchesByDate[date].join('\n'),
-                    inline: false
-                });
+        if (Object.keys(matchesByDate).length === 0) {
+            fields = [{
+                name: `**📅 Ngày: Chưa xác định**`,
+                value: `Không có trận đấu nào trong vòng 2 tuần tới.`,
+                inline: false
+            }]
+        }
+        else {
+            for (const date in matchesByDate) {
+                if (matchesByDate.hasOwnProperty(date)) {
+                    fields.push({
+                        name: `**📅 Ngày: ${date}**`,
+                        value: matchesByDate[date].join('\n'),
+                        inline: false
+                    });
+                }
             }
         }
 
