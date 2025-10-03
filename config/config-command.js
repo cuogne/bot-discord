@@ -1,28 +1,32 @@
 import { SlashCommandBuilder, ChannelType } from "discord.js";
-import { dateCommand } from '../date/date.js';
-import { getAvatarCommand } from '../getAvt/getAvt.js';
-import { lookUpSBDCommand } from '../diemthptqg2025/crawlScore.js'
-import { lichchieuphimCommand } from "../lichchieuphim/lichchieuphim.js";
-import { gayCommand } from "../gay/gay.js";
-import { translateCommand } from "../translate/translate.js";
-import { randomCommand } from "../random/random.js";
-import { upcomingMoviesCommand } from "../upcomingmovies/upcomingMoviesCommand.js";
-import { dictionaryCommand } from "../dictionary/dictionary.js";
+
+// commands
+import { dateCommand } from '../commands/date/date.js';
+import { getAvatarCommand } from '../commands/getAvt/getAvt.js';
+import { lookUpSBDCommand } from '../commands/diemthptqg2025/crawlScore.js'
+import { lichchieuphimCommand } from "../commands/lichchieuphim/lichchieuphim.js";
+import { translateCommand } from "../commands/translate/translate.js";
+import { randomCommand } from "../commands/random/random.js";
+import { upcomingMoviesCommand } from "../commands/upcomingmovies/upcomingMoviesCommand.js";
+import { dictionaryCommand } from "../commands/dictionary/dictionary.js";
 import { helpCommand } from "./helpCommand.js";
-import { cgvCommand } from "../cgv/cgv.js";
-import { fitNewsCommand } from '../fit-hcmus-news/fitNewsCommand.js';
-import { getImageCommand } from "../getImage/getImageCommand.js";
-import { groqCommand } from "../groqAI/groqCommand.js";
-import { footballCommand } from "../football/footballCommand.js";
+import { cgvCommand } from "../commands/cgv/cgv.js";
+import { fitNewsCommand } from '../commands/fit-hcmus-news/fitNewsCommand.js';
+import { getImageCommand } from "../commands/getImage/getImageCommand.js";
+import { groqCommand } from "../commands/groqAI/groqCommand.js";
+import { footballCommand } from "../commands/football/footballCommand.js";
 
-import { handleMovieSelection } from "../lichchieuphim/handleInteraction.js";
-import { handleUpcomingMovieSelection } from "../upcomingmovies/handleSelectionUpcomingMovie.js";
-import { handleSelectionMovieCGV } from "../cgv/handleSelectionMovieCGV.js";
-// import command do vo day
+// handle selection
+import { handleMovieSelection } from "../commands/lichchieuphim/handleInteraction.js";
+import { handleUpcomingMovieSelection } from "../commands/upcomingmovies/handleSelectionUpcomingMovie.js";
+import { handleSelectionMovieCGV } from "../commands/cgv/handleSelectionMovieCGV.js";
 
-// add command
+ /* Syntax for adding command
+    new SlashCommandBuilder()
+        .setName('command_name')
+        .setDescription('command_description')
+*/
 export const commands = [
-    // /date
     new SlashCommandBuilder()
         .setName('date')
         .setDescription('Hiển thị ngày giờ hiện tại'),
@@ -36,7 +40,6 @@ export const commands = [
                 .setRequired(false)
         ),
 
-    // /sbd {text}
     new SlashCommandBuilder()
         .setName('sbd')
         .setDescription('Tra cứu điểm thi THPTQG 2025 thông qua số báo danh')
@@ -48,7 +51,6 @@ export const commands = [
                 .setMinLength(8)
         ),
 
-    // /cinestar
     new SlashCommandBuilder()
         .setName('cinestar')
         .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
@@ -69,17 +71,6 @@ export const commands = [
                 )
         ),
 
-    // /gay
-    new SlashCommandBuilder()
-        .setName('gay')
-        .setDescription('Long toi tan nat khi nhan ra...')
-        .addStringOption(option =>
-            option.setName('user')
-                .setDescription('Điền tên vào !?')
-                .setRequired(true)
-        ),
-
-    // /translate
     new SlashCommandBuilder()
         .setName('translate')
         .setDescription('Dịch từ vựng và các câu nhỏ')
@@ -170,11 +161,11 @@ export const commands = [
                 .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay')
         ),
 
+
     new SlashCommandBuilder()
         .setName('upcoming_movies')
         .setDescription('Hiển thị các phim sắp chiếu tại Cinestar'),
 
-    // /dictionary {text}
     new SlashCommandBuilder()
         .setName('dictionary')
         .setDescription('Tra từ điển tiếng Anh (định nghĩa, phiên âm, từ đồng nghĩa/trái nghĩa, ...)')
@@ -258,13 +249,12 @@ export const commands = [
         ),
 ];
 
-// export command
+// syntax: { command_name: command_function }
 export const commandHandlers = {
     date: dateCommand,
     avatar: getAvatarCommand,
     sbd: lookUpSBDCommand,
     cinestar: lichchieuphimCommand,
-    gay: gayCommand,
     translate: translateCommand,
     random: randomCommand,
     upcoming_movies: upcomingMoviesCommand,
@@ -277,7 +267,7 @@ export const commandHandlers = {
     football: footballCommand,
 };
 
-// export handle selection from user
+// export handle selection
 export const handleSelection = {
     select_movie: handleMovieSelection,
     select_upcoming_movie: handleUpcomingMovieSelection,
