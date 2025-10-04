@@ -3,10 +3,9 @@ import { TYPE_COLORS } from './color.js';
 export async function pokemonCommand(interaction){
     try {
         await interaction.deferReply();
-        const countPokemon = 1302; // 1-1025 / 10001 - 10277
         const inputId = interaction.options.getString('id');
         const name = interaction.options.getString('name');
-        let pokeId = null
+        let pokeId = null;
 
         if (inputId && name) {
             await interaction.editReply({
@@ -17,27 +16,26 @@ export async function pokemonCommand(interaction){
 
         if (inputId) {
             const parsedId = parseInt(inputId, 10);
-            if ((parsedId >= 1 && parsedId <= 1025) || (parsedId >= 10001 && parsedId <= 10277)) {
+            const checkRange1 = parsedId >= 1 && parsedId <= 1025;
+            const checkRange2 = parsedId >= 10001 && parsedId <= 10277;
+
+            if (checkRange1 || checkRange2) {
                 pokeId = parsedId;
-            } 
-            else {
+            } else {
                 await interaction.editReply({
                     content: 'ID Pokémon không hợp lệ! Vui lòng nhập ID từ 1-1025 hoặc từ 10001-10277.',
-
                 });
                 return;
             }
         }
-        else {
-            // 1-1025: 1025 [1 - 1025]
-            // 10001-10277: 277 [10001 - 10277]
-            // 1302
-            const randomNumber = Math.floor(Math.random() * countPokemon) + 1;
-            pokeId = (randomNumber > 1025) ? randomNumber + (1025 - 10000) : randomNumber;
+        else if (name) {
+            pokeId = name.toLowerCase().trim();
         }
+        else {
+            const totalPokemon = 1025 + (10277 - 10000 + 1);
+            const randomNumber = Math.floor(Math.random() * totalPokemon) + 1;
 
-        if (name) {
-            pokeId = name.toLowerCase().trim()
+            pokeId = (randomNumber <= 1025) ? randomNumber : 10000 + (randomNumber - 1025);
         }
 
         // handle pokemon data
