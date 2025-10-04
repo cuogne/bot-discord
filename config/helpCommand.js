@@ -14,6 +14,7 @@ export async function helpCommand(interaction) {
         '/football score': 'Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay',
         '/help': 'Hiển thị các thông tin cơ bản về bot cũng như command',
         '/image `[dog | cat]`': 'Gửi hình ảnh ngẫu nhiên về chó hoặc mèo',
+        '/pokemon `[id | name]`': 'Tra cứu thông tin Pokémon theo ID, tên hoặc random',
         '/random `[one, two, three, ...]`': 'Trả về một kết quả ngẫu nhiên từ danh sách được nhập vào ngăn cách nhau bởi dấu phẩy',
         '/sbd `[sbd]`': 'Tra cứu điểm thi THPTQG 2025 thông qua số báo danh',
         '/translate `[to country]` `[text]`': 'Dịch một từ hoặc một đoạn văn ngắn sang một ngôn ngữ khác',

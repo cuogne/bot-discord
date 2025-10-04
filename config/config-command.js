@@ -15,6 +15,7 @@ import { fitNewsCommand } from '../commands/fit-hcmus-news/fitNewsCommand.js';
 import { getImageCommand } from "../commands/getImage/getImageCommand.js";
 import { groqCommand } from "../commands/groqAI/groqCommand.js";
 import { footballCommand } from "../commands/football/footballCommand.js";
+import { pokemonCommand } from "../commands/pokemon/pokemonCommand.js";
 
 // handle selection
 import { handleMovieSelection } from "../commands/lichchieuphim/handleInteraction.js";
@@ -247,6 +248,20 @@ export const commands = [
                 .setDescription('Nhập câu hỏi hoặc yêu cầu của bạn')
                 .setRequired(true)
         ),
+
+    new SlashCommandBuilder()
+        .setName('pokemon')
+        .setDescription('Who\'s that Pokémon?')
+        .addStringOption(option =>
+            option.setName('name')
+                .setDescription('Nhập tên Pokémon bạn muốn tìm (ex: pikachu)')
+                .setRequired(false)
+        )
+        .addStringOption(option =>
+            option.setName('id')
+                .setDescription('Nhập ID Pokémon bạn muốn tìm (giá trị trong khoảng 1-1025 hoặc 10001-10277)')
+                .setRequired(false)
+        ),
 ];
 
 // syntax: { command_name: command_function }
@@ -265,6 +280,7 @@ export const commandHandlers = {
     image: getImageCommand,
     ai: groqCommand,
     football: footballCommand,
+    pokemon: pokemonCommand,
 };
 
 // export handle selection
