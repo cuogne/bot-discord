@@ -16,8 +16,9 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/dictionary` | `<word>` | Tra cứu từ vụng tiếng Anh trong từ điển | `/dictionary care` |
 | `/fit-hcmus-news` | `setup\|latest\|status\|remove` | Nhận thông báo tin tức FIT-HCMUS | [Hướng dẫn chi tiết tại đây](commands/fit-hcmus-news/INSTRUCTION.md) |
 | `/football club` | `<club>` | Xem lịch thi đấu cụ thể của các câu lạc bộ bóng đá | `/football club Manchester United` |
-| `/football tournament` | `<tournament>` | Xem lịch thi đấu bóng đá của các giải đấu lớn (EPL, La Liga, ...) | `/football tournament Premier League` |
+| `/football rank` | `<league> <season>` | Xem bảng xếp hạng bóng đá của các giải đấu Châu Âu theo mùa giải | `/football rank Premier League 2025` |
 | `/football score` | *(không có)* | Xem tỷ số bóng đá của các trận đấu đêm qua và rạng sáng nay | `/football score` |
+| `/football tournament` | `<tournament>` | Xem lịch thi đấu bóng đá của các giải đấu lớn (EPL, La Liga, ...) | `/football tournament Premier League` |
 | `/help` | *(không có)* | Hiển thị danh sách các lệnh có sẵn và còn hoạt động | `/help` |
 | `/image` | `<dog \| cat>` | Gửi hình ảnh ngẫu nhiên về chó hoặc mèo | `/image dog` |
 | `/pokemon` | `<id \| name>` | Tra cứu thông tin Pokémon theo ID, tên hoặc random | `/pokemon pikachu` |

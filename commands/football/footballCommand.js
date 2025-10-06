@@ -1,6 +1,7 @@
 import {footballClubCommand} from "./subcommand/footballClubCommand.js"
 import {footballTournamentCommand} from "./subcommand/footballTournamentCommand.js"
 import {footballScoreCommand} from "./subcommand/footballScoreCommand.js"
+import {footballRankCommand} from "./subcommand/footballRankCommand.js"
 
 export async function footballCommand(interaction){
     const subcommand = interaction.options.getSubcommand();
@@ -14,6 +15,9 @@ export async function footballCommand(interaction){
             break
         case 'score':
             await footballScoreCommand(interaction);
+            break
+        case 'rank':
+            await footballRankCommand(interaction);
             break
         default:
             await interaction.reply({

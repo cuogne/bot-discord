@@ -160,8 +160,31 @@ export const commands = [
             subcommand
                 .setName('score')
                 .setDescription('Xem tỉ số của các trận đấu bóng đá đêm qua và rạng sáng nay')
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('rank')
+                .setDescription('Xem bảng xếp hạng bóng đá của các giải đấu Châu Âu theo mùa giải')
+                .addStringOption(option =>
+                    option.setName('league')
+                        .setDescription('Chọn giải đấu bạn muốn xem bảng xếp hạng') 
+                        .setRequired(true)
+                        .addChoices(
+                            { name: '🇬🇧 Primere League', value: 'eng.1' },
+                            { name: '🇪🇸 La Liga', value: 'esp.1' },
+                            { name: '🇩🇪 Bundesliga', value: 'ger.1' },
+                            { name: '🇮🇹 Serie A', value: 'ita.1' },
+                            { name: '🇫🇷 Ligue 1', value: 'fra.1' },
+                        )
+                )
+                .addStringOption(option =>
+                    option.setName('season')
+                        .setDescription('Chọn mùa giải')
+                        .setRequired(true)
+                        .setMinLength(4)
+                        .setMaxLength(4)
+                )
         ),
-
 
     new SlashCommandBuilder()
         .setName('upcoming_movies')
