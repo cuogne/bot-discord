@@ -1,6 +1,6 @@
 import { loadConfig } from './utils/loadConfig.js';
 import { saveConfig } from './utils/saveConfig.js';
-import { ChannelType, PermissionsBitField } from 'discord.js';
+import { ChannelType, PermissionsBitField, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 
 export async function setupChannelSubCommand(interaction) {
     await interaction.deferReply({ ephemeral: true });
@@ -77,64 +77,140 @@ export async function setupChannelSubCommand(interaction) {
         return;
     }
 
-    const data = {
-        channelId: targetChannel.id,
-        channelName: targetChannel.name,
-        guildName: interaction.guild.name,
-        setupBy: interaction.user.id,
-        setupAt: new Date().toISOString(),
-        isActive: true
-    };
+    // tao embed xac nhan
+    const confirmEmbed = new EmbedBuilder()
+        .setTitle("📢 Xác nhận thiết lập kênh")
+        .setDescription(`Bạn có chắc chắn muốn thiết lập kênh ${targetChannel} để nhận tin tức từ **FIT-HCMUS** không?`)
+        .addFields(
+            { name: "📍 Kênh được chọn", value: `<#${targetChannel.id}> (#${targetChannel.name})`, inline: false },
+            { name: "Kênh đã được thiết lập", value: existing && existing.channelId && existing.channelName ? `<#${existing.channelId}> (${existing.channelName})` : "Không có", inline: false },
+            { name: "🏠 Server", value: interaction.guild.name, inline: false }
+        )
+        .setColor(0x0099ff)
+        .setFooter({ text: "Hết hạn sau 30 giây" });
 
-    const saved = await saveConfig(guildId, data);
-    if (!saved) {
-        await interaction.editReply({
-            embeds: [{
-                title: "❌ Lỗi hệ thống",
-                description: "Không thể lưu cấu hình. Vui lòng thử lại sau.",
-                color: 0xff0000
-            }]
-        });
-        return;
-    }
+    // button yes/no
+    const row = new ActionRowBuilder()
+        .addComponents(
+            new ButtonBuilder()
+                .setCustomId('confirm_yes')
+                .setLabel('Yes')
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
+                .setCustomId('confirm_no')
+                .setLabel('No')
+                .setStyle(ButtonStyle.Danger)
+        );
 
-    // Thông báo thành công
-    await interaction.editReply({
-        embeds: [{
-            title: "✅ Thiết lập thành công!",
-            description: `Kênh ${targetChannel} đã được thiết lập để nhận tin tức tự động từ **FIT-HCMUS**.`,
-            color: 0x00ff00,
-            fields: [
-                {
-                    name: "📍 Kênh được chọn",
-                    value: `${targetChannel} (#${targetChannel.name})`,
-                    inline: true
-                },
-                {
-                    name: "🏠 Server",
-                    value: interaction.guild.name,
-                    inline: true
-                },
-                {
-                    name: "👤 Setup bởi",
-                    value: `${interaction.user}`,
-                    inline: true
-                }
-            ]
-        }],
+    const confirmMessage = await interaction.editReply({
+        embeds: [confirmEmbed],
+        components: [row],
         ephemeral: true
     });
 
-    try {
-        await targetChannel.send({
+    const collector = confirmMessage.createMessageComponentCollector({
+        filter: i => i.user.id === interaction.user.id && ['confirm_yes', 'confirm_no'].includes(i.customId),
+        time: 30000 // 30 giây
+    });
+
+    collector.on('collect', async i => {
+        await i.deferUpdate();
+
+        if (i.customId === 'confirm_no') {
+            await interaction.editReply({
+                embeds: [{
+                    title: "❌ Đã hủy",
+                    description: "Thao tác thiết lập kênh đã bị hủy.",
+                    color: 0xff0000
+                }],
+                components: [],
+                ephemeral: true
+            });
+            collector.stop('cancelled');
+            return;
+        }
+
+        // yes
+        const data = {
+            channelId: targetChannel.id,
+            channelName: targetChannel.name,
+            guildName: interaction.guild.name,
+            setupBy: interaction.user.id,
+            setupAt: new Date().toISOString(),
+            isActive: true
+        };
+
+        const saved = await saveConfig(guildId, data);
+        if (!saved) {
+            await interaction.editReply({
+                embeds: [{
+                    title: "❌ Lỗi hệ thống",
+                    description: "Không thể lưu cấu hình. Vui lòng thử lại sau.",
+                    color: 0xff0000
+                }],
+                components: [],
+                ephemeral: true
+            });
+            collector.stop('error');
+            return;
+        }
+
+        // Thông báo thành công
+        await interaction.editReply({
             embeds: [{
-                title: "🎉 FIT-HCMUS News!",
-                description: "Kênh này đã được thiết lập để nhận tin tức tự động từ **Khoa Công nghệ Thông tin - FIT@HCMUS**.\n\n Nếu bạn không muốn nhận thông báo nữa, vui lòng dùng lệnh: \n`/fit-hcmus-news remove`.",
-                color: 0x0099ff,
-                timestamp: new Date().toISOString()
-            }]
+                title: "✅ Thiết lập thành công!",
+                description: `Kênh ${targetChannel} đã được thiết lập để nhận tin tức tự động từ **FIT-HCMUS**.`,
+                color: 0x00ff00,
+                fields: [
+                    {
+                        name: "📍 Kênh được chọn",
+                        value: `${targetChannel} (#${targetChannel.name})`,
+                        inline: true
+                    },
+                    {
+                        name: "🏠 Server",
+                        value: interaction.guild.name,
+                        inline: true
+                    },
+                    {
+                        name: "👤 Setup bởi",
+                        value: `${interaction.user}`,
+                        inline: true
+                    }
+                ]
+            }],
+            components: [],
+            ephemeral: true
         });
-    } catch (error) {
-        console.error('❌ Không thể gửi tin thử:', error);
-    }
+
+        // Gửi thông báo đến kênh đích
+        try {
+            await targetChannel.send({
+                embeds: [{
+                    title: "🎉 FIT-HCMUS News!",
+                    description: "Kênh này đã được thiết lập để nhận tin tức tự động từ **Khoa Công nghệ Thông tin - FIT@HCMUS**.\n\n Nếu bạn không muốn nhận thông báo nữa, vui lòng dùng lệnh: \n`/fit-hcmus-news remove`.",
+                    color: 0x0099ff,
+                    timestamp: new Date().toISOString()
+                }]
+            });
+        } catch (error) {
+            console.error('❌ Không thể gửi tin thử:', error);
+        }
+
+        collector.stop('success');
+    });
+
+    collector.on('end', async (collected, reason) => {
+        if (reason === 'time') {
+            await interaction.editReply({
+                embeds: [{
+                    title: "⏰ Hết thời gian xác nhận",
+                    description: "Thao tác thiết lập kênh đã bị hủy do không nhận được phản hồi.",
+                    color: 0xffaa00
+                }],
+                components: [],
+                ephemeral: true
+            });
+        }
+    });
 }
