@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@nghiavuive/lunar_date_vi": "^2.0.1",
     "discord.js": "^14.21.0",
     "dotenv": "^17.2.0",
     "xml2js": "^0.6.2"

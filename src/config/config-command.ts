@@ -3,6 +3,7 @@ import { SlashCommandBuilder, ChannelType, ChatInputCommandInteraction } from "d
 import { helpCommand } from "./helpCommand";
 import { randomCommand } from "../commands/random/randomCommand";
 import { getAvatarCommand } from "../commands/getAvatar/chooseAvatar";
+import { getTodayCommand } from "../commands/today/today";
 
 // add command
 export const commands = [
@@ -36,12 +37,17 @@ export const commands = [
             subcommand
                 .setName('server')
                 .setDescription('Xem avatar của server')
-        )
+        ),
+
+    new SlashCommandBuilder()
+        .setName('today')
+        .setDescription('Xem ngày hiện tại (dương lịch & âm lịch)')
 ];
 
 // export command
 export const commandHandlers: Record<string, (interaction: ChatInputCommandInteraction) => Promise<void>> = {
     help: helpCommand,
     random: randomCommand,
-    avatar: getAvatarCommand
+    avatar: getAvatarCommand,
+    today: getTodayCommand
 };
