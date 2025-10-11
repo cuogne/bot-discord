@@ -4,6 +4,11 @@ import { helpCommand } from "./helpCommand";
 import { randomCommand } from "../commands/random/randomCommand";
 import { getAvatarCommand } from "../commands/getAvatar/chooseAvatar";
 import { getTodayCommand } from "../commands/today/today";
+import { diemthptqgCommand } from "../commands/thptqg/diemthptqg";
+import { dictionaryCommand } from "../commands/dictionary/dictionaryCommand";
+import { getImageCommand } from "../commands/getImage/getImageCommand";
+import { pokemonCommand } from "../commands/pokemon/pokemonCommand";
+import { translateCommand } from "../commands/translate/translateCommand";
 
 // add command
 export const commands = [
@@ -41,7 +46,78 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('today')
-        .setDescription('Xem ngày hiện tại (dương lịch & âm lịch)')
+        .setDescription('Xem ngày hiện tại (dương lịch & âm lịch)'),
+
+    new SlashCommandBuilder()
+        .setName('sbd')
+        .setDescription('Tra cứu điểm thi THPTQG 2025')
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Nhập số báo danh (8 chữ số)')
+                .setRequired(true)
+                .setMaxLength(8)
+                .setMinLength(8)
+        ),
+
+    new SlashCommandBuilder()
+        .setName('dictionary')
+        .setDescription('Tra từ điển tiếng Anh (định nghĩa, phiên âm, từ đồng nghĩa/trái nghĩa, ...)')
+        .addStringOption(option =>
+            option.setName('text')
+                .setDescription('Nhập từ tiếng Anh cần tra')
+                .setRequired(true)
+        ),
+
+    new SlashCommandBuilder()
+        .setName('image')
+        .setDescription("Trả về ảnh ngẫu nhiên")
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('cat')
+                .setDescription('Xem ảnh mèo ngẫu nhiên')
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('dog')
+                .setDescription('Xem ảnh chó ngẫu nhiên')
+        ),
+
+    new SlashCommandBuilder()
+    .setName('pokemon')
+    .setDescription('Who\'s that Pokémon?')
+    .addStringOption(option =>
+        option.setName('name')
+            .setDescription('Nhập tên Pokémon bạn muốn tìm (ex: pikachu)')
+            .setRequired(false)
+    )
+    .addStringOption(option =>
+        option.setName('id')
+            .setDescription('Nhập ID Pokémon bạn muốn tìm (giá trị trong khoảng 1-1025 hoặc 10001-10277)')
+            .setRequired(false)
+    ),
+
+    new SlashCommandBuilder()
+    .setName('translate')
+    .setDescription('Dịch từ vựng và các câu nhỏ')
+    .addStringOption(option =>
+        option.setName('to')
+            .setDescription('Chọn ngôn ngữ đích muốn dịch sang')
+            .setRequired(true)
+            .addChoices(
+                { name: '🇻🇳 Tiếng Việt', value: 'vi' },
+                { name: '🇬🇧 Tiếng Anh', value: 'en' },
+                { name: '🇯🇵 Tiếng Nhật', value: 'ja' },
+                { name: '🇰🇷 Tiếng Hàn', value: 'ko' },
+                { name: '🇨🇳 Tiếng Trung', value: 'zh' },
+                { name: '🇫🇷 Tiếng Pháp', value: 'fr' },
+                { name: '🇩🇪 Tiếng Đức', value: 'de' },
+            )
+    )
+    .addStringOption(option =>
+        option.setName('text')
+            .setDescription('Nhập từ hoặc câu cần dịch (giới hạn 1000 ký tự)')
+            .setRequired(true)
+    ),
 ];
 
 // export command
@@ -49,5 +125,10 @@ export const commandHandlers: Record<string, (interaction: ChatInputCommandInter
     help: helpCommand,
     random: randomCommand,
     avatar: getAvatarCommand,
-    today: getTodayCommand
+    today: getTodayCommand,
+    sbd: diemthptqgCommand,
+    dictionary: dictionaryCommand,
+    image: getImageCommand,
+    pokemon: pokemonCommand,
+    translate: translateCommand,
 };
