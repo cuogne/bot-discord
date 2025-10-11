@@ -2,10 +2,9 @@ import { EmbedBuilder, ChatInputCommandInteraction } from 'discord.js';
 
 export async function helpCommand(interaction: ChatInputCommandInteraction): Promise<void> {
     const listCommand: Record<string, string> = {
-        '/avatar `[user]`': 'Lấy avatar của người được chọn',
+        '/avatar `[user | server]`': 'Lấy avatar của người được chọn',
         '~~/cgv `[province]` `[cinema]`~~': '~~Xem lịch chiếu phim hôm nay tại CGV~~ (không hoạt động)',
         '/cinestar `[cinema]`': 'Xem lịch chiếu phim trong ngày tại các rạp Cinestar trên toàn quốc',
-        '/date': 'Xem ngày giờ hiện tại (dương lịch và âm lịch)',
         '/dictionary `[text]`': 'Tra cứu từ vựng tiếng Anh',
         '/football_club `[club]`': 'Xem lịch thi đấu bóng đá của một số câu lạc bộ châu Âu',
         '/football_tournament `[tournament]`': 'Xem lịch thi đấu bóng đá của các giải đấu châu Âu',
@@ -14,6 +13,7 @@ export async function helpCommand(interaction: ChatInputCommandInteraction): Pro
         '/help': 'Hiển thị các thông tin cơ bản về bot cũng như command',
         '/random `[one, two, three, ...]`': 'Trả về một kết quả ngẫu nhiên từ danh sách được nhập vào ngăn cách nhau bởi dấu phẩy',
         '/sbd `[sbd]`': 'Tra cứu điểm thi THPTQG 2025 thông qua số báo danh',
+        '/today': 'Xem ngày hiện tại (dương lịch & âm lịch)',
         '/translate `[to country]` `[text]`': 'Dịch một từ hoặc một đoạn văn ngắn sang một ngôn ngữ khác',
         '/upcoming_movies': 'Hiển thị các bộ phim sắp chiếu tại Cinestar',
     }

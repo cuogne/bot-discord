@@ -12,7 +12,6 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/avatar` | `<user \| server>` | Lấy avatar của user hoặc server | `/avatar @cừn` |
 | ~~`/cgv`~~ | ~~`<province>` `<cinema>`~~ | ~~Xem lịch chiếu phim tại CGV~~ | ~~`/cgv TP.HCM CGV Vincom Đồng Khởi`~~|
 | `/cinestar` | `<cinema>` | Xem lịch chiếu phim hôm nay tại Cinestar | `/cinestar Cinestar Sinh Viên - TP.HCM` |
-| `/date` | *(không có)* | Hiển thị ngày giờ hiện tại (âm và dương lịch) | `/date` |
 | `/dictionary` | `<word>` | Tra cứu từ vụng tiếng Anh trong từ điển | `/dictionary care` |
 | `/fit-hcmus-news` | `setup\|latest\|status\|remove` | Nhận thông báo tin tức FIT-HCMUS | [Hướng dẫn chi tiết tại đây](commands/fit-hcmus-news/INSTRUCTION.md) |
 | `/football club` | `<club>` | Xem lịch thi đấu cụ thể của các câu lạc bộ bóng đá | `/football club Manchester United` |
@@ -24,6 +23,7 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/pokemon` | `<id \| name>` | Tra cứu thông tin Pokémon theo ID, tên hoặc random | `/pokemon pikachu` |
 | `/random` | `<ele1, ele2, ele3, ...>` | Trả về các từ ngẫu nhiên do user nhập vào được phân cách bởi dấu phẩy | `/random táo,cam,chuối` |
 | `/sbd` | `<text>` | Tra cứu điểm thi THPTQG 2025 | `/sbd 123456` |
+| `/today` | *(không có)* | Xem ngày hiện tại (dương lịch & âm lịch) | `/today` |
 | `/translate` | `<to> <text>` | Dịch văn bản sang tiếng được chọn | `/translate English Xin chào` |
 | `/upcoming_movies` | *(không có)* | Xem danh sách phim sắp tới được chiếu tại Cinestar | `/upcoming_movies` |
 
