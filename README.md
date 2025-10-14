@@ -9,7 +9,7 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | Command | Parameter | Description | Usage |
 |------|---------|-------|-----------|
 | `/ai` | `<prompt>` | Chat với AI Groq | `/ai Xin chào bạn` |
-| `/avatar` | `[user]` (không bắt buộc) | Lấy avatar của user | `/avatar @cừn` |
+| `/avatar` | `<user @user> / <server>`| Lấy avatar của user | `/avatar @cừn` |
 | ~~`/cgv`~~ | ~~`<province>` `<cinema>`~~ | ~~Xem lịch chiếu phim tại CGV~~ | ~~`/cgv TP.HCM CGV Vincom Đồng Khởi`~~|
 | `/cinestar` | `<cinema>` | Xem lịch chiếu phim hôm nay tại Cinestar | `/cinestar Cinestar Sinh Viên - TP.HCM` |
 | `/date` | *(không có)* | Hiển thị ngày giờ hiện tại (âm và dương lịch) | `/date` |

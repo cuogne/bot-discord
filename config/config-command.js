@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ChannelType } from "discord.js";
 
 // commands
 import { dateCommand } from '../commands/date/date.js';
-import { getAvatarCommand } from '../commands/getAvt/getAvt.js';
+import { getAvatarCommand } from '../commands/avatar/chooseAvatar.js';
 import { lookUpSBDCommand } from '../commands/diemthptqg2025/crawlScore.js'
 import { lichchieuphimCommand } from "../commands/lichchieuphim/lichchieuphim.js";
 import { translateCommand } from "../commands/translate/translate.js";
@@ -34,11 +34,21 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('avatar')
-        .setDescription('Lấy avatar')
-        .addUserOption(option =>
-            option.setName('user')
-                .setDescription('Chọn user để lấy avatar')
-                .setRequired(false)
+        .setDescription('Xem avatar')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('user')
+                .setDescription('Xem avatar của user được chọn')
+                .addUserOption(option =>
+                    option.setName('user')
+                        .setDescription('Chọn user để xem avatar (để trống thì xem ảnh của bạn)')
+                        .setRequired(false)
+                )
+        )
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('server')
+                .setDescription('Xem avatar của server')
         ),
 
     new SlashCommandBuilder()
