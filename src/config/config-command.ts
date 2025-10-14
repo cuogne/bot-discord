@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChannelType, ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, ChannelType, ChatInputCommandInteraction, Interaction } from "discord.js";
 
 import { helpCommand } from "./helpCommand";
 import { randomCommand } from "../commands/random/randomCommand";
@@ -9,6 +9,9 @@ import { dictionaryCommand } from "../commands/dictionary/dictionaryCommand";
 import { getImageCommand } from "../commands/getImage/getImageCommand";
 import { pokemonCommand } from "../commands/pokemon/pokemonCommand";
 import { translateCommand } from "../commands/translate/translateCommand";
+import { cinestarCommand } from "../commands/cinestar/cinestarCommand";
+
+import { handleMovieTodaySelection } from "../commands/cinestar/handler/handleMovieTodaySelection";
 
 // add command
 export const commands = [
@@ -83,18 +86,18 @@ export const commands = [
         ),
 
     new SlashCommandBuilder()
-    .setName('pokemon')
-    .setDescription('Who\'s that Pokémon?')
-    .addStringOption(option =>
-        option.setName('name')
-            .setDescription('Nhập tên Pokémon bạn muốn tìm (ex: pikachu)')
-            .setRequired(false)
-    )
-    .addStringOption(option =>
-        option.setName('id')
-            .setDescription('Nhập ID Pokémon bạn muốn tìm (giá trị trong khoảng 1-1025 hoặc 10001-10277)')
-            .setRequired(false)
-    ),
+        .setName('pokemon')
+        .setDescription('Who\'s that Pokémon?')
+        .addStringOption(option =>
+            option.setName('name')
+                .setDescription('Nhập tên Pokémon bạn muốn tìm (ex: pikachu)')
+                .setRequired(false)
+        )
+        .addStringOption(option =>
+            option.setName('id')
+                .setDescription('Nhập ID Pokémon bạn muốn tìm (giá trị trong khoảng 1-1025 hoặc 10001-10277)')
+                .setRequired(false)
+        ),
 
     new SlashCommandBuilder()
     .setName('translate')
@@ -118,6 +121,36 @@ export const commands = [
             .setDescription('Nhập từ hoặc câu cần dịch (giới hạn 1000 ký tự)')
             .setRequired(true)
     ),
+
+    new SlashCommandBuilder()
+        .setName('cinestar')
+        .setDescription('Xem lịch chiếu phim tại rạp Cinestar')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('today')
+                .setDescription('Xem lịch chiếu phim tại Cinestar hôm nay')
+                .addStringOption(option =>
+                    option.setName('cinema')
+                        .setDescription('Chọn rạp chiếu phim')
+                        .setRequired(true)
+                        .addChoices(
+                            { name: '🎬 Cinestar Sinh Viên - TP.HCM', value: 'Cinestar Sinh Viên - TP.HCM' },
+                            { name: '🎬 Cinestar Quốc Thanh - TP.HCM', value: 'Cinestar Quốc Thanh - TP.HCM' },
+                            { name: '🎬 Cinestar Hai Bà Trưng - TP.HCM', value: 'Cinestar Hai Bà Trưng - TP.HCM' },
+                            { name: '🎬 Cinestar Satra - TP.HCM', value: 'Cinestar Satra - TP.HCM' },
+                            { name: '🎬 Cinestar Đà Lạt - Lâm Đồng', value: 'Cinestar Đà Lạt - Lâm Đồng' },
+                            { name: '🎬 Cinestar Lâm Đồng - Lâm Đồng', value: 'Cinestar Lâm Đồng - Lâm Đồng' },
+                            { name: '🎬 Cinestar Huế - TP.Huế', value: 'Cinestar Huế - TP.Huế' },
+                            { name: '🎬 Cinestar Mỹ Tho - Đồng Tháp', value: 'Cinestar Mỹ Tho - Đồng Tháp' },
+                            { name: '🎬 Cinestar Kiên Giang - An Giang', value: 'Cinestar Kiên Giang - An Giang' },
+                        )
+                )
+        )
+        .addSubcommand(subcommand => 
+            subcommand
+                .setName('upcoming')
+                .setDescription('Hiển thị danh sách các phim sắp chiếu tại Cinestar')
+        ),
 ];
 
 // export command
@@ -131,4 +164,11 @@ export const commandHandlers: Record<string, (interaction: ChatInputCommandInter
     image: getImageCommand,
     pokemon: pokemonCommand,
     translate: translateCommand,
+    cinestar: cinestarCommand
 };
+
+export const handleSelection = {
+    select_movie: handleMovieTodaySelection,
+    // select_upcoming_movie: handleUpcomingMovieSelection,
+    // select_movie_cgv: handleSelectionMovieCGV
+} as const;
