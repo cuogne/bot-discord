@@ -12,7 +12,7 @@ export async function getAvatarServerCommand(interaction) {
     const imgServer = interaction.guild?.iconURL({ size: 512 });
 
     if (!imgServer) {
-        await interaction.reply("Server này chưa có ảnh!");
+        await interaction.reply(`Bot chưa được mời vào server!, không thể lấy ảnh server`);
         return;
     }
 

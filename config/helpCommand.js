@@ -3,7 +3,7 @@ import { EmbedBuilder } from 'discord.js';
 export async function helpCommand(interaction) {
     const listCommand = {
         '/ai `[prompt]`': 'Chat với AI Groq',
-        '/avatar <user @user| server>': 'Lấy avatar của user hoặc server',
+        '/avatar <user @user| server>': 'Lấy avatar của user hoặc server (riêng server phải mời bot vào mới lấy được)',
         '~~/cgv `[province]` `[cinema]`~~': '~~Xem lịch chiếu phim hôm nay tại CGV~~ (không hoạt động)',
         '/cinestar `[cinema]`': 'Xem lịch chiếu phim trong ngày tại các rạp Cinestar trên toàn quốc',
         '/date': 'Xem ngày giờ hiện tại (dương lịch và âm lịch)',
