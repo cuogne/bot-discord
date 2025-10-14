@@ -12,6 +12,7 @@ import { translateCommand } from "../commands/translate/translateCommand";
 import { cinestarCommand } from "../commands/cinestar/cinestarCommand";
 
 import { handleMovieTodaySelection } from "../commands/cinestar/handler/handleMovieTodaySelection";
+import { handleUpcomingMovieSelection } from "../commands/cinestar/handler/handleUpcomingMovieSelection";
 
 // add command
 export const commands = [
@@ -169,6 +170,6 @@ export const commandHandlers: Record<string, (interaction: ChatInputCommandInter
 
 export const handleSelection = {
     select_movie: handleMovieTodaySelection,
-    // select_upcoming_movie: handleUpcomingMovieSelection,
+    select_upcoming_movie: handleUpcomingMovieSelection,
     // select_movie_cgv: handleSelectionMovieCGV
 } as const;
