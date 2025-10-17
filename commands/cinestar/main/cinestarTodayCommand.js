@@ -4,6 +4,8 @@ import { getCinema, getFileName } from "../constant/get.js";
 import { setFileName } from "../utils/setFileName.js";
 import { getToday } from "../utils/getToday.js";
 import { getDataMovie } from "../api/api-cinestar.js";
+import { getDataDir } from '../constant/get.js';
+
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -11,9 +13,7 @@ export async function cinestarTodayCommand(interaction) {
     await interaction.deferReply();
 
     const option = interaction.options.getString('cinema') || ""
-
-    const projectRoot = path.resolve();
-    const dataDir = path.join(projectRoot, 'commands', 'cinestar', 'data'); // duong dan thu muc data (chua cac bo phim)
+    const dataDir = getDataDir();
 
     const cinema = getCinema(option);
     const fileName = getFileName(option);

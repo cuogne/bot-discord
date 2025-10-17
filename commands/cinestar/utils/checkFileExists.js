@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path'
 import { getToday } from '../utils/getToday.js';
+import { getDataDir } from '../constant/get.js';
 
 export function checkFileExists(fileName) {
     // get path of file
-    const projectRoot = path.resolve();
-    const dataDir = path.join(projectRoot, 'commands', 'cinestar', 'data');
+    const dataDir = getDataDir();
 
     let checkExists = true;
     const listFileName = fs.readdirSync(dataDir);

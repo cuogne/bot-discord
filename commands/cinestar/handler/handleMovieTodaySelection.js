@@ -2,13 +2,13 @@ import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle} from 'disco
 import { getCinema, getFileName } from '../constant/get.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getDataDir } from '../constant/get.js';
 
 // handle interaction khi user chọn phim từ dropdown
 export async function handleMovieTodaySelection(interaction, nameCinema) {
     if (!interaction.isStringSelectMenu()) return;
 
-    const projectRoot = path.resolve();
-    const dataDir = path.join(projectRoot, 'commands', 'cinestar', 'data');
+    const dataDir = getDataDir();
 
     try {
         const cinema = getCinema(nameCinema);
