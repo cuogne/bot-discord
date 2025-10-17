@@ -5,7 +5,8 @@ export async function helpCommand(interaction) {
         '/ai `[prompt]`': 'Chat với AI Groq',
         '/avatar <user @user| server>': 'Lấy avatar của user hoặc server (riêng server phải mời bot vào mới lấy được)',
         '~~/cgv `[province]` `[cinema]`~~': '~~Xem lịch chiếu phim hôm nay tại CGV~~ (không hoạt động)',
-        '/cinestar `[cinema]`': 'Xem lịch chiếu phim trong ngày tại các rạp Cinestar trên toàn quốc',
+        '/cinestar today `[cinema]`': 'Xem lịch chiếu phim trong ngày tại các rạp Cinestar trên toàn quốc',
+        '/cinestar upcoming': 'Xem lịch chiếu phim sắp tới tại các rạp Cinestar trên toàn quốc',
         '/date': 'Xem ngày giờ hiện tại (dương lịch và âm lịch)',
         '/dictionary `[text]`': 'Tra cứu từ vựng tiếng Anh',
         '/fit-hcmus-news `[setup | latest | status | remove]`': 'Nhận thông báo tin tức mới nhất từ FIT-HCMUS',
@@ -19,7 +20,6 @@ export async function helpCommand(interaction) {
         '/random `[one, two, three, ...]`': 'Trả về một kết quả ngẫu nhiên từ danh sách được nhập vào ngăn cách nhau bởi dấu phẩy',
         '/sbd `[sbd]`': 'Tra cứu điểm thi THPTQG 2025 thông qua số báo danh',
         '/translate `[to country]` `[text]`': 'Dịch một từ hoặc một đoạn văn ngắn sang một ngôn ngữ khác',
-        '/upcoming_movies': 'Hiển thị các bộ phim sắp chiếu tại Cinestar',
     }
 
     const embed = new EmbedBuilder()

@@ -4,10 +4,9 @@ import { SlashCommandBuilder, ChannelType } from "discord.js";
 import { dateCommand } from '../commands/date/date.js';
 import { getAvatarCommand } from '../commands/avatar/chooseAvatar.js';
 import { lookUpSBDCommand } from '../commands/diemthptqg2025/crawlScore.js'
-import { lichchieuphimCommand } from "../commands/lichchieuphim/lichchieuphim.js";
+import { cinestarCommand } from "../commands/cinestar/cinestarCommand.js";
 import { translateCommand } from "../commands/translate/translate.js";
 import { randomCommand } from "../commands/random/random.js";
-import { upcomingMoviesCommand } from "../commands/upcomingmovies/upcomingMoviesCommand.js";
 import { dictionaryCommand } from "../commands/dictionary/dictionary.js";
 import { helpCommand } from "./helpCommand.js";
 import { cgvCommand } from "../commands/cgv/cgv.js";
@@ -18,8 +17,8 @@ import { footballCommand } from "../commands/football/footballCommand.js";
 import { pokemonCommand } from "../commands/pokemon/pokemonCommand.js";
 
 // handle selection
-import { handleMovieSelection } from "../commands/lichchieuphim/handleInteraction.js";
-import { handleUpcomingMovieSelection } from "../commands/upcomingmovies/handleSelectionUpcomingMovie.js";
+import { handleMovieTodaySelection } from "../commands/cinestar/handler/handleMovieTodaySelection.js";
+import { handleUpcomingMovieSelection } from "../commands/cinestar/handler/handleUpcomingMovieSelection.js";
 import { handleSelectionMovieCGV } from "../commands/cgv/handleSelectionMovieCGV.js";
 
  /* Syntax for adding command
@@ -64,22 +63,32 @@ export const commands = [
 
     new SlashCommandBuilder()
         .setName('cinestar')
-        .setDescription('Hiển thị lịch chiếu phim hôm nay tại Cinestar')
-        .addStringOption(option =>
-            option.setName('cinema')
-                .setDescription('Chọn rạp chiếu phim')
-                .setRequired(true)
-                .addChoices(
-                    { name: '🎬 Cinestar Sinh Viên - TP.HCM', value: 'Cinestar Sinh Viên - TP.HCM' },
-                    { name: '🎬 Cinestar Quốc Thanh - TP.HCM', value: 'Cinestar Quốc Thanh - TP.HCM' },
-                    { name: '🎬 Cinestar Hai Bà Trưng - TP.HCM', value: 'Cinestar Hai Bà Trưng - TP.HCM' },
-                    { name: '🎬 Cinestar Satra - TP.HCM', value: 'Cinestar Satra - TP.HCM' },
-                    { name: '🎬 Cinestar Đà Lạt - Lâm Đồng', value: 'Cinestar Đà Lạt - Lâm Đồng' },
-                    { name: '🎬 Cinestar Lâm Đồng - Lâm Đồng', value: 'Cinestar Lâm Đồng - Lâm Đồng' },
-                    { name: '🎬 Cinestar Huế - TP.Huế', value: 'Cinestar Huế - TP.Huế' },
-                    { name: '🎬 Cinestar Mỹ Tho - Đồng Tháp', value: 'Cinestar Mỹ Tho - Đồng Tháp' },
-                    { name: '🎬 Cinestar Kiên Giang - An Giang', value: 'Cinestar Kiên Giang - An Giang' },
+        .setDescription('Xem lịch chiếu phim tại rạp Cinestar')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('today')
+                .setDescription('Xem lịch chiếu phim tại Cinestar hôm nay')
+                .addStringOption(option =>
+                    option.setName('cinema')
+                        .setDescription('Chọn rạp chiếu phim')
+                        .setRequired(true)
+                        .addChoices(
+                            { name: '🎬 Cinestar Sinh Viên - TP.HCM', value: 'Cinestar Sinh Viên - TP.HCM' },
+                            { name: '🎬 Cinestar Quốc Thanh - TP.HCM', value: 'Cinestar Quốc Thanh - TP.HCM' },
+                            { name: '🎬 Cinestar Hai Bà Trưng - TP.HCM', value: 'Cinestar Hai Bà Trưng - TP.HCM' },
+                            { name: '🎬 Cinestar Satra - TP.HCM', value: 'Cinestar Satra - TP.HCM' },
+                            { name: '🎬 Cinestar Đà Lạt - Lâm Đồng', value: 'Cinestar Đà Lạt - Lâm Đồng' },
+                            { name: '🎬 Cinestar Lâm Đồng - Lâm Đồng', value: 'Cinestar Lâm Đồng - Lâm Đồng' },
+                            { name: '🎬 Cinestar Huế - TP.Huế', value: 'Cinestar Huế - TP.Huế' },
+                            { name: '🎬 Cinestar Mỹ Tho - Đồng Tháp', value: 'Cinestar Mỹ Tho - Đồng Tháp' },
+                            { name: '🎬 Cinestar Kiên Giang - An Giang', value: 'Cinestar Kiên Giang - An Giang' },
+                        )
                 )
+        )
+        .addSubcommand(subcommand => 
+            subcommand
+                .setName('upcoming')
+                .setDescription('Hiển thị danh sách các phim sắp chiếu tại Cinestar')
         ),
 
     new SlashCommandBuilder()
@@ -197,10 +206,6 @@ export const commands = [
         ),
 
     new SlashCommandBuilder()
-        .setName('upcoming_movies')
-        .setDescription('Hiển thị các phim sắp chiếu tại Cinestar'),
-
-    new SlashCommandBuilder()
         .setName('dictionary')
         .setDescription('Tra từ điển tiếng Anh (định nghĩa, phiên âm, từ đồng nghĩa/trái nghĩa, ...)')
         .addStringOption(option =>
@@ -302,10 +307,9 @@ export const commandHandlers = {
     date: dateCommand,
     avatar: getAvatarCommand,
     sbd: lookUpSBDCommand,
-    cinestar: lichchieuphimCommand,
+    cinestar: cinestarCommand,
     translate: translateCommand,
     random: randomCommand,
-    upcoming_movies: upcomingMoviesCommand,
     dictionary: dictionaryCommand,
     help: helpCommand,
     cgv: cgvCommand,
@@ -318,7 +322,7 @@ export const commandHandlers = {
 
 // export handle selection
 export const handleSelection = {
-    select_movie: handleMovieSelection,
+    select_movie: handleMovieTodaySelection,
     select_upcoming_movie: handleUpcomingMovieSelection,
     select_movie_cgv: handleSelectionMovieCGV
 }

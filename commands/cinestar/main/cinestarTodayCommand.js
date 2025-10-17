@@ -1,34 +1,36 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } from 'discord.js';
-import * as fs from 'fs';
-import * as path from 'path';
-import { getFileConfig, getCinemaConfig } from './config.js';
-import { checkFileExists } from './utils/checkFileExists.js'
-import { fetchAndProcessMovieData } from './handleData.js'
-import { getCurrentDate } from './utils/getCurrentDate.js';
-import { setFileName } from './utils/setFileName.js';
+import { checkFileExists } from "../utils/checkFileExists.js";
+import { getCinema, getFileName } from "../constant/get.js";
+import { setFileName } from "../utils/setFileName.js";
+import { getToday } from "../utils/getToday.js";
+import { getDataMovie } from "../api/api-cinestar.js";
+import * as fs from 'fs'
+import * as path from 'path'
 
-export async function lichchieuphimCommand(interaction) {
+export async function cinestarTodayCommand(interaction) {
     await interaction.deferReply();
 
-    const __dirname = path.dirname(new URL(import.meta.url).pathname);  // lay duong dan thu muc hien tai cua file
-    const dataDir = path.join(__dirname, 'data');                       // duong dan thu muc data (test/data)
+    const option = interaction.options.getString('cinema') || ""
 
-    // get option of user
-    const option = interaction.options.getString('cinema')
+    const projectRoot = path.resolve();
+    const dataDir = path.join(projectRoot, 'commands', 'cinestar', 'data'); // duong dan thu muc data (chua cac bo phim)
 
-    const CINEMA_CONFIG = getCinemaConfig(option) // CINEMA.id_MovieTheater[option]
-    const FILE_CONFIG = getFileConfig(option)
+    const cinema = getCinema(option);
+    const fileName = getFileName(option);
+
+    if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir);
+        fs.writeFileSync(path.join(dataDir, '.gitkeep'), ''); // tao file .gitkeep de giu nguyen thu muc trong git
+    }
 
     try {
-        let checkExists = checkFileExists(FILE_CONFIG.fileName);
-
-        // neu file kh ton tai thi moi chay lenh nay
-        if (!checkExists) {
+        let checkExists = checkFileExists(fileName);
+        if (!checkExists){
             if (fs.existsSync(dataDir)) {
                 const files = fs.readdirSync(dataDir);
 
                 const listNow = files.filter(file =>
-                    !file.startsWith(setFileName(getCurrentDate())) && file !== '.gitkeep'
+                    !file.startsWith(setFileName(getToday())) && file !== '.gitkeep'
                 );
 
                 // if true => listNow is empty => listNow.length = 0
@@ -43,7 +45,7 @@ export async function lichchieuphimCommand(interaction) {
             await interaction.editReply('🔄 Đang cập nhật lịch chiếu phim...');
 
             try {
-                await fetchAndProcessMovieData(CINEMA_CONFIG, FILE_CONFIG);
+                await getDataMovie(cinema, fileName);
             }
             catch (error) {
                 console.error('Lỗi khi chạy script crawl:', error);
@@ -52,20 +54,23 @@ export async function lichchieuphimCommand(interaction) {
             }
         }
 
-        const movieJson = path.join(dataDir, FILE_CONFIG.fileName)
+        const movieJson = path.join(dataDir, fileName);
 
         if (!fs.existsSync(movieJson)) {
             await interaction.editReply('Không tìm thấy dữ liệu lịch chiếu phim.');
             return;
         }
 
-        const dayFileName = getCurrentDate();
+        const dayFileName = getToday();
         const movieData = JSON.parse(fs.readFileSync(movieJson, 'utf8'));
         if (!Array.isArray(movieData)) {
             console.error('Dữ liệu sai định dạng')
             await interaction.editReply('Dữ liệu phim sai định dạng')
         }
-        const movieNames = movieData.map(movie => movie["Tên phim"]).filter(name => name && name.trim() != '');
+
+        const movieNames = movieData
+            .map((movie) => movie["Tên phim"])
+            .filter((name) => name && name.trim() != '');
 
         if (movieNames.length === 0) {
             await interaction.editReply('Không có lịch chiếu phim cho hôm nay.');
@@ -74,7 +79,7 @@ export async function lichchieuphimCommand(interaction) {
 
         const embed = new EmbedBuilder()
             .setTitle('🎬 Danh sách các phim đang chiếu tại Cinestar')
-            .setDescription(`Rạp:  ${CINEMA_CONFIG.name} 
+            .setDescription(`Rạp:  ${cinema.name} 
                 \nNgày: ${dayFileName}
                 \nChọn phim bạn muốn xem lịch chiếu hôm nay:`)
             .setColor('#0099ff')
@@ -84,7 +89,7 @@ export async function lichchieuphimCommand(interaction) {
         const row = new ActionRowBuilder()
             .addComponents(
                 new StringSelectMenuBuilder()
-                    .setCustomId(`select_movie|${CINEMA_CONFIG.name}`) // gui interaction cinema kem voi customId
+                    .setCustomId(`select_movie|${cinema.name}`) // gui interaction cinema kem voi customId
                     .setPlaceholder('Chọn phim...')
                     .addOptions(
                         movieNames.map((movieName, index) => ({
@@ -95,10 +100,11 @@ export async function lichchieuphimCommand(interaction) {
                     )
             );
 
-        await interaction.editReply({ embeds: [embed], components: [row] });
+        await interaction.editReply({ embeds: [embed], components: [row.toJSON()] });
 
-    } catch (error) {
-        console.error('Lỗi trong lichchieuphimCommand:', error);
+    }
+    catch (error) {
+        console.error('Lỗi trong cinestarTodayCommand:', error);
         await interaction.editReply('Có lỗi xảy ra khi xử lý lệnh.');
     }
 }

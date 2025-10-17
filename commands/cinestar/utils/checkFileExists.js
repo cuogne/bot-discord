@@ -1,12 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path'
-import { fileURLToPath } from 'url';
-import { getCurrentDate } from './getCurrentDate.js';
+import { getToday } from '../utils/getToday.js';
 
 export function checkFileExists(fileName) {
     // get path of file
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const dataDir = path.join(__dirname, '..', 'data');
+    const projectRoot = path.resolve();
+    const dataDir = path.join(projectRoot, 'commands', 'cinestar', 'data');
 
     let checkExists = true;
     const listFileName = fs.readdirSync(dataDir);
@@ -20,15 +19,10 @@ export function checkFileExists(fileName) {
             const filePath = path.join(dataDir, fileName);
             const fileContent = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-            const dateInFile = fileContent.map(movie => movie['Ngày'])
-            if (dateInFile.some(date => date !== getCurrentDate())) {
+            const dateInFile = fileContent.map(movie => movie['Ngày']);
+            if (dateInFile.some(date => date !== getToday())) {
                 checkExists = false;
             }
-
-            // const movieNameInFile = fileContent.map(movie => movie['Tên phim']);
-            // if (movieNameInFile.some(name => name === undefined || name === '')) { // (name => !name)
-            //     checkExists = false;
-            // }
         }
         catch (error) {
             console.error(`Lỗi khi truy cập file: ${fileName}`)

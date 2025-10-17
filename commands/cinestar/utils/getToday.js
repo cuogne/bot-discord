@@ -1,4 +1,4 @@
-export function getCurrentDate() {
+export function getToday() {
     const today = new Date(); // lay ngay hien tai
     const VNTime = new Date(today.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
     const day = String(VNTime.getDate()).padStart(2, '0');

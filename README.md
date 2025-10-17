@@ -11,7 +11,8 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/ai` | `<prompt>` | Chat với AI Groq | `/ai Xin chào bạn` |
 | `/avatar` | `<user @user> / <server>`| Lấy avatar của user (riêng server phải mời bot vào mới lấy dc) | `/avatar @cừn` |
 | ~~`/cgv`~~ | ~~`<province>` `<cinema>`~~ | ~~Xem lịch chiếu phim tại CGV~~ | ~~`/cgv TP.HCM CGV Vincom Đồng Khởi`~~|
-| `/cinestar` | `<cinema>` | Xem lịch chiếu phim hôm nay tại Cinestar | `/cinestar Cinestar Sinh Viên - TP.HCM` |
+| `/cinestar today` | `<cinema>` | Xem lịch chiếu phim hôm nay tại Cinestar | `/cinestar today Cinestar Sinh Viên - TP.HCM` |
+| `/cinestar upcoming` | *(không có)* | Xem lịch chiếu phim sắp tới tại Cinestar | `/cinestar upcoming` |
 | `/date` | *(không có)* | Hiển thị ngày giờ hiện tại (âm và dương lịch) | `/date` |
 | `/dictionary` | `<word>` | Tra cứu từ vụng tiếng Anh trong từ điển | `/dictionary care` |
 | `/fit-hcmus-news` | `setup\|latest\|status\|remove` | Nhận thông báo tin tức FIT-HCMUS | [Hướng dẫn chi tiết tại đây](commands/fit-hcmus-news/INSTRUCTION.md) |
@@ -25,7 +26,6 @@ Thêm bot vào server của bạn: [Invite bot](https://discord.com/oauth2/autho
 | `/random` | `<ele1, ele2, ele3, ...>` | Trả về các từ ngẫu nhiên do user nhập vào được phân cách bởi dấu phẩy | `/random táo,cam,chuối` |
 | `/sbd` | `<text>` | Tra cứu điểm thi THPTQG 2025 | `/sbd 123456` |
 | `/translate` | `<to> <text>` | Dịch văn bản sang tiếng được chọn | `/translate English Xin chào` |
-| `/upcoming_movies` | *(không có)* | Xem danh sách phim sắp tới được chiếu tại Cinestar | `/upcoming_movies` |
 
 > `/cgv` không còn hoạt động vì không chạy được trên cloud host
 

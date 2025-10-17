@@ -1,13 +1,16 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { formatDayVN } from './formatDayVN.js';
-import { getApiCinestar } from '../../utils/getApiCinestar.js';
+import { ButtonBuilder, ButtonStyle, ActionRowBuilder } from "discord.js";
+import { getLinkAPI } from "../api/get-link-api.js";
+import { formatDayVN } from "../utils/formatDayVN.js";
 
 export async function handleUpcomingMovieSelection(interaction) {
+    if (!interaction.isStringSelectMenu()) return;
+    
     await interaction.deferReply();
-    const idx = interaction.values[0] // index of upcoming movie
+
+    const idx = interaction.values[0];
 
     try {
-        const api = await getApiCinestar();
+        const api = await getLinkAPI() ?? '';
         const response = await fetch(api);
         const data = await response.json();
         const selectedMovie = data.pageProps.res.listComingMovie[idx];
@@ -27,6 +30,7 @@ export async function handleUpcomingMovieSelection(interaction) {
         }
 
         let components = [];
+
         if (buttonTrailer) {
             const actionRow = new ActionRowBuilder().addComponents(buttonTrailer);
             components = [actionRow];
@@ -54,8 +58,9 @@ ${selectedMovie.brief_vn.split('. ').join('.\n')}`,
             }],
             components
         });
-
-    } catch (error) {
-        await interaction.editReply('Đã xảy ra lỗi khi lấy thông tin phim sắp chiếu.');
+    }
+    catch (error) {
+        console.error('Lỗi khi xử lý chọn phim sắp chiếu:', error);
+        await interaction.editReply('Có lỗi xảy ra khi xử lý yêu cầu.');
     }
 }

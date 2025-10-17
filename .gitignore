@@ -2,5 +2,5 @@ node_modules
 .env
 config.json
 .DS_Store
-commands/lichchieuphim/data/*.json
+commands/cinestar/data/*.json
 commands/cgv/data/*.json
