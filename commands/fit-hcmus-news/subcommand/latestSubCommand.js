@@ -12,10 +12,6 @@ export async function latestSubCommand(interaction) {
         const type = feed.type
         const url = feed ? feed.url : null;
 
-        console.log('Selected category:', categoryOption);
-        console.log('Feed URL:', url);
-        console.log('Feed Type:', type);
-
         if  (type == 'rss') {
             const newsData = await crawlRssNews(url, categoryOption);
             await interaction.editReply(
