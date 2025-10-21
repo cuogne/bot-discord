@@ -5,9 +5,9 @@
 
 ## Resource:
 
-- FIT@HCMUS: https://www.fit.hcmus.edu.vn/vn/feed.aspx
-- Lịch thi - Phòng khảo thí: http://ktdbcl.hcmus.edu.vn/index.php/cong-tac-kh-o-thi/l-ch-thi-h-c-ky?format=feed&type=rss
-- Thông báo - Phòng khảo thí: http://ktdbcl.hcmus.edu.vn/index.php/thong-bao?format=feed&type=rss
+- FIT@HCMUS: https://www.fit.hcmus.edu.vn/vn/Default.aspx?tabid=53
+- Lịch thi - Phòng khảo thí: http://ktdbcl.hcmus.edu.vn/
+- Thông báo - Phòng khảo thí: http://ktdbcl.hcmus.edu.vn/
 - Thông tin dành cho sinh viên - HCMUS: https://hcmus.edu.vn/category/dao-tao/dai-hoc/thong-tin-danh-cho-sinh-vien/page/1
 
 
