@@ -1,4 +1,4 @@
-import schema from "../../db/schema.js";
+import { schema } from "../../db/newSchema.js";
 
 export async function loadConfig(guildId) {
     try {
