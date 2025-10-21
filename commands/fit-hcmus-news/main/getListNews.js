@@ -2,11 +2,6 @@ import { feedLinks } from "../resource/link.js";
 import { crawlRssNews } from "../script/crawl-rss.js"
 import { crawlHTMLNews } from "../script/crawl-html.js"
 
-function normalizeNews(listNews) {
-    const flatList = listNews.flat();
-    return flatList.filter(n => n && n.title && n.url && n.category);
-}
-
 export async function getListNews() {
     try {
         const promises = feedLinks.map(feed => {
@@ -19,10 +14,8 @@ export async function getListNews() {
             }
         });
 
-        const promisesResults = await Promise.all(promises);
-        const newsList = normalizeNews(promisesResults);
+        const newsList = await Promise.all(promises);
 
-        // console.log(newsList);
         return newsList;
 
     } catch (error) {

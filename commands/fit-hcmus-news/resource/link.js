@@ -18,7 +18,7 @@ export const feedLinks = [
         type: 'rss'
     },
     {
-        url: 'https://hcmus.edu.vn/category/dao-tao/dai-hoc/thong-tin-danh-cho-sinh-vien/page/1',
+        url: 'https://hcmus.edu.vn/category/dao-tao/dai-hoc/thong-tin-danh-cho-sinh-vien',
         name: 'Thông tin dành cho sinh viên - HCMUS',
         category: 'hcmus',
         type: 'html'

@@ -7,8 +7,6 @@ export async function crawlHTMLNews(link, category){
         const html = response.data;
         const $ = cheerio.load(html);
         
-        const articles = [];
-        
         // class "content entry" -> article -> title links
         // $('.content.entry .cmsmasters_archive_item_title.entry-title a').each((index, element) => {
         //     const title = $(element).text().trim();
@@ -24,13 +22,13 @@ export async function crawlHTMLNews(link, category){
         const title = element.text().trim();
         const url = element.attr('href');
 
-        articles.push({ 
+        const newsData = {
             category,
             title,
-            url
-        });
+            url,
+        };
 
-        return articles;
+        return newsData;
         
         // fs.writeFileSync('hcmus-articles.json', JSON.stringify(articles, null, 2));
         
