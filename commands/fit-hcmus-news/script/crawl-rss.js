@@ -1,11 +1,10 @@
 import { parseStringPromise } from 'xml2js';
 
-export async function getLatestNews() {
+export async function crawlRssNews(link, category) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000); // timeout 15s
 
     try {
-        const link = 'https://www.fit.hcmus.edu.vn/vn/feed.aspx';
         const response = await fetch(link, { signal: controller.signal });
 
         if (!response.ok) {
@@ -17,11 +16,12 @@ export async function getLatestNews() {
 
         const latestItem = result.rss.channel[0].item[0];
         const title = latestItem.title[0];
-        const link_url = latestItem.link[0];
+        const url = latestItem.link[0];
 
         const newsData = {
+            category,
             title,
-            link: link_url,
+            url,
         };
 
         return newsData;

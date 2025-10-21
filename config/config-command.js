@@ -241,6 +241,17 @@ export const commands = [
             subcommand
                 .setName('latest')
                 .setDescription('Lấy tin gần nhất')
+                .addStringOption(option => 
+                    option.setName('category')
+                        .setDescription('Chọn danh mục tin tức bạn muốn lấy')
+                        .setRequired(true)
+                        .addChoices(
+                            { name: 'Khoa CNTT - HCMUS', value: 'fithcmus' },
+                            { name: 'Lịch thi - KTĐBCL', value: 'lichthi' },
+                            { name: 'Thông báo - KTĐBCL', value: 'thongbao' },
+                            { name: 'Thông tin dành cho sinh viên - HCMUS', value: 'hcmus' },
+                        )
+                )
         )
         .addSubcommand(subcommand =>
             subcommand

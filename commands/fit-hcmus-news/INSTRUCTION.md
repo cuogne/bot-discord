@@ -1,7 +1,15 @@
 ## Mục đích
-- Dành cho những sinh viên đang theo học tại khoa CNTT - HCMUS có thể cập nhật tin tức nhanh chóng từ web của Khoa (có nhiều tin quan trọng mà thường tụi nó lười lên web để check lắm - kể cả t). [Link web FIT-HCMUS](https://www.fit.hcmus.edu.vn/vn/Default.aspx?tabid=36)
+- Dành cho những sinh viên đang theo học tại khoa CNTT - HCMUS có thể cập nhật tin tức nhanh chóng từ web của Khoa (có nhiều tin quan trọng mà thường tụi nó lười lên web để check lắm - kể cả t). 
 
-- Hiện tại chỉ hỗ trợ nhận thông báo qua server trong Discord
+> - Hiện tại chỉ hỗ trợ nhận thông báo qua server trong Discord
+
+## Resource:
+
+- FIT@HCMUS: https://www.fit.hcmus.edu.vn/vn/feed.aspx
+- Lịch thi - Phòng khảo thí: http://ktdbcl.hcmus.edu.vn/index.php/cong-tac-kh-o-thi/l-ch-thi-h-c-ky?format=feed&type=rss
+- Thông báo - Phòng khảo thí: http://ktdbcl.hcmus.edu.vn/index.php/thong-bao?format=feed&type=rss
+- Thông tin dành cho sinh viên - HCMUS: https://hcmus.edu.vn/category/dao-tao/dai-hoc/thong-tin-danh-cho-sinh-vien/page/1
+
 
 ## Command
 - `/fit-hcmus-news latest`: trả về tin gần nhất của FIT-HCMUS.

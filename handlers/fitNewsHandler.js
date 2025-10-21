@@ -1,10 +1,10 @@
 import { connectMongoDB } from "../commands/fit-hcmus-news/db/connect.js";
-import { NewsMonitor } from '../commands/fit-hcmus-news/rss/newsMonitor.js';
+import { sendNews } from '../commands/fit-hcmus-news/main/sendNews.js';
 
 export async function connectDBAndMonitorNews(client) {
     if (process.env.MONGO_URI) {
         await connectMongoDB();
-        NewsMonitor(client);
+        sendNews(client);
         console.log('MongoDB connected and News Monitor started.');
     }
     else {
