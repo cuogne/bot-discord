@@ -56,8 +56,13 @@ export async function sendNews(client) {
 
                         await SentNews.findOneAndUpdate(
                             { category: news.category },
-                            { title: news.title, url: news.url },
-                            { upsert: true, new: true }
+                            { 
+                                title: news.title, 
+                                url: news.url,
+                                sentAt: new Date()
+                            },
+                            { upsert: true, new: true },
+                            { sentAt: new Date() }
                         );
 
                     } catch (err) {
