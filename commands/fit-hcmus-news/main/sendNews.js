@@ -61,8 +61,7 @@ export async function sendNews(client) {
                                 url: news.url,
                                 sentAt: new Date()
                             },
-                            { upsert: true, new: true },
-                            { sentAt: new Date() }
+                            { upsert: true, new: true }
                         );
 
                     } catch (err) {
