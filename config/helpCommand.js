@@ -16,6 +16,7 @@ export async function helpCommand(interaction) {
         '/football tournament `[tournament]`': 'Xem lịch thi đấu bóng đá của các giải đấu châu Âu',
         '/help': 'Hiển thị các thông tin cơ bản về bot cũng như command',
         '/image `[dog | cat]`': 'Gửi hình ảnh ngẫu nhiên về chó hoặc mèo',
+        '/omikuji': 'Xem quẻ bói omikuji Nhật Bản',
         '/pokemon `[id | name]`': 'Tra cứu thông tin Pokémon theo ID, tên hoặc random',
         '/random `[one, two, three, ...]`': 'Trả về một kết quả ngẫu nhiên từ danh sách được nhập vào ngăn cách nhau bởi dấu phẩy',
         '/sbd `[sbd]`': 'Tra cứu điểm thi THPTQG 2025 thông qua số báo danh',

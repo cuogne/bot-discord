@@ -15,6 +15,7 @@ import { getImageCommand } from "../commands/getImage/getImageCommand.js";
 import { groqCommand } from "../commands/groqAI/groqCommand.js";
 import { footballCommand } from "../commands/football/footballCommand.js";
 import { pokemonCommand } from "../commands/pokemon/pokemonCommand.js";
+import { omikujiCommand } from "../commands/omikuji/omikujiCommand.js";
 
 // handle selection
 import { handleMovieTodaySelection } from "../commands/cinestar/handler/handleMovieTodaySelection.js";
@@ -311,6 +312,10 @@ export const commands = [
                 .setDescription('Nhập ID Pokémon bạn muốn tìm (giá trị trong khoảng 1-1025 hoặc 10001-10277)')
                 .setRequired(false)
         ),
+    
+    new SlashCommandBuilder()
+        .setName('omikuji')
+        .setDescription('Xem quẻ bói omikuji Nhật Bản')
 ];
 
 // syntax: { command_name: command_function }
@@ -329,6 +334,7 @@ export const commandHandlers = {
     ai: groqCommand,
     football: footballCommand,
     pokemon: pokemonCommand,
+    omikuji: omikujiCommand,
 };
 
 // export handle selection
