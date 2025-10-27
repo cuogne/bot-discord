@@ -2,6 +2,7 @@ import { AttachmentBuilder } from 'discord.js';
 import * as path from 'path';
 import * as fs from 'fs';
 import OpenAI from 'openai';
+import { shuffle } from '../../utils/shuffle.js';
 
 // const omikuji = [
 //     { name: "Đại cát", message: "🌸 “Vạn sự như ý. Cầu gì được nấy. Hạnh phúc và thành công sẽ tìm đến bạn. Hãy cảm ơn cuộc đời và tiếp tục làm việc thiện.”" },
@@ -62,7 +63,7 @@ Yêu cầu:
 - Nội dung phải phù hợp với ý nghĩa may rủi của quẻ: nếu là "Đại cát" thì rất may mắn, còn "Đại hung" thì nên cảnh báo nhẹ nhàng, khuyên cẩn trọng. Các quẻ khác cũng tương tư như vậy theo ý nghĩa của chúng.  
 - Phải thể hiện rõ trọng tâm đó trong lời tiên tri và tập trung vào chủ đề đó.
 - Không cần lời mở đầu là trọng tâm gì, quẻ bói này là gì hoặc kết thúc (như “chúc bạn...” hay “hãy tin tưởng...”), chỉ cần nội dung chính của lời tiên tri.  
-- Không lặp lại tên quẻ trong nội dung. 
+- Không lặp lại tên quẻ trong nội dung. Không sử dụng các cụm từ như "theo quẻ bói Omikuji", "theo truyền thống Nhật Bản" hoặc "theo phong tục Nhật Bản". Dịch toàn bộ phần chúc ra tiếng Việt, không để từ tiếng Nhật nào trong lời chúc.
 - Viết cho người đọc cảm thấy như đang nhận được lời khuyên quý giá từ một thầy bói uyên thâm chứ không phải từ một chatbot AI hoặc LLM nào đó.`;
 
         const completion = await client.chat.completions.create({
@@ -90,8 +91,9 @@ function getImagePathForOmikuji(resultOmikujiIdx) {
 
 export async function omikujiCommand(interaction) {
     await interaction.deferReply();
+    const omikujiShuffle = shuffle(omikuji);
 
-    const resultOmikujiIdx = Math.floor(Math.random() * omikuji.length);
+    const resultOmikujiIdx = Math.floor(Math.random() * omikujiShuffle.length);
     const topicIdx = Math.floor(Math.random() * topic.length);
 
     const { imagePath, randomImage } = getImagePathForOmikuji(resultOmikujiIdx);
@@ -102,16 +104,23 @@ export async function omikujiCommand(interaction) {
         return;
     }
 
-    const res = await responseOmikujiMessage(omikuji[resultOmikujiIdx], topic[topicIdx]);
+    const res = await responseOmikujiMessage(omikujiShuffle[resultOmikujiIdx], topic[topicIdx]);
 
     await interaction.editReply({
         files: [attachment],
         embeds: [
             {
                 color: 0xFFD700,
-                title: `Quẻ hôm nay của bạn là: **${omikuji[resultOmikujiIdx]}**`,
-                description: `${res}`,
-                image: { url: `attachment://${randomImage}` }
+                title: `🃏 Quẻ ${omikujiShuffle[resultOmikujiIdx]}`,
+                author: {
+                    name: `${interaction.user.username} ơi, quẻ Omikuji của bạn hôm nay là:`,
+                    iconURL: interaction.user.displayAvatarURL()
+                },
+                description: "**Lời nhắn nhủ: **\n" +res,
+                image: { url: `attachment://${randomImage}` },
+                footer: {
+                    text: 'おみくじ • Omikuji'
+                },
             }
         ]
     });
