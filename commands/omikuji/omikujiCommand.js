@@ -2,7 +2,6 @@ import { AttachmentBuilder } from 'discord.js';
 import * as path from 'path';
 import * as fs from 'fs';
 import OpenAI from 'openai';
-import { shuffle } from '../../utils/shuffle.js';
 
 // const omikuji = [
 //     { name: "Đại cát", message: "🌸 “Vạn sự như ý. Cầu gì được nấy. Hạnh phúc và thành công sẽ tìm đến bạn. Hãy cảm ơn cuộc đời và tiếp tục làm việc thiện.”" },
@@ -91,9 +90,8 @@ function getImagePathForOmikuji(resultOmikujiIdx) {
 
 export async function omikujiCommand(interaction) {
     await interaction.deferReply();
-    const omikujiShuffle = shuffle(omikuji);
 
-    const resultOmikujiIdx = Math.floor(Math.random() * omikujiShuffle.length);
+    const resultOmikujiIdx = Math.floor(Math.random() * omikuji.length);
     const topicIdx = Math.floor(Math.random() * topic.length);
 
     const { imagePath, randomImage } = getImagePathForOmikuji(resultOmikujiIdx);
@@ -104,14 +102,14 @@ export async function omikujiCommand(interaction) {
         return;
     }
 
-    const res = await responseOmikujiMessage(omikujiShuffle[resultOmikujiIdx], topic[topicIdx]);
+    const res = await responseOmikujiMessage(omikuji[resultOmikujiIdx], topic[topicIdx]);
 
     await interaction.editReply({
         files: [attachment],
         embeds: [
             {
                 color: 0xFFD700,
-                title: `🃏 Quẻ ${omikujiShuffle[resultOmikujiIdx]}`,
+                title: `🃏 Quẻ ${omikuji[resultOmikujiIdx]}`,
                 author: {
                     name: `${interaction.user.username} ơi, quẻ Omikuji của bạn hôm nay là:`,
                     iconURL: interaction.user.displayAvatarURL()
